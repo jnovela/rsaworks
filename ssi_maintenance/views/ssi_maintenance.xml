@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+
+<odoo>
+    <data>
+        <record id="ssi_equipment_form" model="ir.ui.view">
+        <field name="name">ssi.equipment_form</field>
+			<field name="model">maintenance.equipment	</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_form"/>
+        <field name="type">form</field>
+            <field name="arch" type="xml">
+			  <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+				<page string="Nameplate Info">
+				  <group>
+					<group name="np_left">
+					  <field name="rating_unit"/>
+					</group>
+					<group name="np_right"/>
+				  </group>
+				</page>
+			  </xpath>
+            </field>
+        </record>
+
+        <!-- record id="wk_wishlist_tree" model="ir.ui.view">
+            <field name="name">wk_wishlist.tree</field>
+            <field name="model">website.wishlist</field>
+            <field name="type">tree</field>
+                <field name="arch" type="xml">
+                <tree string="Product Wishlist" editable='top'>
+                    <field name="product_id"/>
+                    <field name="partner_id"/>
+                </tree>
+            </field>
+        </record --> 
+    </data>
+</odoo>
