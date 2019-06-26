@@ -65,6 +65,6 @@
 </record>
 
 <menuitem id="jobs_menu" action="jobs_action"
-   sequence="100" web_icon="ssi_jobs,static/description/icon.png"/>
+   sequence="100"/>
 
 </odoo>
