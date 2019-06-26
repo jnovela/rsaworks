@@ -19,4 +19,5 @@
         'views/jobs.xml',
         ],
     'installable': True,
+    'application': True,
 }
