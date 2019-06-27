@@ -14,51 +14,52 @@
 			  <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
 				<page string="Nameplate Info">
 				  <group>
-					<group>
-					  <field name="description"/>
-					  <field name="rating"/>
-					  <field name="rating_unit"/>
-					  <field name="poles"/>
-					  <field name="voltage"/>
-					  <field name="enclosure"/>
-					  <field name="mounting"/>
-					  <field name="manufacture"/>
-					  <field name="model_number"/>
-					  <field name="serial_number"/>
-					  <field name="customer_stock_number"/>
-            <field name="customer_id_number"/>
-					  <field name="amps"/>
-					  <field name="rpm_nameplate"/>
-					  <field name="phase"/>
-					  <field name="frame"/>
-					  <field name="winding_type"/>
-					  <field name="bearing_type"/>
-					</group>
-					<group/>
-            <field name="de_bearing"/>
-            <field name="ode_bearing"/>
-					  <field name="lube_type"/>
-					  <field name="weight_in_lbs"/>
-					  <field name="duty"/>
-					  <field name="service_factor"/>
-					  <field name="ul_rating"/>
-					  <field name="nema_design"/>
-					  <field name="temp_rise"/>
-					  <field name="hz"/>
-					  <field name="code"/>
-					  <field name="insulation_class"/>
-					  <field name="direction_of_rotation"/>
-					  <field name="jbox_location"/>
-					  <field name="r_voltage"/>
-					  <field name="r_amps"/>
-					  <field name="excit_type"/>
-					  <field name="field_volts"/>
-					  <field name="field_amps"/>
-					  <field name="f_ohm"/>
-					  <field name="armature_winding_type"/>
-					  <field name="coupling_installed"/>
+            <group>
+              <field name="description"/>
+              <field name="rating"/>
+              <field name="rating_unit"/>
+              <field name="poles"/>
+              <field name="voltage"/>
+              <field name="enclosure"/>
+              <field name="mounting"/>
+              <field name="manufacture"/>
+              <field name="model_number"/>
+              <field name="serial_number"/>
+              <field name="customer_stock_number"/>
+              <field name="customer_id_number"/>
+              <field name="amps"/>
+              <field name="rpm_nameplate"/>
+              <field name="phase"/>
+              <field name="frame"/>
+              <field name="winding_type"/>
+              <field name="bearing_type"/>
+            </group>
+            <group/>
+              <field name="de_bearing"/>
+              <field name="ode_bearing"/>
+              <field name="lube_type"/>
+              <field name="weight_in_lbs"/>
+              <field name="duty"/>
+              <field name="service_factor"/>
+              <field name="ul_rating"/>
+              <field name="nema_design"/>
+              <field name="temp_rise"/>
+              <field name="hz"/>
+              <field name="code"/>
+              <field name="insulation_class"/>
+              <field name="direction_of_rotation"/>
+              <field name="jbox_location"/>
+              <field name="r_voltage"/>
+              <field name="r_amps"/>
+              <field name="excit_type"/>
+              <field name="field_volts"/>
+              <field name="field_amps"/>
+              <field name="f_ohm"/>
+              <field name="armature_winding_type"/>
+              <field name="coupling_installed"/>
 
-				  </group>
+            </group>
+          </group>
 				</page>
 			  </xpath>
             </field>
