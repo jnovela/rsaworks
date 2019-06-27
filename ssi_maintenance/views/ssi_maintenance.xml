@@ -34,9 +34,7 @@
 					  <field name="winding_type"/>
 					  <field name="bearing_type"/>
             <field name="de_bearing"/>
-					</group>
-					<group name="np_right"/>
-            <field name="ode_bearing"/>
+                        <field name="ode_bearing"/>
 					  <field name="lube_type"/>
 					  <field name="weight_in_lbs"/>
 					  <field name="duty"/>
@@ -57,6 +55,9 @@
 					  <field name="f_ohm"/>
 					  <field name="armature_winding_type"/>
 					  <field name="coupling_installed"/>
+
+					</group>
+					<group name="np_right"/>
 
 				  </group>
 				</page>
