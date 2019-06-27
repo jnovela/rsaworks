@@ -34,7 +34,7 @@
               <field name="winding_type"/>
               <field name="bearing_type"/>
             </group>
-            <group/>
+            <group>
               <field name="de_bearing"/>
               <field name="ode_bearing"/>
               <field name="lube_type"/>
