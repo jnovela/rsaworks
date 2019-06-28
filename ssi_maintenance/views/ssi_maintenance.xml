@@ -11,76 +11,94 @@
         <field name="inherit_id" ref="maintenance.hr_equipment_view_form"/>
         <field name="type">form</field>
             <field name="arch" type="xml">
-			  <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
-				<page string="Nameplate Info">
-				  <group>
-            <group>
-              <field name="description" attrs="{'required': [('category_id', '=', 4)]}"/>
-              <field name="rating" attrs="{'required': [('category_id', '!=', 4)]}"/>
-              <field name="rating_unit" attrs="{'required': [('category_id', '!=', 4)]}"/>
-              <field name="poles" attrs="{'required': [('category_id', '!=', 4)]}"/>
-              <field name="voltage" attrs="{'required': [('category_id', '!=', 4)]}"/>
-              <field name="enclosure" attrs="{'required': [('category_id', '!=', 4)]}"/>
-              <field name="mounting" attrs="{'required': [('category_id', '!=', 4)]}"/>
-              <field name="manufacture"/>
-              <field name="model_number"/>
-              <field name="serial_number"/>
-              <field name="customer_stock_number"/>
-              <field name="customer_id_number"/>
-              <field name="amps"/>
-              <field name="rpm_nameplate"/>
-              <field name="phase"/>
-              <field name="frame"/>
-              <field name="winding_type"/>
-              <field name="bearing_type"/>
-              <field name="de_bearing"/>
-              <field name="ode_bearing"/>
-            </group>
-            <group>
-              <field name="lube_type"/>
-              <field name="weight_in_lbs"  attrs="{'required': [('category_id', '!=', 5)]}"/>
-              <field name="duty"/>
-              <field name="service_factor"/>
-              <field name="ul_rating"/>
-              <field name="nema_design"/>
-              <field name="temp_rise"/>
-              <field name="hz"/>
-              <field name="code"/>
-              <field name="insulation_class"/>
-              <field name="direction_of_rotation" attrs="{'required': [('category_id', '!=', 4)]}"/>
-              <field name="jbox_location" attrs="{'required': [('category_id', '!=', 4)]}"/>
-              <field name="r_voltage"/>
-              <field name="r_amps"/>
-              <field name="excit_type"/>
-              <field name="field_volts"/>
-              <field name="field_amps"/>
-              <field name="f_ohm"/>
-              <field name="armature_winding_type"/>
-              <field name="coupling_installed" attrs="{'required': [('category_id', '!=', 4)]}"/>
+			  <xpath expr="//form[1]/sheet[1]/notebook[1]" position="replace">
+                            <notebook>
+                        <page string="Description">
+                            <field name="note"/>
+                        </page>
+                        <page string="Nameplate Info">
+                        <group>
+                          <group>
+                            <field name="description" attrs="{'required': [('category_id', '=', 4)]}"/>
+                            <field name="rating" attrs="{'required': [('category_id', '!=', 4)]}"/>
+                            <field name="rating_unit" attrs="{'required': [('category_id', '!=', 4)]}"/>
+                            <field name="poles" attrs="{'required': [('category_id', '!=', 4)]}"/>
+                            <field name="voltage" attrs="{'required': [('category_id', '!=', 4)]}"/>
+                            <field name="enclosure" attrs="{'required': [('category_id', '!=', 4)]}"/>
+                            <field name="mounting" attrs="{'required': [('category_id', '!=', 4)]}"/>
+                            <field name="manufacture"/>
+                            <field name="model_number"/>
+                            <field name="serial_number"/>
+                            <field name="customer_stock_number"/>
+                            <field name="customer_id_number"/>
+                            <field name="amps"/>
+                            <field name="rpm_nameplate"/>
+                            <field name="phase"/>
+                            <field name="frame"/>
+                            <field name="winding_type"/>
+                            <field name="bearing_type"/>
+                            <field name="de_bearing"/>
+                            <field name="ode_bearing"/>
+                          </group>
+                          <group>
+                            <field name="lube_type"/>
+                            <field name="weight_in_lbs"  attrs="{'required': [('category_id', '!=', 5)]}"/>
+                            <field name="duty"/>
+                            <field name="service_factor"/>
+                            <field name="ul_rating"/>
+                            <field name="nema_design"/>
+                            <field name="temp_rise"/>
+                            <field name="hz"/>
+                            <field name="code"/>
+                            <field name="insulation_class"/>
+                            <field name="direction_of_rotation" attrs="{'required': [('category_id', '!=', 4)]}"/>
+                            <field name="jbox_location" attrs="{'required': [('category_id', '!=', 4)]}"/>
+                            <field name="r_voltage"/>
+                            <field name="r_amps"/>
+                            <field name="excit_type"/>
+                            <field name="field_volts"/>
+                            <field name="field_amps"/>
+                            <field name="f_ohm"/>
+                            <field name="armature_winding_type"/>
+                            <field name="coupling_installed" attrs="{'required': [('category_id', '!=', 4)]}"/>
 
-            </group>
-          </group>
-				</page>
-			  </xpath>
-          <xpath expr="//field[@name='Maintenance']" position="replace">
-            <field name="category_id" attrs="{'required': [('category_id', '!=', 0)]}"/>
+                          </group>
+                        </group>
+                      </page>
+                        <page string="Product Information">
+                            <group>
+                                <group>
+                                    <field name="partner_id" context="{'default_supplier': True, 'default_customer': False}"/>
+                                    <field name="partner_ref"/>
+                                    <field name="model"/>
+                                    <field name="serial_no"/>
+                                </group><group>
+                                    <field name="effective_date"/>
+                                    <field name="cost" groups="maintenance.group_equipment_manager"/>
+                                    <field name="warranty_date"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Maintenance and Storage">
+                            <group>
+                                <group name="maintenance">
+                                    <field name="next_action_date" class="oe_read_only" string="Next Preventive Maintenance"/>
+                                    <label for="period" string="Preventive Maintenance Frequency"/>
+                                    <div class="o_row">
+                                        <field name="period"/> days
+                                    </div>
+                                    <label for="maintenance_duration" string="Maintenance Duration"/>
+                                    <div class="o_row">
+                                        <field name="maintenance_duration"/> hours
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
           </xpath>
-          <xpath expr="//form[1]/sheet[1]/notebook[1]/page[3]" position="replace">
-            <page string="Maintenance and Storage">
-                <group>
-                    <group name="maintenance">
-                        <field name="next_action_date" class="oe_read_only" string="Next Preventive Maintenance"/>
-                        <label for="period" string="Preventive Maintenance Frequency"/>
-                        <div class="o_row">
-                            <field name="period"/> days
-                        </div>
-                        <label for="maintenance_duration" string="Maintenance Duration"/>
-                        <div class="o_row">
-                            <field name="maintenance_duration"/> hours
-                        </div>
-                    </group>
-                </group>
-            </page>
+          </xpath>
+            <xpath expr="//field[@name='category_id']" position="replace">
+              <field name="category_id" attrs="{'required': [('category_id', '!=', 0)]}"/>
           </xpath>
 
             </field>
