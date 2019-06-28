@@ -95,6 +95,9 @@
                                         <field name="maintenance_duration"/> hours
                                     </div>
 
+
+                                </group>
+                                <group>
                                     <field name="length"/>
                                     <field name="additional_length"/>
                                     <field name="width"/>
