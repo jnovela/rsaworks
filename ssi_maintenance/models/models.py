@@ -6,12 +6,13 @@ from odoo import api, fields, models, tools, _
 class MaintenanceEquipment(models.Model):
     _inherit = 'maintenance.equipment'
 
-# Good start. Couple of things. Make the fields side by side, so 18 or so on the right, the rest  on the left.
+# Take a look at the product info tab on equipment. There is already a serial number and model on that tab. We want to use those instead and move them to the Nameplate tab. We also want to move the namepate tab in front of product info.
 
-# Bearing Type should be Anti, not Anit. DONE
+# Equipment type need to be required. TESTING
 
-# And work on the required next. I went ahead and created Equipment categories, equivalent of Equip Type. I did the description in required in Studio. Look at the XML it produced to model the rest of them like that.
-# I just mocked it up. It shouldn't screw anything up. All you have to do is delete that studio view. I can do it if you aren't sure how,
+# Move DE Bearing and ODE Bearing to the bottom of the first column. DONE
+
+# Make the Maintenance tab say Maintenance and Storage
 
     description = fields.Char(string='Description')
     rating = fields.Float(string='Rating')
