@@ -117,7 +117,7 @@
             </xpath>
             <xpath expr="//field[@name='category_id']" position="after">
               <field name="partner_id"/>
-              <field name="storage_ids"/>
+              <!-- <field name="storage_ids"/> -->
             </xpath>
 
             </field>
