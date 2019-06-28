@@ -69,3 +69,12 @@ class MaintenanceEquipment(models.Model):
         [('Form ', 'Form '), ('Random', 'Random')], string='Armature winding type')
     coupling_installed = fields.Selection(
         [('Yes', 'Yes'), ('No', 'No')], string='Coupling installed')
+
+    length = fields.Float(string='Length')
+    additional_length = fields.Float(string='Additional Length')
+    width = fields.Float(string='Width')
+    additional_width = fields.Float(string='Additional Width')
+    square_feet = fields.Float(string='Square Feet')
+    weight = fields.Float(string='Weight')
+    height = fields.Float(string='Height')
+    stock_number = fields.Char(string='Stock Number')

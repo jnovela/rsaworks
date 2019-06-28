@@ -94,6 +94,16 @@
                                     <div class="o_row">
                                         <field name="maintenance_duration"/> hours
                                     </div>
+
+                                    <field name="length"/>
+                                    <field name="additional_length"/>
+                                    <field name="width"/>
+                                    <field name="additional_width"/>
+                                    <field name="square_feet"/>
+                                    <field name="weight"/>
+                                    <field name="height"/>
+                                    <field name="stock_number"/>
+
                                 </group>
                             </group>
                         </page>
