@@ -12,7 +12,7 @@ class MaintenanceEquipment(models.Model):
 
 # Move DE Bearing and ODE Bearing to the bottom of the first column. DONE
 
-# Make the Maintenance tab say Maintenance and Storage
+# Make the Maintenance tab say Maintenance and Storage DONE
 
     description = fields.Char(string='Description')
     rating = fields.Float(string='Rating')

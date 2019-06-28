@@ -19,6 +19,9 @@
                         <page string="Nameplate Info">
                         <group>
                           <group>
+                            <field name="model"/>
+                            <field name="serial_no"/>
+
                             <field name="description" attrs="{'required': [('category_id', '=', 4)]}"/>
                             <field name="rating" attrs="{'required': [('category_id', '!=', 4)]}"/>
                             <field name="rating_unit" attrs="{'required': [('category_id', '!=', 4)]}"/>
@@ -70,8 +73,8 @@
                                 <group>
                                     <field name="partner_id" context="{'default_supplier': True, 'default_customer': False}"/>
                                     <field name="partner_ref"/>
-                                    <field name="model"/>
-                                    <field name="serial_no"/>
+                                    <!-- <field name="model"/>
+                                    <field name="serial_no"/> -->
                                 </group><group>
                                     <field name="effective_date"/>
                                     <field name="cost" groups="maintenance.group_equipment_manager"/>
