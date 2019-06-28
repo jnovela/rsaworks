@@ -96,24 +96,11 @@
                         </page>
                     </notebook>
           </xpath>
-          </xpath>
             <xpath expr="//field[@name='category_id']" position="replace">
               <field name="category_id" attrs="{'required': [('category_id', '!=', 0)]}"/>
-          </xpath>
+            </xpath>
 
             </field>
         </record>
-
-        <!-- record id="wk_wishlist_tree" model="ir.ui.view">
-            <field name="name">wk_wishlist.tree</field>
-            <field name="model">website.wishlist</field>
-            <field name="type">tree</field>
-                <field name="arch" type="xml">
-                <tree string="Product Wishlist" editable='top'>
-                    <field name="product_id"/>
-                    <field name="partner_id"/>
-                </tree>
-            </field>
-        </record --> 
     </data>
 </odoo>
