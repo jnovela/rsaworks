@@ -94,8 +94,14 @@
                                     <div class="o_row">
                                         <field name="maintenance_duration"/> hours
                                     </div>
-
-
+                                    <field name="storage_ids"> 
+                                      <tree string="storage" create="true" edit="true">
+                                        <field name="location_id"/>
+                                        <field name="check_in"/>
+                                        <field name="check_out"/>
+                                        <field name="status"/>
+                                      </tree>
+                                    </field>
                                 </group>
                                 <group>
                                     <field name="length"/>
@@ -117,7 +123,6 @@
             </xpath>
             <xpath expr="//field[@name='category_id']" position="after">
               <field name="partner_id"/>
-              <field name="storage_ids"/>
             </xpath>
 
             </field>
