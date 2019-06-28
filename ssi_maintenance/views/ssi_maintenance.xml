@@ -65,7 +65,7 @@
           <xpath expr="//field[@name='Maintenance']" position="replace">
             <field name="category_id" attrs="{'required': [('category_id', '!=', 0)]}"/>
           </xpath>
-          <xpath expr="//page[@string='Maintenance']" position="replace">
+          <xpath expr="//page[2]" position="replace">
             <page string="Maintenance and Storage">
                 <group>
                     <group name="maintenance">
