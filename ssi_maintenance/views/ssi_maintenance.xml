@@ -124,7 +124,7 @@
             </xpath>
             <xpath expr="//field[@name='category_id']" position="after">
               <!-- <field name="partner_id" /> -->
-              <field name="partner_id" context="{'default_supplier': False, 'default_customer': True}"/>
+              <field name="customer_id"/>
             </xpath>
 
             </field>

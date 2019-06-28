@@ -82,4 +82,5 @@ class MaintenanceEquipment(models.Model):
     storage_ids = fields.One2many(
         'storage', 'equipment_id', string='Storages')
 
-    partner_id = fields.Many2one('res.partner', string='Customer', domain="[('customer', '=', 1)]")
+    customer_id = fields.Many2one('res.partner', string='Customer', domain="[('customer', '=', 1)]")
+
