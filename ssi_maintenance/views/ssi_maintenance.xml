@@ -63,7 +63,7 @@
 				</page>
 			  </xpath>
           <xpath expr="//field[@name='category_id']" position="attributes">
-            <attribute name="attrs">{"required"}</attribute>
+            <attribute name="attrs">{"required: []"}</attribute>
           </xpath>
 
             </field>
