@@ -78,3 +78,5 @@ class MaintenanceEquipment(models.Model):
     weight = fields.Float(string='Weight')
     height = fields.Float(string='Height')
     stock_number = fields.Char(string='Stock Number')
+
+    storage_ids = fields.One2many('ssi_maintenance.storage', 'equipment_id', string=<object object>, **kwargs)
