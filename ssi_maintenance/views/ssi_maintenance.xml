@@ -16,12 +16,12 @@
 				  <group>
             <group>
               <field name="description" attrs="{'required': [('category_id', '=', 4)]}"/>
-              <field name="rating" attrs="{'required': [('category_id', '<', 4)]}"/>
-              <field name="rating_unit" attrs="{'required': [('category_id', '<', 4)]}"/>
-              <field name="poles" attrs="{'required': [('category_id', '<', 4)]}"/>
-              <field name="voltage" attrs="{'required': [('category_id', '<', 4)]}"/>
-              <field name="enclosure" attrs="{'required': [('category_id', '<', 4)]}"/>
-              <field name="mounting" attrs="{'required': [('category_id', '<', 4)]}"/>
+              <field name="rating" attrs="{'required': [('category_id', '!=', 4)]}"/>
+              <field name="rating_unit" attrs="{'required': [('category_id', '!=', 4)]}"/>
+              <field name="poles" attrs="{'required': [('category_id', '!=', 4)]}"/>
+              <field name="voltage" attrs="{'required': [('category_id', '!=', 4)]}"/>
+              <field name="enclosure" attrs="{'required': [('category_id', '!=', 4)]}"/>
+              <field name="mounting" attrs="{'required': [('category_id', '!=', 4)]}"/>
               <field name="manufacture"/>
               <field name="model_number"/>
               <field name="serial_number"/>
@@ -38,7 +38,7 @@
               <field name="de_bearing"/>
               <field name="ode_bearing"/>
               <field name="lube_type"/>
-              <field name="weight_in_lbs"  attrs="{'required': [('category_id', '<', 5)]}"/>
+              <field name="weight_in_lbs"  attrs="{'required': [('category_id', '!=', 5)]}"/>
               <field name="duty"/>
               <field name="service_factor"/>
               <field name="ul_rating"/>
@@ -47,8 +47,8 @@
               <field name="hz"/>
               <field name="code"/>
               <field name="insulation_class"/>
-              <field name="direction_of_rotation" attrs="{'required': [('category_id', '<', 4)]}"/>
-              <field name="jbox_location" attrs="{'required': [('category_id', '<', 4)]}"/>
+              <field name="direction_of_rotation" attrs="{'required': [('category_id', '!=', 4)]}"/>
+              <field name="jbox_location" attrs="{'required': [('category_id', '!=', 4)]}"/>
               <field name="r_voltage"/>
               <field name="r_amps"/>
               <field name="excit_type"/>
@@ -56,7 +56,7 @@
               <field name="field_amps"/>
               <field name="f_ohm"/>
               <field name="armature_winding_type"/>
-              <field name="coupling_installed" attrs="{'required': [('category_id', '<', 4)]}"/>
+              <field name="coupling_installed" attrs="{'required': [('category_id', '!=', 4)]}"/>
 
             </group>
           </group>
