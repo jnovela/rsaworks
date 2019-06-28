@@ -8,7 +8,7 @@ class MaintenanceEquipment(models.Model):
 
 # Take a look at the product info tab on equipment. There is already a serial number and model on that tab. We want to use those instead and move them to the Nameplate tab. We also want to move the namepate tab in front of product info.
 
-# Equipment type need to be required. TESTING
+# Equipment type need to be required. DONE
 
 # Move DE Bearing and ODE Bearing to the bottom of the first column. DONE
 

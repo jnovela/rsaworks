@@ -62,8 +62,25 @@
           </group>
 				</page>
 			  </xpath>
-          <xpath expr="//field[@name='category_id']" position="replace">
+          <xpath expr="//field[@name='Maintenance']" position="replace">
             <field name="category_id" attrs="{'required': [('category_id', '!=', 0)]}"/>
+          </xpath>
+          <xpath expr="//page[@string='Maintenance']" position="replace">
+            <page string="Maintenance and Storage">
+                <group>
+                    <group name="maintenance">
+                        <field name="next_action_date" class="oe_read_only" string="Next Preventive Maintenance"/>
+                        <label for="period" string="Preventive Maintenance Frequency"/>
+                        <div class="o_row">
+                            <field name="period"/> days
+                        </div>
+                        <label for="maintenance_duration" string="Maintenance Duration"/>
+                        <div class="o_row">
+                            <field name="maintenance_duration"/> hours
+                        </div>
+                    </group>
+                </group>
+            </page>
           </xpath>
 
             </field>
