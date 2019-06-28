@@ -62,8 +62,8 @@
           </group>
 				</page>
 			  </xpath>
-          <xpath expr="//field[@name='category_id']" position="attributes">
-            <attribute name="attrs">{"required: [('category_id', '!=', 0)]"}</attribute>
+          <xpath expr="//field[@name='category_id']" position="replace">
+            <field name="category_id" attrs="{'required': [('category_id', '!=', 0)]}"/>
           </xpath>
 
             </field>
