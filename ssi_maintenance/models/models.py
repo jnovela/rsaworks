@@ -80,4 +80,4 @@ class MaintenanceEquipment(models.Model):
     stock_number = fields.Char(string='Stock Number')
 
     storage_ids = fields.One2many(
-        'storage', 'equipment_id', string='Storages')
+        'ssi_maintenance.storage', 'equipment_id', string='Storages')
