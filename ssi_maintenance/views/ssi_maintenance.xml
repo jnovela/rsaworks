@@ -129,5 +129,29 @@
 
             </field>
         </record>
+
+
+        <record model="ir.ui.view" id="storage_form_view">
+        <field name="name">storage.form</field>
+        <field name="model">ssi_maintenance.storage</field>
+        <field name="arch" type="xml">
+            <form string="Storage Form">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="location_id"/>
+                            <field name="equipment_id"/>
+                            <field name="status"/>
+                        </group>
+                        <group>
+                            <field name="check_in"/>
+                            <field name="check_out"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
     </data>
 </odoo>
