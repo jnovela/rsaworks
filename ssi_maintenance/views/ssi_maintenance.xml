@@ -106,7 +106,7 @@
                                     <field name="stock_number"/>
 
                                 </group>
-                                                                                                      <field name="storage_ids"> 
+                                                                                                      <field name="storage_ids" context="{'default_equipment_id':active_id}"> 
                                       <tree string="storage" create="true" edit="true">
                                         <field name="location_id"/>
                                         <field name="check_in"/>
