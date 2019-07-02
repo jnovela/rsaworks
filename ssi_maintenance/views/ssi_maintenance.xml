@@ -143,7 +143,7 @@
 
 
                               <field name="location_id"/>
-                              <field name="equipment_id" context="{'maintenance_equipment':context.get('id')}"/>
+                              <field name="equipment_id" context="{'equipment_id':context.get('id')}"/>
                               <field name="status"/>
                           </group>
                           <group>
