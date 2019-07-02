@@ -144,8 +144,9 @@
                               <field name="status"/>
                           </group>
                           <group>
-                              <field name="check_in"/>
                               <field name="check_out"/>
+
+                              <field name="check_in"/>
                           </group>
                       </group>
                   </sheet>
