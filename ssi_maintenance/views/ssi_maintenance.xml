@@ -71,7 +71,7 @@
                         <page string="Product Information">
                             <group>
                                 <group>
-                                    <!-- <field name="partner_id" context="{'default_supplier': True, 'default_customer': False}"/> -->
+                                    <field name="partner_id" context="{'default_supplier': True, 'default_customer': False}"/>
                                     <field name="partner_ref"/>
                                     <!-- <field name="model"/>
                                     <field name="serial_no"/> -->
@@ -139,8 +139,11 @@
                   <sheet>
                       <group>
                           <group>
+<!-- <field name="seller_ids" context="{'default_product_tmpl_id':context.get('product_tmpl_id',active_id), 'product_template_invisible_variant': True}" nolabel="1"/> -->
+
+
                               <field name="location_id"/>
-                              <field name="equipment_id"/>
+                              <field name="equipment_id" context="{'maintenance_equipment':context.get('id')}"/>
                               <field name="status"/>
                           </group>
                           <group>
