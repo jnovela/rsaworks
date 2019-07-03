@@ -106,7 +106,7 @@
                                     <field name="stock_number"/>
 
                                 </group>
-                                                                                                      <field name="storage_ids" context="{'default_equipment_id':active_id}"> 
+                                                                                                      <field name="storage_ids" context="{'default_equipment_id':active_id,'default_check_in':time.strftime('%Y-%m-%d %H:%M:%S')}"> 
                                       <tree string="storage" create="true" edit="true">
                                         <field name="location_id"/>
                                         <field name="check_in"/>
