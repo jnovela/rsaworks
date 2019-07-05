@@ -6,14 +6,6 @@ from odoo import api, fields, models, tools, _
 class MaintenanceEquipment(models.Model):
     _inherit = 'maintenance.equipment'
 
-# Take a look at the product info tab on equipment. There is already a serial number and model on that tab. We want to use those instead and move them to the Nameplate tab. We also want to move the namepate tab in front of product info.
-
-# Equipment type need to be required. DONE
-
-# Move DE Bearing and ODE Bearing to the bottom of the first column. DONE
-
-# Make the Maintenance tab say Maintenance and Storage DONE
-
     description = fields.Char(string='Description')
     rating = fields.Float(string='Rating')
     rating_unit = fields.Selection(
@@ -82,5 +74,5 @@ class MaintenanceEquipment(models.Model):
     storage_ids = fields.One2many(
         'storage', 'equipment_id', string='Storages')
 
-    customer_id = fields.Many2one('res.partner', string='Customer', domain="[('customer', '=', 1)]")
-
+    customer_id = fields.Many2one(
+        'res.partner', string='Customer', domain="[('customer', '=', 1)]")
