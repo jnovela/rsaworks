@@ -1,0 +1,383 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="documents.document_action" model="ir.actions.act_window" context="{'studio': True}">
+    <field name="auto_search" eval="True"/>
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="context">{}</field>
+    <field name="domain">['&amp;', ('res_model', 'not in', ['ir.ui.view', 'Country', 'ir.ui.menu', 'Contact']), ('res_field', '=', False), ('folder_id', '!=', False)]</field>
+    <field name="filter" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="help"><![CDATA[<p class="o_view_nocontent_smiling_face">Upload <span class="font-weight-normal">a file or</span> drag <span class="font-weight-normal">it here.</span></p>
+        ]]></field>
+    <field name="limit">80</field>
+    <field name="multi" eval="False"/>
+    <field name="name">Documents</field>
+    <field name="res_model">ir.attachment</field>
+    <field name="search_view_id" eval="False"/>
+    <field name="src_model" eval="False"/>
+    <field name="target">current</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="usage" eval="False"/>
+    <field name="view_id" ref="documents.documents_view_kanban"/>
+    <field name="view_mode">kanban</field>
+    <field name="view_type">form</field>
+  </record>
+  <record id="mrp.mrp_workcenter_kanban_action" model="ir.actions.act_window" context="{'studio': True}">
+    <field name="auto_search" eval="True"/>
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="context">{}</field>
+    <field name="domain" eval="False"/>
+    <field name="filter" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="help"><![CDATA[<p class="o_view_nocontent_smiling_face">
+                Create a new work center
+              </p><p>
+                Manufacturing operations are processed at Work Centers. A Work Center can be composed of
+                workers and/or machines, they are used for costing, scheduling, capacity planning, etc.
+                The Work Centers are defined on the Routing's operations.
+              </p>
+            ]]></field>
+    <field name="limit">80</field>
+    <field name="multi" eval="False"/>
+    <field name="name">Work Centers Overview</field>
+    <field name="res_model">mrp.workcenter</field>
+    <field name="search_view_id" ref="mrp.view_mrp_workcenter_search"/>
+    <field name="src_model" eval="False"/>
+    <field name="target">current</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="usage" eval="False"/>
+    <field name="view_id" ref="mrp.mrp_workcenter_kanban"/>
+    <field name="view_mode">kanban,form,dashboard</field>
+    <field name="view_type">form</field>
+  </record>
+  <record id="mrp.mrp_workorder_todo" model="ir.actions.act_window" context="{'studio': True}">
+    <field name="auto_search" eval="True"/>
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="context">{'search_default_ready': True, 'search_default_progress': True}</field>
+    <field name="domain" eval="False"/>
+    <field name="filter" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="help"><![CDATA[<p class="o_view_nocontent_smiling_face">
+            Start a new work order
+          </p><p>
+            Work Orders are operations to be processed at a Work Center to realize a
+            Manufacturing Order. Work Orders are trigerred by Manufacturing Orders,
+            they are based on the Routing defined on these ones
+            </p>
+        ]]></field>
+    <field name="limit">80</field>
+    <field name="multi" eval="False"/>
+    <field name="name">Work Orders</field>
+    <field name="res_model">mrp.workorder</field>
+    <field name="search_view_id" ref="mrp.view_mrp_production_workorder_form_view_filter"/>
+    <field name="src_model" eval="False"/>
+    <field name="target">current</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="usage" eval="False"/>
+    <field name="view_id" eval="False"/>
+    <field name="view_mode">tree,kanban,form,calendar,pivot,graph,dashboard</field>
+    <field name="view_type">form</field>
+  </record>
+  <record id="project.act_project_project_2_project_task_all" model="ir.actions.act_window" context="{'studio': True}">
+    <field name="auto_search" eval="True"/>
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="context">{
+                'search_default_project_id': [active_id],
+                'default_project_id': active_id,
+            }</field>
+    <field name="domain" eval="False"/>
+    <field name="filter" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="help"><![CDATA[<p class="o_view_nocontent_smiling_face">
+                    Click <i>Create</i> to start a new task.
+                </p><p>
+                    To get things done, use activities and status on tasks.<br>
+                    Chat in real time or by email to collaborate efficiently.
+                </p>
+            ]]></field>
+    <field name="limit">80</field>
+    <field name="multi" eval="False"/>
+    <field name="name">Tasks</field>
+    <field name="res_model">project.task</field>
+    <field name="search_view_id" ref="project.view_task_search_form"/>
+    <field name="src_model" eval="False"/>
+    <field name="target">current</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="usage" eval="False"/>
+    <field name="view_id" eval="False"/>
+    <field name="view_mode">kanban,tree,form,calendar,pivot,graph,activity,dashboard,gantt</field>
+    <field name="view_type">form</field>
+  </record>
+  <record id="project.open_view_project_all" model="ir.actions.act_window" context="{'studio': True}">
+    <field name="auto_search" eval="True"/>
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="context">{}</field>
+    <field name="domain">[]</field>
+    <field name="filter" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="help"><![CDATA[<p class="o_view_nocontent_smiling_face">
+                    Create a new project
+                </p><p>
+                    Or <a type="action" name="438" tabindex="-1">activate a sample project</a> to play with.
+                </p>
+            ]]></field>
+    <field name="limit">80</field>
+    <field name="multi" eval="False"/>
+    <field name="name">Projects</field>
+    <field name="res_model">project.project</field>
+    <field name="search_view_id" ref="project.view_project_project_filter"/>
+    <field name="src_model" eval="False"/>
+    <field name="target">main</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="usage" eval="False"/>
+    <field name="view_id" ref="project.view_project_kanban"/>
+    <field name="view_mode">kanban,form,dashboard,tree,calendar</field>
+    <field name="view_type">form</field>
+  </record>
+  <record id="studio_customization.estimates_bdeb0fcc-c6fb-49c0-a1cc-3f7aa2bf78d8" model="ir.actions.act_window" context="{'studio': True}">
+    <field name="auto_search" eval="True"/>
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="context">{'search_default_x_studio_job': active_id,'default_x_studio_job': active_id}</field>
+    <field name="domain">[('x_studio_job', '=', active_id)]</field>
+    <field name="filter" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="help" eval="False"/>
+    <field name="limit">80</field>
+    <field name="multi" eval="False"/>
+    <field name="name">Estimates</field>
+    <field name="res_model">sale.order</field>
+    <field name="search_view_id" eval="False"/>
+    <field name="src_model" eval="False"/>
+    <field name="target">current</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="usage" eval="False"/>
+    <field name="view_id" eval="False"/>
+    <field name="view_mode">tree,form</field>
+    <field name="view_type">form</field>
+  </record>
+  <record id="studio_customization.job_stages_1430cd8f-a851-4450-bd0a-d6e5138a37de" model="ir.actions.act_window" context="{'studio': True}">
+    <field name="auto_search" eval="True"/>
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="context">{}</field>
+    <field name="domain" eval="False"/>
+    <field name="filter" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="help"><![CDATA[<p class="o_view_nocontent_smiling_face">
+                        This is your new action ; by default, it contains a list view and a form view.
+                    </p>
+                    <p>
+                        You can start customizing these screens by clicking on the Studio icon on the
+                        top right corner (you can also customize this help message there).
+                    </p>
+                ]]></field>
+    <field name="limit">80</field>
+    <field name="multi" eval="False"/>
+    <field name="name">Job Stages</field>
+    <field name="res_model">x_jobs_stage</field>
+    <field name="search_view_id" eval="False"/>
+    <field name="src_model" eval="False"/>
+    <field name="target">current</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="usage" eval="False"/>
+    <field name="view_id" eval="False"/>
+    <field name="view_mode">tree,form</field>
+    <field name="view_type">form</field>
+  </record>
+  <record id="studio_customization.jobs_768e5bfd-cce3-42e3-b98d-33ebbab27cfd" model="ir.actions.act_window" context="{'studio': True}">
+    <field name="auto_search" eval="True"/>
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="context">{}</field>
+    <field name="domain" eval="False"/>
+    <field name="filter" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="help"><![CDATA[<p class="o_view_nocontent_smiling_face">
+                        This is your new action ; by default, it contains a list view and a form view.
+                    </p>
+                    <p>
+                        You can start customizing these screens by clicking on the Studio icon on the
+                        top right corner (you can also customize this help message there).
+                    </p>
+                ]]></field>
+    <field name="limit">80</field>
+    <field name="multi" eval="False"/>
+    <field name="name">Jobs</field>
+    <field name="res_model">x_jobs</field>
+    <field name="search_view_id" eval="False"/>
+    <field name="src_model" eval="False"/>
+    <field name="target">current</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="usage" eval="False"/>
+    <field name="view_id" eval="False"/>
+    <field name="view_mode">kanban,tree,form,dashboard,pivot</field>
+    <field name="view_type">form</field>
+  </record>
+  <record id="studio_customization.labor_codes_7cac6cdd-310c-4ed4-bb8e-09e484c4aebe" model="ir.actions.act_window" context="{'studio': True}">
+    <field name="auto_search" eval="True"/>
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="context">{}</field>
+    <field name="domain" eval="False"/>
+    <field name="filter" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="help"><![CDATA[<p class="o_view_nocontent_smiling_face">
+                        This is your new action ; by default, it contains a list view and a form view.
+                    </p>
+                    <p>
+                        You can start customizing these screens by clicking on the Studio icon on the
+                        top right corner (you can also customize this help message there).
+                    </p>
+                ]]></field>
+    <field name="limit">80</field>
+    <field name="multi" eval="False"/>
+    <field name="name">Labor Codes</field>
+    <field name="res_model">x_labor.codes</field>
+    <field name="search_view_id" eval="False"/>
+    <field name="src_model" eval="False"/>
+    <field name="target">current</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="usage" eval="False"/>
+    <field name="view_id" eval="False"/>
+    <field name="view_mode">tree,form</field>
+    <field name="view_type">form</field>
+  </record>
+  <record id="studio_customization.new_button_713d100f-11c9-4235-a32a-51f0b463451d" model="ir.actions.act_window" context="{'studio': True}">
+    <field name="auto_search" eval="True"/>
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="context">{'search_default_x_studio_job': active_id,'default_x_studio_job': active_id}</field>
+    <field name="domain">[('x_studio_job', '=', active_id)]</field>
+    <field name="filter" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="help" eval="False"/>
+    <field name="limit">80</field>
+    <field name="multi" eval="False"/>
+    <field name="name">New Button</field>
+    <field name="res_model">account.invoice</field>
+    <field name="search_view_id" eval="False"/>
+    <field name="src_model" eval="False"/>
+    <field name="target">current</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="usage" eval="False"/>
+    <field name="view_id" eval="False"/>
+    <field name="view_mode">tree,form</field>
+    <field name="view_type">form</field>
+  </record>
+  <record id="studio_customization.new_button_b9228876-cdb2-4d33-8da4-5d1e56307cb8" model="ir.actions.act_window" context="{'studio': True}">
+    <field name="auto_search" eval="True"/>
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="context">{'search_default_production_id': active_id,'default_production_id': active_id}</field>
+    <field name="domain">[('production_id', '=', active_id)]</field>
+    <field name="filter" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="help" eval="False"/>
+    <field name="limit">80</field>
+    <field name="multi" eval="False"/>
+    <field name="name">New Button</field>
+    <field name="res_model">mrp.product.produce</field>
+    <field name="search_view_id" eval="False"/>
+    <field name="src_model" eval="False"/>
+    <field name="target">current</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="usage" eval="False"/>
+    <field name="view_id" eval="False"/>
+    <field name="view_mode">tree,form</field>
+    <field name="view_type">form</field>
+  </record>
+  <record id="studio_customization.purchase_orders_5308daa4-f3e5-4014-8b41-53a82e1912c5" model="ir.actions.act_window" context="{'studio': True}">
+    <field name="auto_search" eval="True"/>
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="context">{'search_default_x_studio_job': active_id,'default_x_studio_job': active_id}</field>
+    <field name="domain">[('x_studio_job', '=', active_id)]</field>
+    <field name="filter" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="help" eval="False"/>
+    <field name="limit">80</field>
+    <field name="multi" eval="False"/>
+    <field name="name">Purchase Orders</field>
+    <field name="res_model">purchase.order</field>
+    <field name="search_view_id" eval="False"/>
+    <field name="src_model" eval="False"/>
+    <field name="target">current</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="usage" eval="False"/>
+    <field name="view_id" eval="False"/>
+    <field name="view_mode">tree,form</field>
+    <field name="view_type">form</field>
+  </record>
+  <record id="studio_customization.timehseets_e55c88c0-c801-450e-b1ee-30812044adf7" model="ir.actions.act_window" context="{'studio': True}">
+    <field name="auto_search" eval="True"/>
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="context">{'search_default_x_studio_job': active_id,'default_x_studio_job': active_id}</field>
+    <field name="domain">[('x_studio_job', '=', active_id)]</field>
+    <field name="filter" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="help" eval="False"/>
+    <field name="limit">80</field>
+    <field name="multi" eval="False"/>
+    <field name="name">Timehseets</field>
+    <field name="res_model">mrp.workcenter.productivity</field>
+    <field name="search_view_id" eval="False"/>
+    <field name="src_model" eval="False"/>
+    <field name="target">current</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="usage" eval="False"/>
+    <field name="view_id" eval="False"/>
+    <field name="view_mode">tree,form</field>
+    <field name="view_type">form</field>
+  </record>
+  <record id="studio_customization.work_orders_2_49aa06b3-0f63-49c1-bdbb-3f9b5a201741" model="ir.actions.act_window" context="{'studio': True}">
+    <field name="auto_search" eval="True"/>
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="context">{'search_default_x_studio_job': active_id,'default_x_studio_job': active_id}</field>
+    <field name="domain">[('x_studio_job', '=', active_id)]</field>
+    <field name="filter" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="help" eval="False"/>
+    <field name="limit">80</field>
+    <field name="multi" eval="False"/>
+    <field name="name">Work Orders 2</field>
+    <field name="res_model">mrp.workorder</field>
+    <field name="search_view_id" eval="False"/>
+    <field name="src_model" eval="False"/>
+    <field name="target">current</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="usage" eval="False"/>
+    <field name="view_id" eval="False"/>
+    <field name="view_mode">tree,form,gantt</field>
+    <field name="view_type">form</field>
+  </record>
+  <record id="studio_customization.work_orders_495fa53f-b8bd-411b-b2cb-b5d2eda00f79" model="ir.actions.act_window" context="{'studio': True}">
+    <field name="auto_search" eval="True"/>
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="context">{'search_default_x_studio_job': active_id}</field>
+    <field name="domain">[('x_studio_job', '=', active_id)]</field>
+    <field name="filter" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="help"><![CDATA[<p class="o_view_nocontent_smiling_face">Create a new manufacturing order</p>]]></field>
+    <field name="limit">80</field>
+    <field name="multi" eval="False"/>
+    <field name="name">Manufacture Orders</field>
+    <field name="res_model">mrp.production</field>
+    <field name="search_view_id" eval="False"/>
+    <field name="src_model" eval="False"/>
+    <field name="target">current</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="usage" eval="False"/>
+    <field name="view_id" eval="False"/>
+    <field name="view_mode">tree,form</field>
+    <field name="view_type">form</field>
+  </record>
+</odoo>

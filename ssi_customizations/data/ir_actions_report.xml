@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="studio_customization.quotation_order_01670273-7fff-4370-8280-2dfae801037d" model="ir.actions.report" context="{'studio': True}">
+    <field name="attachment" eval="False"/>
+    <field name="attachment_use" eval="False"/>
+    <field name="binding_model_id" ref="sale.model_sale_order"/>
+    <field name="binding_type">report</field>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="model">sale.order</field>
+    <field name="multi" eval="False"/>
+    <field name="name">Quotation / Order NO DETAIL</field>
+    <field name="report_name">sale.report_saleorder_copy_1</field>
+    <field name="report_type">qweb-pdf</field>
+  </record>
+  <record id="studio_customization.jobs_report_e274d94a-9cb4-4f74-b3d2-981503a8c761" model="ir.actions.report" context="{'studio': True}">
+    <field name="attachment" eval="False"/>
+    <field name="attachment_use" eval="False"/>
+    <field name="binding_model_id" ref="studio_customization.jobs_9dfaf98e-7db5-41b5-bca3-052ec37be18b"/>
+    <field name="binding_type">report</field>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="model">x_jobs</field>
+    <field name="multi" eval="False"/>
+    <field name="name">Jobs Report</field>
+    <field name="report_name">studio_customization.report_939e1710-0824-40fb-a62d-9738045edcd2</field>
+    <field name="report_type">qweb-pdf</field>
+  </record>
+</odoo>
