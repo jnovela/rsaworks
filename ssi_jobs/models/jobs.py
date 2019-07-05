@@ -17,7 +17,7 @@ class Jobs(models.Model):
         'res.partner', string='Customer', domain="[('customer', '=', 1)]")
     objects = fields.Selection(
         [('motor', 'Motor'), ('generator', 'Generator'), ('coil', 'Coil'), ('brake', 'Brake'), ('other', 'Other')], string='Object')
-    size = fields.Int(string='Size')
+    size = fields.Integer(string='Size')
     sizeUM = fields.Selection(
         [('hp', 'Horsepower'), ('kw', 'Kilowatts'), ('lb-ft', 'Torque')], string='Size UM')
     shaft = fields.Selection(
