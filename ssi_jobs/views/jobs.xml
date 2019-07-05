@@ -4,7 +4,7 @@
 
 <record id="jobs_form" model="ir.ui.view">
     <field name="name">jobs.form</field>
-    <field name="model">ssi.jobs</field>
+    <field name="model">ssi_jobs</field>
     <field name="arch" type="xml">
         <form string="Jobs">
             <div class="oe_button_box" name="button_box">
@@ -16,10 +16,22 @@
             </div>
             <group name="main">
                 <group name="left">
-                    <field name="partner_id"/>
                     <field name="name"/>
+                    <field name="customer_id"/>
+                    <field name="objects"/>
+                    <field name="size"/>
+                    <field name="sizeUM"/>
+                    <field name="shaft"/>
+                    <field name="dimensions"/>
                 </group>
                 <group name="right">
+                    <field name="ready_for_pickup"/>
+                    <field name="urgency"/>
+                    <field name="po_number"/>
+                    <field name="weight"/>
+                    <field name="weightUM"/>
+                    <field name="notes"/>
+                    <field name="status"/>
                 </group>
             </group>
           <notebook>
