@@ -44,7 +44,7 @@
 
 <record id="jobs_tree" model="ir.ui.view">
     <field name="name">jobs.tree</field>
-    <field name="model">ssi.jobs</field>
+    <field name="model">ssi_jobs</field>
     <field name="arch" type="xml">
         <tree string="Jobs">
             <field name="name"/>
@@ -55,7 +55,7 @@
 
 <record id="jobs_search" model="ir.ui.view">
     <field name="name">jobs.search</field>
-    <field name="model">ssi.jobs</field>
+    <field name="model">ssi_jobs</field>
     <field name="arch" type="xml">
         <search string="Search Jobs">
             <field name="name" filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]" string="Name or Number"/>
@@ -72,7 +72,7 @@
 
 <record id="jobs_action" model="ir.actions.act_window">
     <field name="name">Jobs</field>
-    <field name="res_model">ssi.jobs</field>
+    <field name="res_model">ssi_jobs</field>
     <field name="view_mode">tree,form</field>
 </record>
 
