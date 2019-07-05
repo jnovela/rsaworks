@@ -139,8 +139,6 @@
                   <sheet>
                       <group>
                           <group>
-<!-- <field name="seller_ids" context="{'default_product_tmpl_id':context.get('product_tmpl_id',active_id), 'product_template_invisible_variant': True}" nolabel="1"/> -->
-
 
                               <field name="location_id"/>
                               <field name="equipment_id" context="{'equipment_id':context.get('id')}"/>
