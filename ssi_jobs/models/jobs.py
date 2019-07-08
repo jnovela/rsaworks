@@ -13,7 +13,7 @@ class Jobs(models.Model):
 
     # TOP
     order_total = fields.Monetary(
-        string='Order Total', track_visibility="always")
+        string='Order Total', track_visibility='always')
 
     # LEFT
     name = fields.Char(required=True, index=True)
