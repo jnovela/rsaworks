@@ -13,7 +13,12 @@ class Jobs(models.Model):
 
     # TOP
     order_total = fields.Monetary(
-        string='Order Total', track_visibility='always')
+        string='Order Total', track_visibility='always', related="so_id.amount_total")
+    so_ids = fields.One2many(
+        'sale.order', 'ssi_job_id', string='SO')
+
+    # REFERS TO FIELD INSIDE SAME MODEL
+    # x_studio_sale_order.amount_total
 
     # LEFT
     name = fields.Char(required=True, index=True)
