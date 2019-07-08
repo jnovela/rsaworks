@@ -21,6 +21,9 @@ class Jobs(models.Model):
     currency_id = fields.Many2one('res.currency', string='Account Currency',
                                   help="Forces all moves for this account to have this account currency.")
 
+    # REFERS TO FIELD INSIDE SAME MODEL
+    # x_studio_sale_order.amount_total
+
     # LEFT
     name = fields.Char(required=True, index=True)
     customer_id = fields.Many2one(
