@@ -12,10 +12,10 @@ class Jobs(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     # TOP
-    order_total = fields.Monetary(
-        string='Order Total', track_visibility='always', related='so_ids.amount_total')
     so_ids = fields.One2many(
         'sale.order', 'ssi_job_id', string='SO')
+    order_total = fields.Monetary(
+        string='Order Total', track_visibility='always', related='so_ids.amount_total')
 
     # REFERS TO FIELD INSIDE SAME MODEL
     # x_studio_sale_order.amount_total
