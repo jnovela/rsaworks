@@ -16,7 +16,7 @@ class Jobs(models.Model):
         'sale.order', 'ssi_job_id', string='SO')
     order_total = fields.Monetary(
         string='Order Total', track_visibility='always', related='so_ids.amount_total')
-    po_count = fields.Integer(string='Purchase Order', compute='_get_po_count')
+    # po_count = fields.Integer(string='Purchase Order', compute='_get_po_count')
 
     currency_id = fields.Many2one('res.currency', string='Account Currency',
                                   help="Forces all moves for this account to have this account currency.")
