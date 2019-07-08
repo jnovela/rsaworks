@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from odoo import models, fields
+from odoo import api, fields, models, _
 
 
 class Jobs(models.Model):
@@ -20,9 +20,6 @@ class Jobs(models.Model):
 
     currency_id = fields.Many2one('res.currency', string='Account Currency',
                                   help="Forces all moves for this account to have this account currency.")
-
-    # REFERS TO FIELD INSIDE SAME MODEL
-    # x_studio_sale_order.amount_total
 
     # LEFT
     name = fields.Char(required=True, index=True)
