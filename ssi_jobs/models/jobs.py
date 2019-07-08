@@ -11,6 +11,10 @@ class Jobs(models.Model):
     _order = "create_date,display_name desc"
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
+    # TOP
+    order_total = fields.Monetary(
+        string='Order Total', track_visibility="always")
+
     # LEFT
     name = fields.Char(required=True, index=True)
     customer_id = fields.Many2one(
