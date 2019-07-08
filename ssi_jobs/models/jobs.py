@@ -16,6 +16,8 @@ class Jobs(models.Model):
         'sale.order', 'ssi_job_id', string='SO')
     order_total = fields.Monetary(
         string='Order Total', track_visibility='always', related='so_ids.amount_total')
+    po_count = fields.Integer(string='Purchase Order', compute='_get_po_count')
+
     currency_id = fields.Many2one('res.currency', string='Account Currency',
                                   help="Forces all moves for this account to have this account currency.")
 
@@ -58,3 +60,14 @@ class Jobs(models.Model):
         'unique(name)',
         'This job name already exists in the system!'
     )]
+
+    @api.depends('order_total')
+    def _get_po_count(self):
+        results = self.env['purchase.order'].read_group(
+            [('ssi_job_id', 'in', self.ids)], 'ssi_job_id', 'ssi_job_id')
+        dic = {}
+        for x in results:
+            dic[x['ssi_job_id'][0]] = x['x_studio_job_count']
+        for record in self:
+            record['po_count'] = dic.get(
+                record.id, 0)
