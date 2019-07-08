@@ -11,7 +11,7 @@ class Jobs(models.Model):
     _order = "create_date,display_name desc"
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    # TOP
+    # TOP AND RELATED
     so_ids = fields.One2many(
         'sale.order', 'ssi_job_id', string='SO')
     order_total = fields.Monetary(
