@@ -15,7 +15,7 @@ class Jobs(models.Model):
     so_ids = fields.One2many(
         'sale.order', 'ssi_job_id', string='SO')
     order_total = fields.Monetary(
-        string='Order Total', track_visibility='always', related='so_ids.amount_total', currency_field="dollars")
+        string='Order Total', track_visibility='always', related='so_ids.amount_total')
     currency_id = fields.Many2one('res.currency', string='Account Currency',
                                   help="Forces all moves for this account to have this account currency.")
 
