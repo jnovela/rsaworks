@@ -17,6 +17,7 @@ class Jobs(models.Model):
     order_total = fields.Monetary(
         string='Order Total', track_visibility='always', related='so_ids.amount_total')
     po_count = fields.Integer(string='Purchase Order', compute='_get_po_count')
+    ai_count = fields.Integer(string='Vendor Bills', compute='_get_ai_count')
 
     currency_id = fields.Many2one('res.currency', string='Account Currency',
                                   help="Forces all moves for this account to have this account currency.")
@@ -66,5 +67,16 @@ class Jobs(models.Model):
         for x in results:
             dic[x['ssi_job_id'][0]] = x['ssi_job_id_count']
         for record in self:
-            record['po_count'] = dic.get(
+            record.po_count = dic.get(
+                record.id, 0)
+
+    @api.depends('order_total')
+    def _get_ai_count(self):
+        results = self.env['account.invoice'].read_group(
+            [('ssi_job_id', 'in', self.ids)], 'ssi_job_id', 'ssi_job_id')
+        dic = {}
+        for x in results:
+            dic[x['ssi_job_id'][0]] = x['ssi_job_id_count']
+        for record in self:
+            record.ai_count = dic.get(
                 record.id, 0)
