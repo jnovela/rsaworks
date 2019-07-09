@@ -8,8 +8,25 @@
     <field name="arch" type="xml">
         <form string="Jobs">
             <div class="oe_button_box" name="button_box">
-                <button class="oe_stat_button" icon="fa-dollar" type="action">
+                <button class="oe_stat_button" icon="fa-dollar" type="action" name="754">
                   <field name="order_total" string="Estimate" widget="statinfo"/>
+                </button>
+                <button class="oe_stat_button" icon="fa-credit-card" type="action" name="759">
+                  <field name="po_count" string="Purchase Orders" placeholder="Purchase Orders" widget="statinfo"/>
+                </button>
+                <button class="oe_stat_button" icon="fa-file-o" type="action" name="760">
+                  <field name="ai_count" string="Vendor Bills" widget="statinfo"/>
+                </button>
+
+                <button class="oe_stat_button" icon="fa-wrench" type="action" name="753">
+                  <field name="prod_count" string="Operations" widget="statinfo"/>
+                </button>
+
+                <button class="oe_stat_button" icon="fa-file-o" type="action" name="763">
+                  <field name="wo_count" string="Vendor Bills" widget="statinfo"/>
+                </button>
+                <button class="oe_stat_button" icon="fa-file-o" type="action">
+                  <field name="wc_count" string="Vendor Bills" widget="statinfo"/>
                 </button>
 
                 <button name="toggle_active" type="object"
