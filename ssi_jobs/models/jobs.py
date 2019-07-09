@@ -9,7 +9,7 @@ class Jobs(models.Model):
     _name = 'ssi_jobs'
     _description = 'Jobs'
     _order = "create_date,display_name desc"
-    _inherit = ['mail.thread', 'mail.activity.mixin']
+    # _inherit = ['mail.thread', 'mail.activity.mixin']
 
     # TOP AND RELATED
     so_ids = fields.One2many(
