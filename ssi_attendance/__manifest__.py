@@ -17,7 +17,7 @@
         'hr_attendance',
     ],
     "data":  [
-        'views/ssi_attendace.xml',
+        'views/ssi_attendance.xml',
         'security/ir.model.access.csv',
 
     ],
