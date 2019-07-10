@@ -8,7 +8,7 @@
 {
     'name': 'Jobs',
     'summary': "Adds jobs module to Odoo.",
-    'version': '1.0.0',
+    'version': '1.0.1',
     'category': 'SSI',
     'author': 'Systems Services, Inc. '
               'Chad Thompson ',
