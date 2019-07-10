@@ -15,8 +15,14 @@
     'website': 'https://ssibtr.com',
     'depends': ['base'],
     "depends":  [
+        'account',
         'base',
+        'mrp',
+        'mrp_workorder',
+        'product',
+        'purchase',
         'sale',
+        'stock',
     ],
     'data': [
         'security/ir.model.access.csv',
