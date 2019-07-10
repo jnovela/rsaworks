@@ -11,7 +11,7 @@
                 <button class="oe_stat_button" icon="fa-dollar" type="action" name="754">
                   <field name="order_total" string="Estimate" widget="statinfo"/>
                 </button>
-                <button class="oe_stat_button" icon="fa-credit-card" type="action" name="759">
+                <!-- <button class="oe_stat_button" icon="fa-credit-card" type="action" name="759">
                   <field name="po_count" string="Purchase Orders" placeholder="Purchase Orders" widget="statinfo"/>
                 </button>
                 <button class="oe_stat_button" icon="fa-file-o" type="action" name="760">
@@ -27,7 +27,7 @@
                 </button>
                 <button class="oe_stat_button" icon="fa-file-o" type="action">
                   <field name="wc_count" string="Vendor Bills" widget="statinfo"/>
-                </button>
+                </button> -->
 
                 <button name="toggle_active" type="object"
                     class="oe_stat_button" icon="fa-archive">
