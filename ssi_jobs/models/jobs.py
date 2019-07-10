@@ -63,7 +63,7 @@ class Jobs(models.Model):
     )]
 
     # ACTION TO LEAD TO TABLE WITH SOs
-    @api.multi
+    @api.one
     def action_view_estimates(self):
         raise UserError(_('So far so good'))
 
