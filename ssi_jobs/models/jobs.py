@@ -84,7 +84,7 @@ class Jobs(models.Model):
                 record.id, 0)
 
     @api.depends('order_total')
-    def _get_ai_count(self):
+    def _get_prod_count(self):
         results = self.env['mrp.production'].read_group(
             [('ssi_job_id', 'in', self.ids)], 'ssi_job_id', 'ssi_job_id')
         dic = {}
@@ -95,7 +95,7 @@ class Jobs(models.Model):
                 record.id, 0)
 
     @api.depends('order_total')
-    def _get_ai_count(self):
+    def _get_wo_count(self):
         results = self.env['mrp.workorder'].read_group(
             [('ssi_job_id', 'in', self.ids)], 'ssi_job_id', 'ssi_job_id')
         dic = {}
@@ -106,7 +106,7 @@ class Jobs(models.Model):
                 record.id, 0)
 
     @api.depends('order_total')
-    def _get_prod_count(self):
+    def _get_wc_count(self):
         results = self.env['mrp.workcenter.productivity'].read_group(
             [('ssi_job_id', 'in', self.ids)], 'ssi_job_id', 'ssi_job_id')
         dic = {}
