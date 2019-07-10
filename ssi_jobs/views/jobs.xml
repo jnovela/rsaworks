@@ -8,7 +8,7 @@
     <field name="arch" type="xml">
         <form string="Jobs">
             <div class="oe_button_box" name="button_box">
-                <button class="oe_stat_button" icon="fa-dollar" type="action" name="action_view_estimates">
+                <button class="oe_stat_button" icon="fa-dollar" type="object" name="action_view_estimates">
                   <field name="order_total" string="Estimate" widget="statinfo"/>
                 </button>
                 <!-- <button class="oe_stat_button" icon="fa-credit-card" type="action" name="759">
