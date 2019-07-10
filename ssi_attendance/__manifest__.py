@@ -14,7 +14,7 @@
     "author":  "Systems Services, Inc.",
     "website":  "https://ssibtr.com",
     "depends":  [
-        'attendance',
+        'hr_attendance',
     ],
     "data":  [
         'views/ssi_attendace.xml',
