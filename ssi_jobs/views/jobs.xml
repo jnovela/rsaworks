@@ -107,13 +107,13 @@
     <field name="arch" type="xml">
         <tree string="Jobs">
             <field name="name"/>
-            <field name="confirmation_date"/>
+            <!-- <field name="confirmation_date"/>
             <field name="commitment_date"/>
             <field name="expected_date"/>
             <field name="partner_id"/>
             <field name="user_id"/>
             <field name="amount_total"/>
-            <field name="invoice_status"/>
+            <field name="invoice_status"/> -->
         </tree>
     </field>
 </record>
@@ -124,7 +124,7 @@
   <field name="binding_model_id" eval="False"/>
   <field name="binding_type">action</field>
   <!-- <field name="context">{'search_default_ssi_job_id': active_id,'default_ssi_job_id': active_id}</field> -->
-  <field name="domain">[('ssi_job_id', '=', active_id)]</field>
+  <!-- <field name="domain">[('ssi_job_id', '=', active_id)]</field> -->
   <field name="filter" eval="False"/>
   <field name="groups_id" eval="[(6, 0, [])]"/>
   <field name="help" eval="False"/>

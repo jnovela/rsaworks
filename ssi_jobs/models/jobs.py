@@ -70,7 +70,7 @@ class Jobs(models.Model):
             'ssi_jobs.sale_order_estimate_line_action').read()[0]
         # raise UserError(_(action))
 
-        # action['domain'] = [('ssi_job_id', '=', self.id)]
+        action['domain'] = [('ssi_job_id', '=', self.id)]
         return action
 
     # <record id="stock_move_line_action" model="ir.actions.act_window">
