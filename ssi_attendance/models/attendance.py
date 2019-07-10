@@ -2,24 +2,6 @@
 
 from odoo import api, fields, models, tools, _
 
-
-class HrAttendanceLine(models.Model):
-    _name = "hr.attendance.line"
-
-    attendance_id = fields.Many2one('hr.attendance', string='Attendance ID', required=True, ondelete='cascade', index=True, copy=False)
-    check_in = fields.Datetime(string="Check In", default=fields.Datetime.now, required=True)
-    check_out = fields.Datetime(string="Check Out")
-    worked_hours = fields.Float(string='Worked Hours', compute='_compute_worked_hours', store=True, readonly=True)
-    status = fields.Selection(string="Status", selection=[(
-        'open', 'Open'), ('approved', 'Approved')], default='open', track_visibility='onchange')
-
-#    job_id = fields.Many2one(
-#        'x_jobs', ondelete='set null', string="Job", index=True)
-#    workorder_id = fields.Many2one(
-#        'mrp.workorder', ondelete='set null', string="Work Order", index=True)
-#    labor_code_id = fields.Many2one(
-#        'x_labor.codes', ondelete='set null', string="Labor Code", index=True)
-
 class HrAttendance(models.Model):
     _inherit = 'hr.attendance'
 
@@ -43,3 +25,21 @@ class HrAttendance(models.Model):
             # 'status': 'approved'
         # })
         # self.env['mrp.workcenter.productivity'].sudo().create(data)
+
+class HrAttendanceLine(models.Model):
+    _name = "hr.attendance.line"
+
+    attendance_id = fields.Many2one('hr.attendance', string='Attendance ID', required=True, ondelete='cascade', index=True, copy=False)
+    check_in = fields.Datetime(string="Check In", default=fields.Datetime.now, required=True)
+    check_out = fields.Datetime(string="Check Out")
+    worked_hours = fields.Float(string='Worked Hours', compute='_compute_worked_hours', store=True, readonly=True)
+    status = fields.Selection(string="Status", selection=[(
+        'open', 'Open'), ('approved', 'Approved')], default='open', track_visibility='onchange')
+
+#    job_id = fields.Many2one(
+#        'x_jobs', ondelete='set null', string="Job", index=True)
+#    workorder_id = fields.Many2one(
+#        'mrp.workorder', ondelete='set null', string="Work Order", index=True)
+#    labor_code_id = fields.Many2one(
+#        'x_labor.codes', ondelete='set null', string="Labor Code", index=True)
+
