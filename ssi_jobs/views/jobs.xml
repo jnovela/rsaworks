@@ -101,41 +101,60 @@
    sequence="100"/>
 
 
- <!-- <record id="sale_order_estimate_line_action" model="ir.actions.act_window">
-   <field name="auto_search" eval="True"/>
-   <field name="binding_model_id" eval="False"/>
-   <field name="binding_type">action</field>
-   <field name="filter" eval="False"/>
-   <field name="groups_id" eval="[(6, 0, [])]"/>
-   <field name="help" eval="False"/>
-   <field name="limit">80</field>
-   <field name="multi" eval="False"/>
-   <field name="name">Estimates</field>
-   <field name="res_model">sale.order</field>
-   <field name="search_view_id" eval="False"/>
-   <field name="src_model" eval="False"/>
-   <field name="target">current</field>
-   <field name="type">ir.actions.act_window</field>
-   <field name="usage" eval="False"/>
-   <field name="view_id" eval="False"/>
-   <field name="view_mode">tree,form</field>
-   <field name="view_type">form</field>
- </record> -->
+<record id="ssi_estimate_tree" model="ir.ui.view">
+    <field name="name">ssi_estimate.tree</field>
+    <field name="model">ssi_jobs</field>
+    <field name="arch" type="xml">
+        <tree string="Jobs">
+            <field name="name"/>
+            <field name="confirmation_date"/>
+            <field name="commitment_date"/>
+            <field name="expected_date"/>
+            <field name="partner_id"/>
+            <field name="user_id"/>
+            <field name="amount_total"/>
+            <field name="invoice_status"/>
+        </tree>
+    </field>
+</record>
+
 
 <record id="sale_order_estimate_line_action" model="ir.actions.act_window">
+  <field name="auto_search" eval="True"/>
+  <field name="binding_model_id" eval="False"/>
+  <field name="binding_type">action</field>
+  <!-- <field name="context">{'search_default_ssi_job_id': active_id,'default_ssi_job_id': active_id}</field> -->
+  <!-- <field name="domain">[('ssi_job_id', '=', active_id)]</field> -->
+  <field name="filter" eval="False"/>
+  <field name="groups_id" eval="[(6, 0, [])]"/>
+  <field name="help" eval="False"/>
+  <field name="limit">80</field>
+  <field name="multi" eval="False"/>
+  <field name="name">Estimates</field>
+  <field name="res_model">sale.order</field>
+  <field name="search_view_id" eval="False"/>
+  <field name="src_model" eval="False"/>
+  <field name="target">current</field>
+  <field name="type">ir.actions.act_window</field>
+  <field name="usage" eval="False"/>
+  <field name="view_id" ref="ssi_estimate_tree"/>
+  <field name="view_mode">tree,form</field>
+  <field name="view_type">form</field>
+</record>
+
+<!-- <record id="sale_order_estimate_line_action" model="ir.actions.act_window">
         <field name="name">Estimates</field>
         <field name="res_model">sale.order</field>
         <field name="type">ir.actions.act_window</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree, form</field>
-        <!-- <field name="view_id" ref="view_move_line_tree"/> -->
-        <field name="view_id" eval="False"/>
+        <field name="view_id" ref="view_move_line_tree"/>
         <field name="help" type="html">
           <p class="o_view_nocontent_empty_folder">
             There's no product move yet
           </p>
         </field>
-</record>
+</record> -->
 
 
 </odoo>
