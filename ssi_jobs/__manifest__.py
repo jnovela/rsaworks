@@ -14,6 +14,10 @@
               'Chad Thompson ',
     'website': 'https://ssibtr.com',
     'depends': ['base'],
+    "depends":  [
+        'base',
+        'sale',
+    ],
     'data': [
         'security/ir.model.access.csv',
         'views/jobs.xml',
