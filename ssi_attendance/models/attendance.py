@@ -20,11 +20,13 @@ class HrAttendanceLine(models.Model):
 #    labor_code_id = fields.Many2one(
 #        'x_labor.codes', ondelete='set null', string="Labor Code", index=True)
 
-# class HrAttendance(models.Model):
-    # _inherit = 'hr.attendance'
+class HrAttendance(models.Model):
+    _inherit = 'hr.attendance'
 
-    # status = fields.Selection(string="Status", selection=[(
-        # 'open', 'Open'), ('approved', 'Approved')], default='open', track_visibility='onchange')
+    status = fields.Selection(string="Status", selection=[(
+        'open', 'Open'), ('approved', 'Approved')], default='open', track_visibility='onchange')
+    attendance_lines = fields.One2many('hr.attendance.line', 'attendance_id', string='Attendance Lines', states={'cancel': [('readonly', True)], 'done': [('readonly', True)]}, copy=True, auto_join=True)
+
 
     # @api.one
     # def approve_attendance(self):
