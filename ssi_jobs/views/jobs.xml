@@ -38,7 +38,7 @@
             <group name="main">
                 <group name="left">
                     <field name="name"/>
-                    <field name="customer_id"/>
+                    <field name="partner_id"/>
                     <field name="objects"/>
                     <field name="size"/>
                     <field name="sizeUM"/>

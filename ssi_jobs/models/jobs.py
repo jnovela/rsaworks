@@ -28,8 +28,10 @@ class Jobs(models.Model):
 
     # LEFT
     name = fields.Char(required=True, index=True)
-    customer_id = fields.Many2one(
-        'res.partner', string='Customer', domain="[('customer', '=', 1)]")
+    partner_id = fields.Many2one(
+        'res.partner', string='Partner', ondelete='restrict', required=True,
+        domain=[('parent_id', '=', False)])
+    active = fields.Boolean(default=True)
     objects = fields.Selection(
         [('motor', 'Motor'), ('generator', 'Generator'), ('coil', 'Coil'), ('brake', 'Brake'), ('other', 'Other')], string='Object')
     size = fields.Integer(string='Size')
@@ -52,10 +54,6 @@ class Jobs(models.Model):
         [('ready', 'Ready'), ('process', 'In Process'), ('done', 'Complete'), ('blocked', 'Blocked')], string='Status')
 
     # OTHER
-    partner_id = fields.Many2one(
-        'res.partner', string='Partner', ondelete='restrict', required=True,
-        domain=[('parent_id', '=', False)])
-    active = fields.Boolean(default=True)
 
     _sql_constraints = [(
         'name_unique',
