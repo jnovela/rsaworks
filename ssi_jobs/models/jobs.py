@@ -68,7 +68,7 @@ class Jobs(models.Model):
         # raise UserError(_('So far so good'))
         self.ensure_one()
         action = self.env.ref(
-            'sale_order_estimate_line_action').read()[0]
+            'ssi_jobs.sale_order_estimate_line_action').read()[0]
         action['domain'] = [('product_id', '=', self.id)]
         return action
 
