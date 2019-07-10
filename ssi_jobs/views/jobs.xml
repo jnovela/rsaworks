@@ -103,7 +103,7 @@
 
 <record id="ssi_estimate_tree" model="ir.ui.view">
     <field name="name">ssi_estimate.tree</field>
-    <field name="model">ssi_jobs</field>
+    <field name="model">sale.order</field>
     <field name="arch" type="xml">
         <tree string="Jobs">
             <field name="name"/>
