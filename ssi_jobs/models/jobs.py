@@ -61,16 +61,40 @@ class Jobs(models.Model):
         'This job name already exists in the system!'
     )]
 
-    @api.depends('order_total')
-    def _get_po_count(self):
-        results = self.env['purchase.order'].read_group(
-            [('ssi_job_id', 'in', self.ids)], 'ssi_job_id', 'ssi_job_id')
-        dic = {}
-        for x in results:
-            dic[x['ssi_job_id'][0]] = x['ssi_job_id_count']
-        for record in self:
-            record.po_count = dic.get(
-                record.id, 0)
+    # ACTION TO LEAD TO TABLE WITH SOs
+    @api.multi
+    def action_view_estimates(self):
+        self.ensure_one()
+        action = self.env.ref(
+            'sale_order_estimate_line_action').read()[0]
+        action['domain'] = [('product_id', '=', self.id)]
+        return action
+
+    # <record id="stock_move_line_action" model="ir.actions.act_window">
+    #         <field name="name">Product Moves</field>
+    #         <field name="res_model">stock.move.line</field>
+    #         <field name="type">ir.actions.act_window</field>
+    #         <field name="view_type">form</field>
+    #         <field name="view_mode">tree,kanban,pivot,form</field>
+    #         <field name="view_id" ref="view_move_line_tree"/>
+    #         <field name="context">{'search_default_done': 1, 'search_default_groupby_product_id': 1}</field>
+    #         <field name="help" type="html">
+    #           <p class="o_view_nocontent_empty_folder">
+    #             There's no product move yet
+    #           </p>
+    #         </field>
+    # </record>
+
+    # @api.depends('order_total')
+    # def _get_po_count(self):
+    #     results = self.env['purchase.order'].read_group(
+    #         [('ssi_job_id', 'in', self.ids)], 'ssi_job_id', 'ssi_job_id')
+    #     dic = {}
+    #     for x in results:
+    #         dic[x['ssi_job_id'][0]] = x['ssi_job_id_count']
+    #     for record in self:
+    #         record.po_count = dic.get(
+    #             record.id, 0)
 
     # @api.depends('order_total')
     # def _get_ai_count(self):
