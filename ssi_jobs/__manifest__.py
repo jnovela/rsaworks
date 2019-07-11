@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 #################################################################################
-# Systems Services, Inc. 
+# Systems Services, Inc.
 # Desc: To extend maintenance module to add fields to equipment
 #################################################################################
 
@@ -25,10 +25,10 @@
         'stock',
         'sale_timesheet',
     ],
-    'data': [
-        'security/ir.model.access.csv',
-        'views/jobs.xml',
-        ],
+    # 'data': [
+    #     'security/ir.model.access.csv',
+    #     'views/jobs.xml',
+    #     ],
     'installable': True,
     'application': True,
 }
