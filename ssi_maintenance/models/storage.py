@@ -5,6 +5,7 @@ from odoo import api, fields, models, tools, _
 
 class Storage(models.Model):
     _name = "storage"
+    _description = "Equipment Storage Records"
 
     location_id = fields.Char(string='Location')
     equipment_id = fields.Many2one(
