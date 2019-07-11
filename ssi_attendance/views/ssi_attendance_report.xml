@@ -51,7 +51,7 @@
 	id="hr_attendance_report_view">
 	  <field name="name">Attendance Report</field>
 	  <field name="res_model">hr.attendance.report</field>
-	  <field name="view_mode">tree,form</field>
+	  <field name="view_mode">tree,grid,form</field>
 
 	</record>
 
