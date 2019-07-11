@@ -6,7 +6,7 @@
 		<field name="model">hr.attendance.report</field>
 		<field name="arch" type="xml">
 			<search string="attendance">
-				<field name="user_id"/>
+				<field name="employee_id"/>
 				<filter name="month" string="Date" date="date"/>
 			</search>
 		</field>
