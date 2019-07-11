@@ -17,8 +17,8 @@
     "depends":  [
         'account',
         'base',
-        'mrp',
-        'mrp_workorder',
+#        'mrp',
+#        'mrp_workorder',
         'product',
         'purchase',
         'sale',
