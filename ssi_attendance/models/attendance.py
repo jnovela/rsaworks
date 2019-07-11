@@ -28,7 +28,7 @@ class HrAttendance(models.Model):
 
 class HrAttendanceLine(models.Model):
     _name = "hr.attendance.line"
-    _description = "Attendance Lines"
+    _description = "Attendance  Detail"
 
     def _default_employee(self):
         return self.env['hr.employee'].search([('user_id', '=', self.env.uid)], limit=1)
