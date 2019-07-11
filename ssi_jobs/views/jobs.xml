@@ -14,7 +14,7 @@
                 <button class="oe_stat_button" icon="fa-credit-card" type="action" name="759">
                   <field name="po_count" string="Purchase Orders" placeholder="Purchase Orders" widget="statinfo"/>
                 </button>
-                <!-- <button class="oe_stat_button" icon="fa-file-o" type="action" name="760">
+                <button class="oe_stat_button" icon="fa-file-o" type="action" name="760">
                   <field name="ai_count" string="Vendor Bills" widget="statinfo"/>
                 </button>
 
@@ -27,7 +27,7 @@
                 </button>
                 <button class="oe_stat_button" icon="fa-file-o" type="action">
                   <field name="wc_count" string="Vendor Bills" widget="statinfo"/>
-                </button> -->
+                </button>
 
                 <button name="toggle_active" type="object"
                     class="oe_stat_button" icon="fa-archive">
@@ -107,14 +107,14 @@
     <field name="arch" type="xml">
         <tree string="Jobs">
             <field name="name"/>
-            <field name="state"/>
-            <!-- <field name="confirmation_date"/>
+            <field class="hidden" name="state"/>
+            <field name="confirmation_date"/>
             <field name="commitment_date"/>
             <field name="expected_date"/>
             <field name="partner_id"/>
             <field name="user_id"/>
             <field name="amount_total"/>
-            <field name="invoice_status"/> -->
+            <field name="invoice_status"/>
         </tree>
     </field>
 </record>
