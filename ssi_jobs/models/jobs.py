@@ -63,30 +63,13 @@ class Jobs(models.Model):
     )]
 
     # ACTION TO LEAD TO TABLE WITH SOs
-    @api.one
+    @api.multi
     def action_view_estimates(self):
-        self.ensure_one()
         action = self.env.ref(
             'ssi_jobs.sale_order_estimate_line_action').read()[0]
-        # raise UserError(_(action))
-
-        action['domain'] = [('ssi_job_id', '=', 1)]
+#        raise UserError(_(action))
+        action['domain'] = [('ssi_job_id', '=', self.id)]
         return action
-
-    # <record id="stock_move_line_action" model="ir.actions.act_window">
-    #         <field name="name">Product Moves</field>
-    #         <field name="res_model">stock.move.line</field>
-    #         <field name="type">ir.actions.act_window</field>
-    #         <field name="view_type">form</field>
-    #         <field name="view_mode">tree,kanban,pivot,form</field>
-    #         <field name="view_id" ref="view_move_line_tree"/>
-    #         <field name="context">{'search_default_done': 1, 'search_default_groupby_product_id': 1}</field>
-    #         <field name="help" type="html">
-    #           <p class="o_view_nocontent_empty_folder">
-    #             There's no product move yet
-    #           </p>
-    #         </field>
-    # </record>
 
     # @api.depends('order_total')
     # def _get_po_count(self):

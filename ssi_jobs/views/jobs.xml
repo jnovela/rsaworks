@@ -107,6 +107,7 @@
     <field name="arch" type="xml">
         <tree string="Jobs">
             <field name="name"/>
+            <field name="state"/>
             <!-- <field name="confirmation_date"/>
             <field name="commitment_date"/>
             <field name="expected_date"/>
