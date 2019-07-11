@@ -16,8 +16,10 @@ class AttendanceReport(models.Model):
     det = fields.Char('Det', default="E", readonly=True)
     det_code = fields.Char('Det Code', default="R1", readonly=True)
     hours = fields.Float('Hours', readonly=True)
-    begin_date = fields.Datetime('Begin Date', readonly=True)
-    end_date = fields.Datetime('End Date', readonly=True)
+    begin_datetime = fields.Datetime('Begin Date/Time', readonly=True)
+    end_datetime = fields.Datetime('End Date/Time', readonly=True)
+    begin_date = fields.Date('Begin Date', readonly=True)
+    end_date = fields.Date('End Date', readonly=True)
     # amount = fields.Float('Amount', default=0, readonly=True)
     # rate = fields.Float('Rate', default=0, readonly=True)
     # rate_code = fields.Char('Rate Code', default="NONE",  readonly=True)
@@ -44,8 +46,10 @@ class AttendanceReport(models.Model):
             a.id as id,
             a.employee_id as employee_id,
             ROUND(CAST(a.worked_hours + 0.00 as Decimal), 2) as hours,
-            a.check_in as begin_date,
-            a.check_out as end_date,
+            CAST(a.check_in AS DATE) as begin_date,
+            CAST(a.check_out AS DATE) as end_date,
+            a.check_in as begin_datetime,
+            a.check_out as end_datetime,
             'E' as det,
             'REG' as det_code
         """
