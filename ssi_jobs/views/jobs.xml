@@ -118,28 +118,47 @@
     </field>
 </record>
 
+<record id="action_picking_tree_all" model="ir.actions.act_window">
+	<field name="name">Transfers</field>
+	<field name="res_model">stock.picking</field>
+	<field name="type">ir.actions.act_window</field>
+	<field name="view_type">form</field>
+	<field name="view_mode">tree,kanban,form,calendar</field>
+	<field name="domain"></field>
+	<field name="context">{
+			'contact_display': 'partner_address',
+	}
+	</field>
+	<field name="search_view_id" ref="view_picking_internal_search"/>
+	<field name="help" type="html">
+	  <p class="o_view_nocontent_smiling_face">
+		Define a new transfer
+	  </p>
+	</field>
+</record>
+
 
 <record id="sale_order_estimate_line_action" model="ir.actions.act_window">
-  <field name="auto_search" eval="True"/>
-  <field name="binding_model_id" eval="False"/>
-  <field name="binding_type">action</field>
-  <field name="context">{'search_default_ssi_job_id': active_id,'default_ssi_job_id': active_id}</field>
-  <field name="domain">[('ssi_job_id', '=', active_id)]</field>
-  <field name="filter" eval="False"/>
-  <!-- field name="groups_id" eval="[(6, 0, [])]"/ -->
-  <field name="help" eval="False"/>
-  <field name="limit">80</field>
-  <field name="multi" eval="False"/>
   <field name="name">Estimates</field>
   <field name="res_model">sale.order</field>
+  <field name="type">ir.actions.act_window</field>
+  <field name="view_type">form</field>
+  <field name="view_mode">tree,form</field>
+  <field name="domain">[('ssi_job_id', '=', active_id)]</field>
+  <field name="context">{'search_default_ssi_job_id': active_id,'default_ssi_job_id': active_id}</field>
   <field name="search_view_id" eval="False"/>
+  <field name="help" eval="False"/>
+  <!-- field name="auto_search" eval="True"/>
+  <field name="binding_model_id" eval="False"/>
+  <field name="binding_type">action</field>
+  <field name="filter" eval="False"/>
+  <field name="groups_id" eval="[(6, 0, [])]"/>
+  <field name="limit">80</field>
+  <field name="multi" eval="False"/>
   <field name="src_model" eval="False"/>
   <field name="target">current</field>
-  <field name="type">ir.actions.act_window</field>
   <field name="usage" eval="False"/>
-  <field name="view_id" ref="ssi_estimate_tree"/>
-  <field name="view_mode">tree,form</field>
-  <field name="view_type">form</field>
+  <field name="view_id" ref="ssi_estimate_tree"/ -->
 </record>
 
 <!-- <record id="sale_order_estimate_line_action" model="ir.actions.act_window">
