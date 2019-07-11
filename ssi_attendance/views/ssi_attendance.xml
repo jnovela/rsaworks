@@ -12,14 +12,14 @@
         <field name="type">form</field>
             <field name="arch" type="xml">
 			<xpath expr="//field[@name='check_out']" position="after">
-				<field name="attendance_lines"> 
+				<!-- field name="attendance_lines"> 
 				  <tree string="lines" create="true" edit="true">
 					<field name="check_in"/>
 					<field name="check_out"/>
 					<field name="worked_hours"/>
 					<field name="status"/>
 				  </tree>
-				</field>
+				</field -->
 			</xpath>
             </field>
         </record>
