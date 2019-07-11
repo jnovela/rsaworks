@@ -1,34 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-  <record model="ir.ui.view" id="attendance_report_tree_view">
-      <field name="name">attendance_report.tree</field>
-      <field name="model">hr.attendance.report</field>
-      <field name="arch" type="xml">
-        <tree string="Employee Attendance">
-            <field name="employee_id"/>
-            <field name="begin_date"/>
-            <field name="end_date"/>
-            <field name="hours"/>
-        </tree>
-      </field>
-  </record>
+	<record id="attendance_report_search" model="ir.ui.view">
+		<field name="name">Search for attendance report</field>
+		<field name="model">hr.attendance.report</field>
+		<field name="arch" type="xml">
+			<search string="attendance">
+				<field name="user_id"/>
+				<filter name="month" string="Date" date="date"/>
+			</search>
+		</field>
+	</record>
 
-  <record 
-    model="ir.actions.act_window" 
-    id="hr_attendance_report_view">
-      <field name="name">Attendance Report</field>
-      <field name="res_model">hr.attendance.report</field>
-      <field name="view_mode">tree,form</field>
+	<record model="ir.ui.view" id="attendance_report_tree_view">
+	  <field name="name">attendance_report.tree</field>
+	  <field name="model">hr.attendance.report</field>
+	  <field name="arch" type="xml">
+		<tree string="Employee Attendance">
+			<field name="employee_id"/>
+			<field name="begin_date"/>
+			<field name="end_date"/>
+			<field name="hours"/>
+		</tree>
+	  </field>
+	</record>
 
-  </record>
+	<record 
+	model="ir.actions.act_window" 
+	id="hr_attendance_report_view">
+	  <field name="name">Attendance Report</field>
+	  <field name="res_model">hr.attendance.report</field>
+	  <field name="view_mode">tree,form</field>
 
-  <menuitem 
-    id="menu_hr_attendance_report_view"
-    parent="hr_attendance.menu_hr_attendance_report" 
-    name="Attendance Report" 
-    sequence="10" 
-    action="hr_attendance_report_view"/>
+	</record>
+
+	<menuitem 
+	id="menu_hr_attendance_report_view"
+	parent="hr_attendance.menu_hr_attendance_report" 
+	name="Attendance Report" 
+	sequence="10" 
+	action="hr_attendance_report_view"/>
 
 
 </odoo>
