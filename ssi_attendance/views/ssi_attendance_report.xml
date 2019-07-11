@@ -7,7 +7,7 @@
 		<field name="arch" type="xml">
 			<search string="attendance">
 				<field name="employee_id"/>
-				<filter name="month" string="Date" date="date"/>
+				<!-- filter name="month" string="Date" date="date"/ -->
 			</search>
 		</field>
 	</record>
