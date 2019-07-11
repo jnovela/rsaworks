@@ -11,10 +11,10 @@
                 <button class="oe_stat_button" icon="fa-dollar" type="object" name="action_view_estimates">
                   <field name="order_total" string="Estimate" widget="statinfo"/>
                 </button>
-                <!-- <button class="oe_stat_button" icon="fa-credit-card" type="action" name="759">
+                <button class="oe_stat_button" icon="fa-credit-card" type="action" name="759">
                   <field name="po_count" string="Purchase Orders" placeholder="Purchase Orders" widget="statinfo"/>
                 </button>
-                <button class="oe_stat_button" icon="fa-file-o" type="action" name="760">
+                <!-- <button class="oe_stat_button" icon="fa-file-o" type="action" name="760">
                   <field name="ai_count" string="Vendor Bills" widget="statinfo"/>
                 </button>
 

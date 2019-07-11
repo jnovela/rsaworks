@@ -17,7 +17,7 @@ class Jobs(models.Model):
         'sale.order', 'ssi_job_id', string='SO')
     order_total = fields.Monetary(
         string='Order Total', track_visibility='always', related='so_ids.amount_total')
-    # po_count = fields.Integer(string='Purchase Order', compute='_get_po_count')
+    po_count = fields.Integer(string='Purchase Order', compute='_get_po_count')
     # ai_count = fields.Integer(string='Vendor Bills', compute='_get_ai_count')
     # prod_count = fields.Integer(string='Operations', compute='_get_prod_count')
     # wo_count = fields.Integer(string='Work Orders', compute='_get_wo_count')
@@ -71,16 +71,16 @@ class Jobs(models.Model):
         action['domain'] = [('ssi_job_id', '=', self.id)]
         return action
 
-    # @api.depends('order_total')
-    # def _get_po_count(self):
-    #     results = self.env['purchase.order'].read_group(
-    #         [('ssi_job_id', 'in', self.ids)], 'ssi_job_id', 'ssi_job_id')
-    #     dic = {}
-    #     for x in results:
-    #         dic[x['ssi_job_id'][0]] = x['ssi_job_id_count']
-    #     for record in self:
-    #         record.po_count = dic.get(
-    #             record.id, 0)
+    @api.depends('order_total')
+    def _get_po_count(self):
+        results = self.env['purchase.order'].read_group(
+            [('ssi_job_id', 'in', self.ids)], 'ssi_job_id', 'ssi_job_id')
+        dic = {}
+        for x in results:
+            dic[x['ssi_job_id'][0]] = x['ssi_job_id_count']
+        for record in self:
+            record.po_count = dic.get(
+                record.id, 0)
 
     # @api.depends('order_total')
     # def _get_ai_count(self):
