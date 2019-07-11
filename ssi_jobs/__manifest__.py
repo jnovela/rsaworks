@@ -14,7 +14,7 @@
               'Chad Thompson ',
     'website': 'https://ssibtr.com',
     "depends":  [
-        'base'
+        'base',
         'account',
         'base',
         'mrp',
