@@ -18,7 +18,7 @@
         'account',
         'base',
         'mrp',
-#        'mrp_workorder',
+        'mrp_workorder',
         'product',
         'purchase',
         'sale',
