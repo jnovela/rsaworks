@@ -7,7 +7,7 @@ class HrAttendance(models.Model):
 
     status = fields.Selection(string="Status", selection=[(
         'open', 'Open'), ('approved', 'Approved')], default='open', track_visibility='onchange')
-    attendance_lines = fields.One2many('hr.attendance.line', 'attendance_id', string='Attendance Lines', states={'cancel': [('readonly', True)], 'done': [('readonly', True)]}, copy=True, auto_join=True)
+    attendance_lines = fields.One2many('hr.attendance.line', 'attendance_id', string='Attendance Lines', copy=True, auto_join=True)
 
 
     # @api.one
