@@ -30,8 +30,6 @@
                             <field name="enclosure" attrs="{'required': [('category_id', '!=', 4)]}"/>
                             <field name="mounting" attrs="{'required': [('category_id', '!=', 4)]}"/>
                             <field name="manufacture"/>
-                            <field name="model_number"/>
-                            <field name="serial_number"/>
                             <field name="customer_stock_number"/>
                             <field name="customer_id_number"/>
                             <field name="amps"/>
