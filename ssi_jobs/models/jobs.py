@@ -63,11 +63,46 @@ class Jobs(models.Model):
     )]
 
     # ACTIONS AND METHODS
-    @api.multi
+    @api.multi  # DONE
     def action_view_estimates(self):
         action = self.env.ref(
             'ssi_jobs.sale_order_estimate_line_action').read()[0]
 #        raise UserError(_(action))
+        action['domain'] = [('ssi_job_id', '=', self.id)]
+        return action
+
+    @api.multi
+    def action_view_po_count(self):
+        action = self.env.ref(
+            'ssi_jobs.sale_order_po_line_action').read()[0]
+        action['domain'] = [('ssi_job_id', '=', self.id)]
+        return action
+
+    @api.multi
+    def action_view_ai_count(self):
+        action = self.env.ref(
+            'ssi_jobs.sale_order_ai_line_action').read()[0]
+        action['domain'] = [('ssi_job_id', '=', self.id)]
+        return action
+
+    @api.multi
+    def action_view_prod_count(self):
+        action = self.env.ref(
+            'ssi_jobs.sale_order_prod_line_action').read()[0]
+        action['domain'] = [('ssi_job_id', '=', self.id)]
+        return action
+
+    @api.multi
+    def action_view_wo_count(self):
+        action = self.env.ref(
+            'ssi_jobs.sale_order_wo_line_action').read()[0]
+        action['domain'] = [('ssi_job_id', '=', self.id)]
+        return action
+
+    @api.multi
+    def action_view_wc_count(self):
+        action = self.env.ref(
+            'ssi_jobs.sale_order_wc_line_action').read()[0]
         action['domain'] = [('ssi_job_id', '=', self.id)]
         return action
 
