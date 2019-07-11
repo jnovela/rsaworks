@@ -7,7 +7,7 @@ class HrAttendance(models.Model):
 
     status = fields.Selection(string="Status", selection=[(
         'open', 'Open'), ('approved', 'Approved')], default='open', track_visibility='onchange')
-    attendance_lines = fields.One2many('hr.attendance.line', 'attendance_id', string='Attendance Lines', copy=True, auto_join=True)
+    attendance_lines = fields.One2many('hr.attendance.line', 'attendance_id', string='Attendance Lines', copy=True)
 
 
     # @api.one
@@ -29,6 +29,10 @@ class HrAttendance(models.Model):
 class HrAttendanceLine(models.Model):
     _name = "hr.attendance.line"
 
+    def _default_employee(self):
+        return self.env['hr.employee'].search([('user_id', '=', self.env.uid)], limit=1)
+
+    employee_id = fields.Many2one('hr.employee', string="Employee", default=_default_employee, required=True, ondelete='cascade', index=True)
     attendance_id = fields.Many2one('hr.attendance', string='Attendance ID', required=True, ondelete='cascade', index=True, copy=False)
     check_in = fields.Datetime(string="Check In", default=fields.Datetime.now, required=True)
     check_out = fields.Datetime(string="Check Out")
