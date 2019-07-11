@@ -67,10 +67,10 @@ class Jobs(models.Model):
     def action_view_estimates(self):
         self.ensure_one()
         action = self.env.ref(
-            'ssi_jobs.ssi_estimate_tree').read()[0]
+            'ssi_jobs.sale_order_estimate_line_action').read()[0]
         # raise UserError(_(action))
 
-        action['domain'] = [('ssi_job_id', '=', self.id)]
+        action['domain'] = [('ssi_job_id', '=', 1)]
         return action
 
     # <record id="stock_move_line_action" model="ir.actions.act_window">
