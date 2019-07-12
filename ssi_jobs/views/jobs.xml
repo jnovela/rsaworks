@@ -252,6 +252,7 @@
     <field name="arch" type="xml">
         <tree string="Jobs">
             <field name="name"/>
+            <field class="hidden" name="state"/>
         </tree>
     </field>
 </record>
