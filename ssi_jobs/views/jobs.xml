@@ -149,6 +149,15 @@
     <field name="arch" type="xml">
         <tree string="Jobs">
             <field name="name"/>
+            <field name="ssi_job_id"/>
+            <field name="date_order"/>
+            <field name="partner_id"/>
+            <field name="date_planned"/>
+            <field name="user_id"/>
+            <field name="origin"/>
+            <field name="amount_untaxed"/>
+            <field name="amount_total"/>
+            <field name="state"/>
         </tree>
     </field>
 </record>
@@ -183,7 +192,17 @@
     <field name="model">sale.order</field>
     <field name="arch" type="xml">
         <tree string="Jobs">
-            <field name="name"/>
+            <field name="vendor_display_name"/>
+            <field name="date_invoice"/>
+            <field name="number"/>
+            <field name="reference"/>
+            <field name="date_due"/>
+            <field name="origin"/>
+            <field name="amount_untaxed"/>
+            <field name="amount_tax"/>
+            <field name="amount_total_signed"/>
+            <field name="residual_signed"/>
+            <field name="state"/>
         </tree>
     </field>
 </record>
