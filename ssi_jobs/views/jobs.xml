@@ -200,8 +200,8 @@
   <field name="help" eval="False"/>
   <field name="limit">80</field>
   <field name="multi" eval="False"/>
-  <field name="name">Purchase Orders</field>
-  <field name="res_model">purchase.order</field>
+  <field name="name">Vendor Bills</field>
+  <field name="res_model">account.invoice</field>
   <field name="search_view_id" eval="False"/>
   <field name="src_model" eval="False"/>
   <field name="target">current</field>
@@ -234,8 +234,8 @@
   <field name="help" eval="False"/>
   <field name="limit">80</field>
   <field name="multi" eval="False"/>
-  <field name="name">Purchase Orders</field>
-  <field name="res_model">purchase.order</field>
+  <field name="name">Operations</field>
+  <field name="res_model">mrp.production</field>
   <field name="search_view_id" eval="False"/>
   <field name="src_model" eval="False"/>
   <field name="target">current</field>
@@ -268,8 +268,8 @@
   <field name="help" eval="False"/>
   <field name="limit">80</field>
   <field name="multi" eval="False"/>
-  <field name="name">Purchase Orders</field>
-  <field name="res_model">purchase.order</field>
+  <field name="name">Vendor Bills</field>
+  <field name="res_model">mrp.workorder</field>
   <field name="search_view_id" eval="False"/>
   <field name="src_model" eval="False"/>
   <field name="target">current</field>
@@ -302,8 +302,8 @@
   <field name="help" eval="False"/>
   <field name="limit">80</field>
   <field name="multi" eval="False"/>
-  <field name="name">Purchase Orders</field>
-  <field name="res_model">purchase.order</field>
+  <field name="name">Vendor Bills</field>
+  <field name="res_model">mrp.workcenter.productivity</field>
   <field name="search_view_id" eval="False"/>
   <field name="src_model" eval="False"/>
   <field name="target">current</field>
