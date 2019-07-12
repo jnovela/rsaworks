@@ -7,4 +7,4 @@ class WC(models.Model):
     _inherit = 'mrp.workcenter.productivity'
 
     ssi_job_id = fields.Many2one(
-        'workorder_id.ssi_job_id', string='Job')
+        'ssi_jobs', related='workorder_id.ssi_job_id', string='Job')
