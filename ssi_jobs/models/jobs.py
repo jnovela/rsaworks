@@ -136,7 +136,7 @@ class Jobs(models.Model):
         for x in results:
             dic[x['ssi_job_id'][0]] = x['ssi_job_id_count']
         for record in self:
-            record.ai_count = dic.get(
+            record.prod_count = dic.get(
                 record.id, 0)
 
     @api.depends('order_total')
@@ -147,7 +147,7 @@ class Jobs(models.Model):
         for x in results:
             dic[x['ssi_job_id'][0]] = x['ssi_job_id_count']
         for record in self:
-            record.ai_count = dic.get(
+            record.wo_count = dic.get(
                 record.id, 0)
 
     @api.depends('order_total')
@@ -158,5 +158,5 @@ class Jobs(models.Model):
         for x in results:
             dic[x['ssi_job_id'][0]] = x['ssi_job_id_count']
         for record in self:
-            record.ai_count = dic.get(
+            record.wc_count = dic.get(
                 record.id, 0)
