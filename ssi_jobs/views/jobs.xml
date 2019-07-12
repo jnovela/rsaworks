@@ -23,10 +23,10 @@
                 </button>
 
                 <button class="oe_stat_button" icon="fa-file-o" type="object" name="action_view_wo_count">
-                  <field name="wo_count" string="Vendor Bills" widget="statinfo"/>
+                  <field name="wo_count" string="Work Orders" widget="statinfo"/>
                 </button>
                 <button class="oe_stat_button" icon="fa-file-o" type="object" name="action_view_wc_count">
-                  <field name="wc_count" string="Vendor Bills" widget="statinfo"/>
+                  <field name="wc_count" string="Timesheets" widget="statinfo"/>
                 </button>
 
                 <button name="toggle_active" type="object"
