@@ -94,7 +94,7 @@
 <record id="jobs_action" model="ir.actions.act_window">
     <field name="name">Jobs</field>
     <field name="res_model">ssi_jobs</field>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">kanban,tree,form</field>
 </record>
 
 <menuitem id="jobs_menu" action="jobs_action"
