@@ -145,7 +145,7 @@
 
 <record id="ssi_po_tree" model="ir.ui.view">
     <field name="name">ssi_po.tree</field>
-    <field name="model">sale.order</field>
+    <field name="model">purchase.order</field>
     <field name="arch" type="xml">
         <tree string="Jobs">
             <field name="name"/>
@@ -189,7 +189,7 @@
 
 <record id="ssi_ai_tree" model="ir.ui.view">
     <field name="name">ssi_ai.tree</field>
-    <field name="model">sale.order</field>
+    <field name="model">account.invoice</field>
     <field name="arch" type="xml">
         <tree string="Jobs">
             <field name="vendor_display_name"/>
@@ -233,7 +233,7 @@
 
 <record id="ssi_prod_tree" model="ir.ui.view">
     <field name="name">ssi_prod.tree</field>
-    <field name="model">sale.order</field>
+    <field name="model">mrp.production</field>
     <field name="arch" type="xml">
         <tree string="Jobs">
             <field name="name"/>
@@ -267,7 +267,7 @@
 
 <record id="ssi_wo_tree" model="ir.ui.view">
     <field name="name">ssi_wo.tree</field>
-    <field name="model">sale.order</field>
+    <field name="model">mrp.workorder</field>
     <field name="arch" type="xml">
         <tree string="Jobs">
             <field name="name"/>
@@ -302,7 +302,7 @@
 
 <record id="ssi_wc_tree" model="ir.ui.view">
     <field name="name">ssi_wc.tree</field>
-    <field name="model">sale.order</field>
+    <field name="model">mrp.workcenter.productivity</field>
     <field name="arch" type="xml">
         <tree string="Jobs">
             <field name="name"/>
