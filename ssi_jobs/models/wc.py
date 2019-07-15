@@ -8,7 +8,7 @@ class WC(models.Model):
 
     # ssi_job_id = fields.Many2one(
     #     'ssi_jobs', related='workorder_id.ssi_job_id', string='Job')
-    # ssi_job_id = fields.Many2one(
-    #     'ssi_jobs', string='Job')
     ssi_job_id = fields.Many2one(
-        'workorder_id.ssi_job_id', relation="ssi_jobs", string='Job')
+        'ssi_jobs', string='Job')
+    # ssi_job_id = fields.Many2one(
+    #     'workorder_id.ssi_job_id', relation="ssi_jobs", string='Job')
