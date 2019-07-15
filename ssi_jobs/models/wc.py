@@ -11,4 +11,4 @@ class WC(models.Model):
     # ssi_job_id = fields.Many2one(
     #     'ssi_jobs', string='Job')
     ssi_job_id = fields.Many2one(
-        related='workorder_id.ssi_job_id', relation="ssi_jobs.ssi_jobs" string='Job')
+        related='workorder_id.ssi_job_id', relation="ssi_jobs.ssi_jobs", string='Job')
