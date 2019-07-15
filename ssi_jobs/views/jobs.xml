@@ -149,7 +149,7 @@
     <field name="arch" type="xml">
         <tree string="Jobs">
             <field name="name"/>
-            <field name="ssi_job_id"/>
+            <!-- <field name="ssi_job_id"/> -->
             <field name="date_order"/>
             <field name="partner_id"/>
             <!-- <field name="date_planned"/> -->
@@ -236,7 +236,7 @@
     <field name="model">mrp.production</field>
     <field name="arch" type="xml">
         <tree string="Jobs">
-            <!-- <field name="ssi_job_id"/> -->
+            <field name="ssi_job_id"/>
             <field name="name"/>
             <!-- <field name="partner_id"/> -->
             <field name="date_planned_start"/>
