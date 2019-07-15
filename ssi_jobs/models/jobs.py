@@ -150,13 +150,13 @@ class Jobs(models.Model):
             record.wo_count = dic.get(
                 record.id, 0)
 
-    @api.depends('order_total')
-    def _get_wc_count(self):
-        results = self.env['mrp.workcenter.productivity'].read_group(
-            [('ssi_job_id', 'in', self.ids)], 'ssi_job_id', 'ssi_job_id')
-        dic = {}
-        for x in results:
-            dic[x['ssi_job_id'][0]] = x['ssi_job_id_count']
-        for record in self:
-            record.wc_count = dic.get(
-                record.id, 0)
+    # @api.depends('order_total')
+    # def _get_wc_count(self):
+    #     results = self.env['mrp.workcenter.productivity'].read_group(
+    #         [('ssi_job_id', 'in', self.ids)], 'ssi_job_id', 'ssi_job_id')
+    #     dic = {}
+    #     for x in results:
+    #         dic[x['ssi_job_id'][0]] = x['ssi_job_id_count']
+    #     for record in self:
+    #         record.wc_count = dic.get(
+    #             record.id, 0)
