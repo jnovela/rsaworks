@@ -236,7 +236,17 @@
     <field name="model">mrp.production</field>
     <field name="arch" type="xml">
         <tree string="Jobs">
+            <field name="ssi_job_id"/>
             <field name="name"/>
+            <!-- <field name="partner_id"/> -->
+            <field name="date_planned_start"/>
+            <field name="product_id"/>
+            <field name="origin"/>
+            <field name="product_qty"/>
+            <field name="product_uom_id"/>
+            <field name="availability"/>
+            <field name="routing_id"/>
+            <field name="state"/>
         </tree>
     </field>
 </record>
@@ -270,8 +280,16 @@
     <field name="model">mrp.workorder</field>
     <field name="arch" type="xml">
         <tree string="Jobs">
+            <field name="ssi_job_id"/>
             <field name="name"/>
-            <field class="hidden" name="state"/>
+            <field name="date_planned_start"/>
+            <field name="date_planned_finished"/>
+            <field name="workcenter_id"/>
+            <field name="production_id"/>
+            <field name="duration_expected"/>
+            <field name="duration"/>
+            <field name="product_id"/>
+            <field name="state"/>
         </tree>
     </field>
 </record>
@@ -305,7 +323,12 @@
     <field name="model">mrp.workcenter.productivity</field>
     <field name="arch" type="xml">
         <tree string="Jobs">
-            <field name="name"/>
+            <field name="date_start"/>
+            <field name="date_end"/>
+            <field name="workcenter_id"/>
+            <field name="user_id"/>
+            <field name="loss_id"/>
+            <field name="duration"/>
         </tree>
     </field>
 </record>
