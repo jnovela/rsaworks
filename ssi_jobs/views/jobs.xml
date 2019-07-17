@@ -86,7 +86,7 @@
 </record>
 
 
-<record id="jobs_stage_tree" model="ir.ui.view">
+<!-- <record id="jobs_stage_tree" model="ir.ui.view">
     <field name="name">jobs.tree</field>
     <field name="model">ssi_jobs_stage</field>
     <field name="arch" type="xml">
@@ -95,7 +95,7 @@
         </tree>
     </field>
 </record>
-
+ -->
 <record id="jobs_search" model="ir.ui.view">
     <field name="name">jobs.search</field>
     <field name="model">ssi_jobs</field>
@@ -118,16 +118,16 @@
     <field name="res_model">ssi_jobs</field>
     <field name="view_mode">kanban,tree,form</field>
 </record>
-<record id="jobs_stage_action" model="ir.actions.act_window">
+<!-- <record id="jobs_stage_action" model="ir.actions.act_window">
     <field name="name">Job Stages</field>
     <field name="res_model">ssi_jobs_stage</field>
     <field name="view_mode">tree,form</field>
-</record>
+</record> -->
 
 <menuitem id="jobs_menu" action="jobs_action"
    sequence="100"/>
-<menuitem id="jobs_stage_menu" action="jobs_stage_action"
-   sequence="100"/>
+<!-- <menuitem id="jobs_stage_menu" action="jobs_stage_action"
+   sequence="100"/> -->
 
 
 <record id="ssi_estimate_tree" model="ir.ui.view">
