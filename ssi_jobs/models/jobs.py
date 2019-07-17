@@ -23,7 +23,7 @@ class Jobs(models.Model):
     # NECESSARY SUPPORT
     currency_id = fields.Many2one('res.currency', string='Account Currency',
                                   help="Forces all moves for this account to have this account currency.")
-    stage_id = fields.Many2one(relation='ssi_jobs_stage', string='Stage')
+    stage_id = fields.Many2one(related='ssi_jobs_stage', string='Stage')
 
     # LEFT
     name = fields.Char(required=True, index=True)
