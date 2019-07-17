@@ -88,7 +88,7 @@
 
 <record id="jobs_stage_tree" model="ir.ui.view">
     <field name="name">jobs.tree</field>
-    <field name="model">ssi_job_stage</field>
+    <field name="model">ssi_jobs_stage</field>
     <field name="arch" type="xml">
         <tree string="Jobs">
             <field name="name"/>
