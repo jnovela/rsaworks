@@ -124,10 +124,10 @@
     <field name="view_mode">tree,form</field>
 </record>
 
-<!-- <menuitem id="jobs_menu" action="jobs_action"
-   sequence="100"/> -->
+<menuitem id="jobs_menu" action="jobs_action"
+   sequence="100" name="jobs_menu"/>
 <menuitem id="jobs_stage_menu" action="jobs_stage_action"
-   sequence="100"/>
+   sequence="100" name="jobs_stage_menu"/>
 
 
 <record id="ssi_estimate_tree" model="ir.ui.view">
