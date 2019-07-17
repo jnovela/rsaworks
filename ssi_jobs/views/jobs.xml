@@ -64,7 +64,7 @@
 </record>
 
 
-  <record <record model="ir.ui.view" id="jobs_kanban">
+  <record model="ir.ui.view" id="jobs_kanban">
     <field name="name">jobs.kanban</field>
     <field name="model">ssi_jobs</field>
     <field name="type">kanban</field>
