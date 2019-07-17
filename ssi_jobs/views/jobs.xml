@@ -124,9 +124,9 @@
     <field name="view_mode">tree,form</field>
 </record>
 
-<menuitem id="jobs_menu" action="jobs_action"
+<menuitem id="jobs_menu" action="jobs_stage_action"
    sequence="100"/>
-<menuitem id="jobs_stage_menu" action="jobs_stage_action"
+<!-- <menuitem id="jobs_stage_menu" action="jobs_stage_action" -->
    sequence="100"/>
 
 
