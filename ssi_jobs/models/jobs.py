@@ -1,3 +1,6 @@
+# © 2017 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
@@ -23,7 +26,6 @@ class Jobs(models.Model):
     # NECESSARY SUPPORT
     currency_id = fields.Many2one('res.currency', string='Account Currency',
                                   help="Forces all moves for this account to have this account currency.")
-    stage_id = fields.Many2one('ssi_jobs_stage', string='Stage')
 
     # LEFT
     name = fields.Char(required=True, index=True)
