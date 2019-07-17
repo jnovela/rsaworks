@@ -1,4 +1,5 @@
 from . import jobs
+from . import jobs_stage
 from . import so
 from . import ai
 from . import wc
