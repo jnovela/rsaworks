@@ -80,24 +80,25 @@
                 <t t-name="kanban-box">
 
                     <div color="color" t-attf-class="oe_kanban_card oe_kanban_global_click">
-                                    <div class="o_dropdown_kanban dropdown" name="kanban_dropdown">
-                    <a class="dropdown-toggle o-no-caret btn" data-toggle="dropdown" href="#">
-                    <span class="fa fa-bars fa-lg"/>
-                    </a>
-                    <div class="dropdown-menu" role="menu" name="ssi_div_e9f40d">
-                    <t t-if="widget.editable">
-                        <a type="edit" class="dropdown-item">Edit</a>
-                    </t>
-                    <t t-if="widget.deletable">
-                        <a type="delete" class="dropdown-item">Delete</a>
-                    </t>
-                    <ul class="oe_kanban_colorpicker" data-field="color"/>
-                    </div>
-                </div>
-                <div class="oe_kanban_bottom_left" name="studio_div_d9f9e7">
-                    <field name="urgency" widget="priority" default_value="straight"/>
-                </div>
-                <div class="oe_kanban_bottom_right" name="ssi_div_d9f9e8"></div>
+                        
+                        <div class="o_dropdown_kanban dropdown" name="kanban_dropdown">
+                            <a class="dropdown-toggle o-no-caret btn" data-toggle="dropdown" href="#">
+                            <span class="fa fa-bars fa-lg"/>
+                            </a>
+                            <div class="dropdown-menu" role="menu" name="ssi_div_e9f40d">
+                            <t t-if="widget.editable">
+                                <a type="edit" class="dropdown-item">Edit</a>
+                            </t>
+                            <t t-if="widget.deletable">
+                                <a type="delete" class="dropdown-item">Delete</a>
+                            </t>
+                            <ul class="oe_kanban_colorpicker" data-field="color"/>
+                            </div>
+                        </div>
+                        <div class="oe_kanban_bottom_left" name="studio_div_d9f9e7">
+                            <field name="urgency" widget="priority" default_value="straight"/>
+                        </div>
+                        <div class="oe_kanban_bottom_right" name="ssi_div_d9f9e8"></div>
 
                         <div class="o_kanban_card_content">
                             <field bold="True" name="name" modifiers="{}"/>
