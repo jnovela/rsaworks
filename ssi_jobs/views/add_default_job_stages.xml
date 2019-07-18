@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<odoo>
+  <data noupdate="1" >
+    <!-- Migration for "project_service_profiling". Can be skipped if that module is not in use. -->
+    <function model="ssi_jobs_stage" name="_add_default_records_on_install"/>
+  </data>
+</odoo>
