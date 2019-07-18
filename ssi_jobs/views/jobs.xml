@@ -115,6 +115,17 @@
     </field>
 </record>
 
+<record id="jobs_dashboard" model="ir.ui.view">
+    <field name="name">jobs.dashboard</field>
+    <field name="model">ssi_jobs</field>
+    <field name="arch" type="xml">
+        <dashboard string="Jobs">
+            <view type="graph"/>
+            <view type="pivot"/>
+        </dashboard>
+    </field>
+</record>
+
 
 <record id="jobs_stage_tree" model="ir.ui.view">
     <field name="name">jobs.tree</field>
@@ -146,7 +157,7 @@
 <record id="jobs_action" model="ir.actions.act_window">
     <field name="name">Jobs</field>
     <field name="res_model">ssi_jobs</field>
-    <field name="view_mode">kanban,tree,form</field>
+    <field name="view_mode">kanban,tree,dashboard,form</field>
 </record>
 <record id="jobs_stage_action" model="ir.actions.act_window">
     <field name="name">Job Stages</field>
