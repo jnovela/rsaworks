@@ -183,7 +183,7 @@
 <record id="jobs_action" model="ir.actions.act_window">
     <field name="name">Jobs</field>
     <field name="res_model">ssi_jobs</field>
-    <field name="view_mode">kanban,tree,dashboard,form</field>
+    <field name="view_mode">kanban,tree,dashboard,pivot,form</field>
 </record>
 <record id="jobs_stage_action" model="ir.actions.act_window">
     <field name="name">Job Stages</field>
