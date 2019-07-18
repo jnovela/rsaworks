@@ -139,15 +139,15 @@
   <record id="jobs_pivot" model="ir.ui.view">
     <field name="active" eval="True"/>
     <field name="arch" type="xml">
-      <pivot display_quantit="true" string="Jobs"/>
+      <pivot display_quantity="true" string="Jobs"/>
     </field>
     <field name="field_parent" eval="False"/>
     <field name="groups_id" eval="[(6, 0, [])]"/>
     <field name="inherit_id" eval="False"/>
     <field name="key" eval="False"/>
     <field name="mode">primary</field>
-    <field name="model">x_jobs</field>
-    <field name="name">Default pivot view for x_jobs</field>
+    <field name="model">ssi_jobs</field>
+    <field name="name">Default pivot view for ssi_jobs</field>
     <field name="priority">16</field>
     <field name="type">pivot</field>
   </record>
