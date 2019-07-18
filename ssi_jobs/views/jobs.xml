@@ -7,6 +7,12 @@
     <field name="model">ssi_jobs</field>
     <field name="arch" type="xml">
         <form string="Jobs">
+            <header>
+                <button name="751" type="action" class="oe_stat_button" icon="fa-wrench" string="Start Job"/>
+                <button name="752" type="action" class="oe_stat_button" icon="fa-dollar" string="Create Estimate" context="{'default_partner_id': partner_id, 'default_ssi_jobs': active_id}"/>
+                <button name="758" type="action" class="oe_stat_button" icon="fa-credit-card" string="Order Parts" context="{'default_ssi_jobs': active_id}"/>
+            </header>
+
             <div class="oe_button_box" name="button_box">
                 <button class="oe_stat_button" icon="fa-dollar" type="object" name="action_view_estimates">
                   <field name="order_total" string="Estimate" widget="statinfo"/>
@@ -180,6 +186,8 @@
     </field>
 </record>
 
+
+<!-- FOR DASHBOARD TO WORK DONT FORGET TO INSTALL DASHBOARD MODULE -->
 <record id="jobs_action" model="ir.actions.act_window">
     <field name="name">Jobs</field>
     <field name="res_model">ssi_jobs</field>
