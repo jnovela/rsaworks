@@ -11,13 +11,13 @@ class JobsStage(models.Model):
 
     def _add_default_records_on_install(self):
         default_records = [
-            'New Job',
-            'Inspection',
-            'Review',
-            'Quotation Sent',
-            'Awaiting Parts',
-            'Under Repair',
-            'Job Complete'
+            {'name': 'New Job'},
+            {'name': 'Inspection'},
+            {'name': 'Review'},
+            {'name': 'Quotation Sent'},
+            {'name': 'Awaiting Parts'},
+            {'name': 'Under Repair'},
+            {'name': 'Job Complete'}
         ]
         for record in default_records:
-            self.create({'name': record})
+            self.create({'name': record.name})
