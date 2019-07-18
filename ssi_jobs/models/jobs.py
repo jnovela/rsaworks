@@ -53,6 +53,8 @@ class Jobs(models.Model):
         [('ready', 'Ready'), ('process', 'In Process'), ('done', 'Complete'), ('blocked', 'Blocked')], string='Status')
 
     # OTHER
+    color = fields.Integer(string='Color')
+    serial = fields.Char(String="Serial #")
 
     _sql_constraints = [(
         'name_unique',
