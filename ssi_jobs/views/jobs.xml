@@ -115,16 +115,42 @@
     </field>
 </record>
 
-<record id="jobs_dashboard" model="ir.ui.view">
-    <field name="name">jobs.dashboard</field>
-    <field name="model">ssi_jobs</field>
+  <!-- DASHBOARD -->
+  <!-- <record id="studio_customization.default_dashboard_vi_421f42a4-00e6-43d6-b7b5-a5534530281c" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
     <field name="arch" type="xml">
-        <dashboard string="Jobs">
-            <view type="graph"/>
-            <view type="pivot"/>
-        </dashboard>
+      <dashboard>
+        <view type="graph"/>
+        <view type="pivot"/>
+      </dashboard>
     </field>
-</record>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key" eval="False"/>
+    <field name="mode">primary</field>
+    <field name="model">x_jobs</field>
+    <field name="name">Default dashboard view for x_jobs</field>
+    <field name="priority">16</field>
+    <field name="type">dashboard</field>
+  </record> -->
+
+<!-- PIVOT -->
+  <record id="jobs_pivot" model="ir.ui.view">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <pivot display_quantit="true" string="Jobs"/>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key" eval="False"/>
+    <field name="mode">primary</field>
+    <field name="model">x_jobs</field>
+    <field name="name">Default pivot view for x_jobs</field>
+    <field name="priority">16</field>
+    <field name="type">pivot</field>
+  </record>
 
 
 <record id="jobs_stage_tree" model="ir.ui.view">
@@ -173,6 +199,8 @@
    sequence="100" name="Job Stages"/>
 
 
+
+<!-- JOB RELATED FIELDS TREES AND FORMS -->
 <record id="ssi_estimate_tree" model="ir.ui.view">
     <field name="name">ssi_estimate.tree</field>
     <field name="model">sale.order</field>
