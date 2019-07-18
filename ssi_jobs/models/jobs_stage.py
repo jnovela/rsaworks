@@ -20,4 +20,4 @@ class JobsStage(models.Model):
             {'name': 'Job Complete'}
         ]
         for record in default_records:
-            self.create({record)
+            self.create(record)
