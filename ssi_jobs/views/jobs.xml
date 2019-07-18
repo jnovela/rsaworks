@@ -78,7 +78,9 @@
             <templates>
 
                 <t t-name="kanban-box">
-                <div class="o_dropdown_kanban dropdown" name="kanban_dropdown">
+
+                    <div color="color" t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                    <div class="o_dropdown_kanban dropdown" name="kanban_dropdown">
                     <a class="dropdown-toggle o-no-caret btn" data-toggle="dropdown" href="#">
                     <span class="fa fa-bars fa-lg"/>
                     </a>
@@ -97,7 +99,6 @@
                 </div>
                 <div class="oe_kanban_bottom_right" name="ssi_div_d9f9e8"></div>
 
-                    <div color="color" t-attf-class="oe_kanban_card oe_kanban_global_click">
                         <div class="o_kanban_card_content">
                             <field bold="True" name="name" modifiers="{}"/>
                             <field name="partner_id" display="full"/>
