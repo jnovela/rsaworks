@@ -12,59 +12,60 @@
                 <button name="752" type="action" class="oe_stat_button" icon="fa-dollar" string="Create Estimate" context="{'default_partner_id': partner_id, 'default_ssi_jobs': active_id}"/>
                 <button name="758" type="action" class="oe_stat_button" icon="fa-credit-card" string="Order Parts" context="{'default_ssi_jobs': active_id}"/>
             </header>
+            <sheet string="Jobs">
+                <div class="oe_button_box" name="button_box">
+                    <button class="oe_stat_button" icon="fa-dollar" type="object" name="action_view_estimates">
+                    <field name="order_total" string="Estimate" widget="statinfo"/>
+                    </button>
+                    <button class="oe_stat_button" icon="fa-credit-card" type="object" name="action_view_po_count">
+                    <field name="po_count" string="Purchase Orders" placeholder="Purchase Orders" widget="statinfo"/>
+                    </button>
+                    <button class="oe_stat_button" icon="fa-file-o" type="object" name="action_view_ai_count">
+                    <field name="ai_count" string="Vendor Bills" widget="statinfo"/>
+                    </button>
 
-            <div class="oe_button_box" name="button_box">
-                <button class="oe_stat_button" icon="fa-dollar" type="object" name="action_view_estimates">
-                  <field name="order_total" string="Estimate" widget="statinfo"/>
-                </button>
-                <button class="oe_stat_button" icon="fa-credit-card" type="object" name="action_view_po_count">
-                  <field name="po_count" string="Purchase Orders" placeholder="Purchase Orders" widget="statinfo"/>
-                </button>
-                <button class="oe_stat_button" icon="fa-file-o" type="object" name="action_view_ai_count">
-                  <field name="ai_count" string="Vendor Bills" widget="statinfo"/>
-                </button>
+                    <button class="oe_stat_button" icon="fa-wrench" type="object" name="action_view_prod_count">
+                    <field name="prod_count" string="Operations" widget="statinfo"/>
+                    </button>
 
-                <button class="oe_stat_button" icon="fa-wrench" type="object" name="action_view_prod_count">
-                  <field name="prod_count" string="Operations" widget="statinfo"/>
-                </button>
+                    <button class="oe_stat_button" icon="fa-file-o" type="object" name="action_view_wo_count">
+                    <field name="wo_count" string="Work Orders" widget="statinfo"/>
+                    </button>
+                    <button class="oe_stat_button" icon="fa-file-o" type="object" name="action_view_wc_count">
+                    <field name="wc_count" string="Timesheets" widget="statinfo"/>
+                    </button>
 
-                <button class="oe_stat_button" icon="fa-file-o" type="object" name="action_view_wo_count">
-                  <field name="wo_count" string="Work Orders" widget="statinfo"/>
-                </button>
-                <button class="oe_stat_button" icon="fa-file-o" type="object" name="action_view_wc_count">
-                  <field name="wc_count" string="Timesheets" widget="statinfo"/>
-                </button>
-
-                <button name="toggle_active" type="object"
-                    class="oe_stat_button" icon="fa-archive">
-                    <field name="active" widget="boolean_button"
-                        options='{"terminology": "archive"}'/>
-                </button>
-            </div>
-            <group name="main">
-                <group name="left">
-                    <field name="name"/>
-                    <field name="partner_id"/>
-                    <field name="objects"/>
-                    <field name="size"/>
-                    <field name="sizeUM"/>
-                    <field name="shaft"/>
-                    <field name="dimensions"/>
+                    <button name="toggle_active" type="object"
+                        class="oe_stat_button" icon="fa-archive">
+                        <field name="active" widget="boolean_button"
+                            options='{"terminology": "archive"}'/>
+                    </button>
+                </div>
+                <group name="main">
+                    <group name="left">
+                        <field name="name"/>
+                        <field name="partner_id"/>
+                        <field name="objects"/>
+                        <field name="size"/>
+                        <field name="sizeUM"/>
+                        <field name="shaft"/>
+                        <field name="dimensions"/>
+                    </group>
+                    <group name="right">
+                        <field name="ready_for_pickup"/>
+                        <field name="urgency"/>
+                        <field name="po_number"/>
+                        <field name="weight"/>
+                        <field name="weightUM"/>
+                        <field name="notes"/>
+                        <field name="status"/>
+                    </group>
                 </group>
-                <group name="right">
-                    <field name="ready_for_pickup"/>
-                    <field name="urgency"/>
-                    <field name="po_number"/>
-                    <field name="weight"/>
-                    <field name="weightUM"/>
-                    <field name="notes"/>
-                    <field name="status"/>
-                </group>
-            </group>
-          <notebook>
-            <page name="equipment" string="Equioment"/>
-            <page name="info" string="Creation Info"/>
-          </notebook>
+            <notebook>
+                <page name="equipment" string="Equioment"/>
+                <page name="info" string="Creation Info"/>
+            </notebook>
+          </sheet>
         </form>
     </field>
 </record>
