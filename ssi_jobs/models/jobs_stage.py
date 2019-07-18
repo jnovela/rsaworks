@@ -9,7 +9,8 @@ class JobsStage(models.Model):
     name = fields.Char(string='Name')
     display_name = fields.Char(string='Display Name', readonly=True, track_visibility="onchange")
 
-    def _add_default_records_on_install(self):
+    @api.multi
+    def add_default_records_on_install(self):
         default_records = [
             {'name': 'New Job'},
             {'name': 'Inspection'},
