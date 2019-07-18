@@ -11,14 +11,21 @@ class JobsStage(models.Model):
 
     @api.multi
     def add_default_records_on_install(self):
-        default_records = [
-            {'name': 'New Job'},
-            {'name': 'Inspection'},
-            {'name': 'Review'},
-            {'name': 'Quotation Sent'},
-            {'name': 'Awaiting Parts'},
-            {'name': 'Under Repair'},
-            {'name': 'Job Complete'}
-        ]
-        for record in default_records:
-            self.create(record)
+        # default_records = [
+        #     {'name': 'New Job'},
+        #     {'name': 'Inspection'},
+        #     {'name': 'Review'},
+        #     {'name': 'Quotation Sent'},
+        #     {'name': 'Awaiting Parts'},
+        #     {'name': 'Under Repair'},
+        #     {'name': 'Job Complete'}
+        # ]
+        # for record in default_records:
+        self.create({'name': 'New Job'})
+        self.create({'name': 'Inspection'})
+        self.create({'name': 'Review'})
+        self.create({'name': 'Quotation Sent'})
+        self.create({'name': 'Awaiting Parts'})
+        self.create({'name': 'Under Repair'})
+        self.create({'name': 'Job Complete'})
+        
