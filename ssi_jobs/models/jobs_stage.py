@@ -9,6 +9,7 @@ class JobsStage(models.Model):
     name = fields.Char(string='Name')
     display_name = fields.Char(string='Display Name', readonly=True, track_visibility="onchange")
 
+    @api.depends('name')
     def add_default_records_on_install(self):
         raise UserError(_('TEST un deux'))
 
