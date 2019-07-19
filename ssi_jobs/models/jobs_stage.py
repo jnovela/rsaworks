@@ -9,9 +9,9 @@ class JobsStage(models.Model):
     name = fields.Char(string='Name')
     display_name = fields.Char(string='Display Name', readonly=True, track_visibility="onchange")
 
-    @api.depends('name')
+    @api.one
     def add_default_records_on_install(self):
-        raise UserError(_('TEST un deux'))
+        # raise UserError(_('TEST un deux'))
 
         # default_records = [
         #     {'name': 'New Job'},
@@ -23,11 +23,11 @@ class JobsStage(models.Model):
         #     {'name': 'Job Complete'}
         # ]
         # for record in default_records:
-        # self.create({'name': 'New Job'})
-        # self.create({'name': 'Inspection'})
-        # self.create({'name': 'Review'})
-        # self.create({'name': 'Quotation Sent'})
-        # self.create({'name': 'Awaiting Parts'})
-        # self.create({'name': 'Under Repair'})
-        # self.create({'name': 'Job Complete'})
+        self.create({'name': 'New Job'})
+        self.create({'name': 'Inspection'})
+        self.create({'name': 'Review'})
+        self.create({'name': 'Quotation Sent'})
+        self.create({'name': 'Awaiting Parts'})
+        self.create({'name': 'Under Repair'})
+        self.create({'name': 'Job Complete'})
         
