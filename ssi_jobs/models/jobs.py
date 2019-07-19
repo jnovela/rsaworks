@@ -23,7 +23,12 @@ class Jobs(models.Model):
     # NECESSARY SUPPORT
     currency_id = fields.Many2one('res.currency', string='Account Currency',
                                   help="Forces all moves for this account to have this account currency.")
-    stage_id = fields.Many2one('ssi_jobs_stage', string='Stage')
+    stage_id = fields.Many2one('ssi_jobs_stage', group_expand='_read_group_stage_ids', string='Stage')
+
+    @api.model
+    def _read_group_stage_ids(self,stages,domain,order):
+        stage_ids = self.env['ssi_jobs_stage'].search([])
+        return stage_ids
 
     # LEFT
     name = fields.Char(required=True, index=True)
