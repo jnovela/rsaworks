@@ -448,8 +448,8 @@
     <field name="auto_search" eval="True"/>
     <field name="binding_model_id" eval="False"/>
     <field name="binding_type">action</field>
-    <field name="context">{'search_default_x_studio_job': active_id,'default_x_studio_job': active_id}</field>
-    <field name="domain">[('x_studio_job', '=', active_id)]</field>
+    <field name="context">{'search_default_ssi_jobs': active_id,'default_ssi_jobs': active_id}</field>
+    <field name="domain">[('ssi_jobs', '=', active_id)]</field>
     <field name="filter" eval="False"/>
     <field name="groups_id" eval="[(6, 0, [])]"/>
     <field name="help" eval="False"/>
