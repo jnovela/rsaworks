@@ -444,6 +444,29 @@
     </field>
 </record>
 
+<record id="ssi_jobs_new_po_button" model="ir.actions.act_window">
+    <field name="auto_search" eval="True"/>
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="context">{'search_default_x_studio_job': active_id,'default_x_studio_job': active_id}</field>
+    <field name="domain">[('x_studio_job', '=', active_id)]</field>
+    <field name="filter" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="help" eval="False"/>
+    <field name="limit">80</field>
+    <field name="multi" eval="False"/>
+    <field name="name">Purchase Orders</field>
+    <field name="res_model">purchase.order</field>
+    <field name="search_view_id" eval="False"/>
+    <field name="src_model" eval="False"/>
+    <field name="target">current</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="usage" eval="False"/>
+    <field name="view_id" eval="False"/>
+    <field name="view_mode">tree,form</field>
+    <field name="view_type">form</field>
+</record>
+
 
 <record id="sale_order_wc_line_action" model="ir.actions.act_window">
   <field name="auto_search" eval="True"/>
@@ -493,28 +516,6 @@
     <field name="view_type">form</field>
 </record> -->
 
-  <record id="ssi_jobs_new_po_button" model="ir.actions.act_window">
-    <field name="auto_search" eval="True"/>
-    <field name="binding_model_id" eval="False"/>
-    <field name="binding_type">action</field>
-    <field name="context">{'search_default_x_studio_job': active_id,'default_x_studio_job': active_id}</field>
-    <field name="domain">[('x_studio_job', '=', active_id)]</field>
-    <field name="filter" eval="False"/>
-    <field name="groups_id" eval="[(6, 0, [])]"/>
-    <field name="help" eval="False"/>
-    <field name="limit">80</field>
-    <field name="multi" eval="False"/>
-    <field name="name">Purchase Orders</field>
-    <field name="res_model">purchase.order</field>
-    <field name="search_view_id" eval="False"/>
-    <field name="src_model" eval="False"/>
-    <field name="target">current</field>
-    <field name="type">ir.actions.act_window</field>
-    <field name="usage" eval="False"/>
-    <field name="view_id" eval="False"/>
-    <field name="view_mode">tree,form</field>
-    <field name="view_type">form</field>
-  </record>
 
 
 
