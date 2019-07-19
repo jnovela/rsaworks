@@ -8,7 +8,7 @@
     <field name="arch" type="xml">
         <form string="Jobs">
             <header>
-                <button name="751" type="action" class="oe_stat_button" icon="fa-wrench" string="Start Job"/>
+                <button name="ssi_jobs_new_mrp_prod_button" type="action" class="oe_stat_button" icon="fa-wrench" string="Start Job"/>
                 <button name="752" type="action" class="oe_stat_button" icon="fa-dollar" string="Create Estimate" context="{'default_partner_id': partner_id, 'default_ssi_jobs': active_id}"/>
                 <button name="758" type="action" class="oe_stat_button" icon="fa-credit-card" string="Order Parts" context="{'default_ssi_jobs': active_id}"/>
                 <field name="stage_id" options="{'clickable': '1'}" widget="statusbar"/>
@@ -468,6 +468,30 @@
   <field name="view_type">form</field>
 </record>
 
+
+<!-- HEADER BUTTONS -->
+<record id="ssi_jobs_new_mrp_prod_button" model="ir.actions.act_window" name="ssi_jobs_new_mrp_prod_button">
+    <field name="auto_search" eval="True"/>
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="context">{'search_default_ssi_jobs': active_id}</field>
+    <field name="domain">[('ssi_jobs', '=', active_id)]</field>
+    <field name="filter" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="help"><![CDATA[<p class="o_view_nocontent_smiling_face">Create a new manufacturing order</p>]]></field>
+    <field name="limit">80</field>
+    <field name="multi" eval="False"/>
+    <field name="name">Manufacture Orders</field>
+    <field name="res_model">mrp.production</field>
+    <field name="search_view_id" eval="False"/>
+    <field name="src_model" eval="False"/>
+    <field name="target">current</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="usage" eval="False"/>
+    <field name="view_id" eval="False"/>
+    <field name="view_mode">tree,form</field>
+    <field name="view_type">form</field>
+</record>
 
 
 
