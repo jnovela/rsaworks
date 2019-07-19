@@ -11,7 +11,7 @@
                 <button name="751" type="action" class="oe_stat_button" icon="fa-wrench" string="Start Job"/>
                 <button name="752" type="action" class="oe_stat_button" icon="fa-dollar" string="Create Estimate" context="{'default_partner_id': partner_id, 'default_ssi_jobs': active_id}"/>
                 <button name="758" type="action" class="oe_stat_button" icon="fa-credit-card" string="Order Parts" context="{'default_ssi_jobs': active_id}"/>
-                <!-- <field name="stage_id" options="{'clickable': '1'}" default_value="1" widget="statusbar"/> -->
+                <field name="stage_id" options="{'clickable': '1'}" default_value="1" widget="statusbar"/>
 
             </header>
             <sheet string="Jobs">
