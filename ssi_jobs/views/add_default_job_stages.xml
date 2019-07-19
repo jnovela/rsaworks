@@ -4,6 +4,6 @@
   <!-- <data noupdate="0"> -->
   <data>
     <!-- Migration for "project_service_profiling". Can be skipped if that module is not in use. -->
-    <function id="add_default_records_on_install" model="ssi_jobs_stage" name="add_default_records_on_install"/>
+    <function model="ssi_jobs_stage" name="add_default_records_on_install"/>
   </data>
 </odoo>
