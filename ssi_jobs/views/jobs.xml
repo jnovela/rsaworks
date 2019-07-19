@@ -470,7 +470,7 @@
 
 
 <!-- HEADER BUTTONS -->
-<record id="ssi_jobs_new_mrp_prod_button" model="ir.actions.act_window" name="ssi_jobs_new_mrp_prod_button">
+<!-- <record id="ssi_jobs_new_mrp_prod_button" model="ir.actions.act_window" name="ssi_jobs_new_mrp_prod_button">
     <field name="auto_search" eval="True"/>
     <field name="binding_model_id" eval="False"/>
     <field name="binding_type">action</field>
@@ -491,7 +491,7 @@
     <field name="view_id" eval="False"/>
     <field name="view_mode">tree,form</field>
     <field name="view_type">form</field>
-</record>
+</record> -->
 
 
 
