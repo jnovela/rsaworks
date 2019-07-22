@@ -9,8 +9,8 @@ class AttendanceReport(models.Model):
     _name = "hr.attendance.report"
     _description = "Attendance Report"
     _auto = False
-    _rec_name = 'id'
-    _order = 'employee_id desc'
+    _rec_name = 'employee_id'
+    _order = 'employee_id desc, begin_date desc'
 
     employee_id = fields.Many2one('hr.employee', 'Id', readonly=True)
     det = fields.Char('Det', default="E", readonly=True)
@@ -18,8 +18,12 @@ class AttendanceReport(models.Model):
     hours = fields.Float('Hours', readonly=True)
     begin_datetime = fields.Datetime('Begin Date/Time', readonly=True)
     end_datetime = fields.Datetime('End Date/Time', readonly=True)
-    begin_date = fields.Date('Begin Date', readonly=True)
-    end_date = fields.Date('End Date', readonly=True)
+    begin_date = fields.Char('Begin Date', readonly=True)
+    end_date = fields.Char('End Date', readonly=True)
+    overtime = fields.Float('Over Time', readonly=True)
+    work_week = fields.Char('Work Week', readonly=True)
+#    begin_date = fields.Date('Begin Date', readonly=True)
+#    end_date = fields.Date('End Date', readonly=True)
     # amount = fields.Float('Amount', default=0, readonly=True)
     # rate = fields.Float('Rate', default=0, readonly=True)
     # rate_code = fields.Char('Rate Code', default="NONE",  readonly=True)
@@ -43,27 +47,46 @@ class AttendanceReport(models.Model):
         # with_ = ("WITH %s" % with_clause) if with_clause else ""
 
         select_ = """
-            a.id as id,
-            a.employee_id as employee_id,
-            ROUND(CAST(a.worked_hours + 0.00 as Decimal), 2) as hours,
-            CAST(a.check_in AS DATE) as begin_date,
-            CAST(a.check_out AS DATE) as end_date,
-            a.check_in as begin_datetime,
-            a.check_out as end_datetime,
-            'E' as det,
-            'REG' as det_code
-        """
-    
-
-        for field in fields.values():
-            select_ += field
-
-        from_ = """
+            SELECT
+                MIN(a.id) as id,
+                a.employee_id as employee_id,
+                c.name as work_week,
+                SUM(ROUND(CAST(a.worked_hours + 0.00 as Decimal), 2)) as hours,
+                DATE_TRUNC('week', a.check_in) as begin_date,
+                DATE_TRUNC('week', a.check_out) as end_date,
+                'E' as det,
+                'REG' as det_code,
+                GREATEST(sum(a.worked_hours)-40, 0) as overtime
+            FROM
                 hr_attendance a
-                %s
-        """ % from_clause
+                LEFT JOIN hr_employee b ON b.id = a.employee_id
+                LEFT JOIN resource_calendar c ON c.id = b.resource_calendar_id
+            WHERE
+                b.resource_calendar_id = 1
+            GROUP BY
+                employee_id, work_week, begin_date, end_date
+          UNION
+            SELECT
+                MIN(a.id) as id,
+                a.employee_id as employee_id,
+                c.name as work_week,
+                SUM(ROUND(CAST(a.worked_hours + 0.00 as Decimal), 2)) as hours,
+                DATE_TRUNC('week', a.check_in) as begin_date,
+                DATE_TRUNC('week', a.check_out) as end_date,
+                'E' as det,
+                'REG' as det_code,
+                GREATEST(sum(a.worked_hours)-6, 0) as overtime
+            FROM
+                hr_attendance a
+                LEFT JOIN hr_employee b ON b.id = a.employee_id
+                LEFT JOIN resource_calendar c ON c.id = b.resource_calendar_id
+            WHERE
+                b.resource_calendar_id = 3
+            GROUP BY
+                employee_id, work_week, begin_date, end_date
+        """
 
-        return '(SELECT %s FROM %s)' % (select_, from_)
+        return select_
 
     @api.model_cr
     def init(self):
