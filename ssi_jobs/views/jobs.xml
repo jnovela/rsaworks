@@ -493,8 +493,8 @@
     <field name="help" eval="False"/>
     <field name="limit">80</field>
     <field name="multi" eval="False"/>
-    <field name="name">Purchase Orders</field>
-    <field name="res_model">purchase.order</field>
+    <field name="name">Estimates</field>
+    <field name="res_model">sale.order</field>
     <field name="search_view_id" eval="False"/>
     <field name="src_model" eval="False"/>
     <field name="target">current</field>
