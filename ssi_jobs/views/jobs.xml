@@ -504,7 +504,7 @@
     <field name="view_type">form</field>
 </record>
 
-<record id="ssi_jobs_new_po_action" model="ir.actions.act_window">
+<record id="ssi_jobs_new_prod_action" model="ir.actions.act_window">
     <field name="auto_search" eval="True"/>
     <field name="binding_model_id" eval="False"/>
     <field name="binding_type">action</field>
@@ -513,17 +513,16 @@
     <field name="filter" eval="False"/>
     <field name="groups_id" eval="[(6, 0, [])]"/>
     <field name="help" eval="False"/>
-    <field name="limit">80</field>
     <field name="multi" eval="False"/>
     <field name="name">Estimates</field>
-    <field name="res_model">sale.order</field>
+    <field name="res_model">mrp.production</field>
     <field name="search_view_id" eval="False"/>
     <field name="src_model" eval="False"/>
     <field name="target">current</field>
     <field name="type">ir.actions.act_window</field>
     <field name="usage" eval="False"/>
     <field name="view_id" eval="False"/>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">form,tree</field>
     <field name="view_type">form</field>
 </record>
 

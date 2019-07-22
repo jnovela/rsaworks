@@ -122,10 +122,10 @@ class Jobs(models.Model):
         return action
 
     @api.multi
-    def ssi_jobs_new_po_button(self):
+    def ssi_jobs_new_mrp_prod_button(self):
         # raise UserError(_('TEST 1 '))
         action = self.env.ref(
-            'ssi_jobs.ssi_jobs_new_po_action').read()[0]
+            'ssi_jobs.ssi_jobs_new_prod_action').read()[0]
         action['domain'] = [('ssi_job_id', '=', self.id)]
         return action
 
