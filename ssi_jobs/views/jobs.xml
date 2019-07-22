@@ -481,32 +481,8 @@
   <field name="view_type">form</field>
 </record>
 
-
 <!-- HEADER BUTTONS -->
-<!-- <record id="ssi_jobs_new_mrp_prod_button" model="ir.actions.act_window" name="ssi_jobs_new_mrp_prod_button">
-    <field name="auto_search" eval="True"/>
-    <field name="binding_model_id" eval="False"/>
-    <field name="binding_type">action</field>
-    <field name="context">{'search_default_ssi_jobs': active_id}</field>
-    <field name="domain">[('ssi_jobs', '=', active_id)]</field>
-    <field name="filter" eval="False"/>
-    <field name="groups_id" eval="[(6, 0, [])]"/>
-    <field name="help"><![CDATA[<p class="o_view_nocontent_smiling_face">Create a new manufacturing order</p>]]></field>
-    <field name="limit">80</field>
-    <field name="multi" eval="False"/>
-    <field name="name">Manufacture Orders</field>
-    <field name="res_model">mrp.production</field>
-    <field name="search_view_id" eval="False"/>
-    <field name="src_model" eval="False"/>
-    <field name="target">current</field>
-    <field name="type">ir.actions.act_window</field>
-    <field name="usage" eval="False"/>
-    <field name="view_id" eval="False"/>
-    <field name="view_mode">tree,form</field>
-    <field name="view_type">form</field>
-</record> -->
-
-<!-- <record id="ssi_jobs_new_po_button" model="ir.actions.act_window">
+<record id="ssi_jobs_new_po_action" model="ir.actions.act_window">
     <field name="auto_search" eval="True"/>
     <field name="binding_model_id" eval="False"/>
     <field name="binding_type">action</field>
@@ -527,23 +503,7 @@
     <field name="view_id" eval="False"/>
     <field name="view_mode">tree,form</field>
     <field name="view_type">form</field>
-</record> -->
-
-
-
-<!-- <record id="sale_order_estimate_line_action" model="ir.actions.act_window">
-        <field name="name">Estimates</field>
-        <field name="res_model">sale.order</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree, form</field>
-        <field name="view_id" ref="view_move_line_tree"/>
-        <field name="help" type="html">
-          <p class="o_view_nocontent_empty_folder">
-            There's no product move yet
-          </p>
-        </field>
-</record> -->
+</record>
 
 
 </odoo>
