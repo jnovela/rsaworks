@@ -116,11 +116,11 @@ class Jobs(models.Model):
 
     @api.multi
     def ssi_jobs_new_po_button(self):
-        raise UserError(_('TEST 1 '))
-        # action = self.env.ref(
-        #     'ssi_jobs.ssi_jobs_new_po_action').read()[0]
-        # action['domain'] = [('ssi_job_id', '=', self.id)]
-        # return action
+        # raise UserError(_('TEST 1 '))
+        action = self.env.ref(
+            'ssi_jobs.ssi_jobs_new_po_action').read()[0]
+        action['domain'] = [('ssi_job_id', '=', self.id)]
+        return action
 
 
     @api.depends('order_total')
