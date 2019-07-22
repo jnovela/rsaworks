@@ -129,6 +129,12 @@ class Jobs(models.Model):
         action['domain'] = [('ssi_job_id', '=', self.id)]
         return action
 
+    @api.multi
+    def ssi_jobs_new_po_button(self):
+        action = self.env.ref(
+            'ssi_jobs.ssi_jobs_new_po_action').read()[0]
+        action['domain'] = [('ssi_job_id', '=', self.id)]
+        return action
 
     @api.depends('order_total')
     def _get_po_count(self):
