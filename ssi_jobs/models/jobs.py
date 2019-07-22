@@ -85,6 +85,8 @@ class Jobs(models.Model):
         action['domain'] = [('ssi_job_id', '=', self.id)]
         return action
 
+
+        
     @api.multi
     def action_view_ai_count(self):
         action = self.env.ref(
