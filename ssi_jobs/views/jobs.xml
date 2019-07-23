@@ -486,8 +486,8 @@
     <field name="auto_search" eval="True"/>
     <field name="binding_model_id" eval="False"/>
     <field name="binding_type">action</field>
-    <field name="context">{'search_default_ssi_jobs': active_id,'default_ssi_jobs': active_id}</field>
-    <field name="domain">[('ssi_jobs', '=', active_id)]</field>
+  <field name="context">{'search_default_ssi_job_id': active_id,'default_ssi_job_id': active_id}</field>
+  <field name="domain">[('ssi_job_id', '=', active_id)]</field>
     <field name="filter" eval="False"/>
     <field name="groups_id" eval="[(6, 0, [])]"/>
     <field name="help" eval="False"/>
@@ -508,8 +508,8 @@
     <field name="auto_search" eval="True"/>
     <field name="binding_model_id" eval="False"/>
     <field name="binding_type">action</field>
-    <field name="context">{'search_default_ssi_jobs': active_id,'default_ssi_jobs': active_id}</field>
-    <field name="domain">[('ssi_jobs', '=', active_id)]</field>
+  <field name="context">{'search_default_ssi_job_id': active_id,'default_ssi_job_id': active_id}</field>
+  <field name="domain">[('ssi_job_id', '=', active_id)]</field>
     <field name="filter" eval="False"/>
     <field name="groups_id" eval="[(6, 0, [])]"/>
     <field name="help" eval="False"/>
@@ -530,8 +530,8 @@
     <field name="auto_search" eval="True"/>
     <field name="binding_model_id" eval="False"/>
     <field name="binding_type">action</field>
-    <field name="context">{'search_default_ssi_jobs': active_id,'default_ssi_jobs': active_id}</field>
-    <field name="domain">[('ssi_jobs', '=', active_id)]</field>
+  <field name="context">{'search_default_ssi_job_id': active_id,'default_ssi_job_id': active_id}</field>
+  <field name="domain">[('ssi_job_id', '=', active_id)]</field>
     <field name="filter" eval="False"/>
     <field name="groups_id" eval="[(6, 0, [])]"/>
     <field name="help" eval="False"/>
