@@ -9,6 +9,6 @@ class WC(models.Model):
     # ssi_job_id = fields.Many2one(
     #     'ssi_jobs', related='workorder_id.ssi_job_id', string='Job')
     ssi_job_id = fields.Many2one(
-        'ssi_jobs', 'workorder_id.ssi_jobs_id' string='Job')
+        'ssi_jobs', 'workorder_id.ssi_jobs_id', string='Job')
     # ssi_job_id = fields.Many2one(
     #     related='workorder_id.ssi_job_id', relation="ssi_jobs.ssi_jobs", string='Job', domain=[])
