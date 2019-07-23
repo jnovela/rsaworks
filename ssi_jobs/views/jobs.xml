@@ -52,6 +52,7 @@
                         <field name="sizeUM"/>
                         <field name="shaft"/>
                         <field name="dimensions"/>
+                        <field name="equipment_id"/>
                     </group>
                     <group name="right">
                         <field name="ready_for_pickup"/>
