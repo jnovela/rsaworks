@@ -39,6 +39,8 @@ class Jobs(models.Model):
     shaft = fields.Selection(
         [('horizontal', 'Horizontal'), ('vertical', 'Vertical'), ('other', 'Other')], string='Shaft')
     dimensions = fields.Float(string='Dimensions')
+    equipment_id = fields.Many2one(
+        'maintenance.equipment', string='Equipment')
 
     # RIGHT
     ready_for_pickup = fields.Datetime(string='Ready for Pickup')
@@ -51,6 +53,10 @@ class Jobs(models.Model):
     notes = fields.Text(string='Notes')
     status = fields.Selection(
         [('ready', 'Ready'), ('process', 'In Process'), ('done', 'Complete'), ('blocked', 'Blocked')], string='Status')
+
+    # NAMEPLATES
+    # job_type = fields.Selection(
+    #     [('10', '10'), ('12', '12'), ('20', '20'), ('30', '30'), ('40', '40'), ('50', '50'), ('60', '60'), ('00', '00'), ('11', '11')], string='Job Type')
 
     # OTHER
     color = fields.Integer(string='Color')
