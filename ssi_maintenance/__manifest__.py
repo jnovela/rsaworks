@@ -15,6 +15,8 @@
     "website":  "https://ssibtr.com",
     "depends":  [
         'maintenance',
+                'mrp',
+
     ],
     "data":  [
         'views/ssi_maintenance.xml',
