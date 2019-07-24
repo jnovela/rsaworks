@@ -26,7 +26,7 @@ class Jobs(models.Model):
     stage_id = fields.Many2one('ssi_jobs_stage', group_expand='_read_group_stage_ids', default=lambda self: self.env['ssi_jobs_stage'].search([('name', '=', 'New Job')]), string='Stage')
 
     # LEFT
-    name = fields.Char(required=True, index=True)
+    name = fields.Char(required=True, index=True, default='New', copy=False, readonly=True)
     partner_id = fields.Many2one(
         'res.partner', string='Partner', ondelete='restrict', required=True,
         domain=[('parent_id', '=', False)])
@@ -69,6 +69,10 @@ class Jobs(models.Model):
     )]
 
     # ACTIONS AND METHODS
+    @api.model
+    def create(self, vals):
+        if vals.get('name', _('New')) == _('New'):
+            vals['name'] = self.env['ir.sequence'].next_by_code('ssi_jobs.ssi_jobs') or _('New')
 
     @api.model
     def _read_group_stage_ids(self,stages,domain,order):
