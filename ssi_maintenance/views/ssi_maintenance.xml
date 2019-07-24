@@ -124,6 +124,12 @@
               <!-- <field name="partner_id" /> -->
               <field name="customer_id"/>
             </xpath>
+            <xpath expr="//field[@name='location']" position="attributes">
+                <attribute name="attrs">{}</attribute>
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+
             <!-- <xpath expr="//group[1]/group[2]" position="replace">
                 <group>
                     <field name="maintenance_team_id" attrs="{'required': [('period', '!=', 0)]}"/>
