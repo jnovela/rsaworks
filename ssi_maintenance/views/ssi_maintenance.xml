@@ -128,6 +128,10 @@
                 <attribute name="attrs">{}</attribute>
                 <attribute name="invisible">1</attribute>
             </xpath>
+            <xpath expr="//field[@name='workcenter_id']" position="attributes">
+                <attribute name="attrs">{}</attribute>
+                <attribute name="invisible">1</attribute>
+            </xpath>
 
 
             <!-- <xpath expr="//group[1]/group[2]" position="replace">
