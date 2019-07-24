@@ -24,6 +24,7 @@
         'sale',
         'stock',
         'sale_timesheet',
+        'mail'
     ],
     'data': [
         'security/ir.model.access.csv',
