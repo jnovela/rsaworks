@@ -18,9 +18,7 @@ class MaintenanceEquipment(models.Model):
         'TEWAC', 'TEWAC'), ('TEAAC', 'TEAAC'), ('TENV', 'TENV'), ('TEXP', 'TEXP'), ('TEBC', 'TEBC')], string='Enclosure')
     mounting = fields.Selection([('Solid shaft vertical', 'Solid shaft vertical'), ('Horizontal', 'Horizontal'), (
         'C-Flange', 'C-Flange'), ('D-Flange', 'D-Flange'), ('Hollow shaft vertical', 'Hollow shaft vertical')], string='Mounting')
-    manufacture = fields.Char(string='Manufacure')
-    model_number = fields.Char(string='Model#')
-    serial_number = fields.Char(string='Serial#')
+    manufacture = fields.Char(string='Manufacture')
     customer_stock_number = fields.Char(string='Customer Stock#')
     customer_id_number = fields.Char(string='Customer ID#')
     amps = fields.Float(string='Amps')

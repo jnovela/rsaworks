@@ -30,8 +30,6 @@
                             <field name="enclosure" attrs="{'required': [('category_id', '!=', 4)]}"/>
                             <field name="mounting" attrs="{'required': [('category_id', '!=', 4)]}"/>
                             <field name="manufacture"/>
-                            <field name="model_number"/>
-                            <field name="serial_number"/>
                             <field name="customer_stock_number"/>
                             <field name="customer_id_number"/>
                             <field name="amps"/>
@@ -106,7 +104,7 @@
                                     <field name="stock_number"/>
 
                                 </group>
-                                                                                                      <field name="storage_ids" context="{'default_equipment_id':active_id,'default_check_in':time.strftime('%Y-%m-%d %H:%M:%S')}"> 
+									<field name="storage_ids" context="{'default_equipment_id':active_id,'default_check_in':time.strftime('%Y-%m-%d %H:%M:%S')}"> 
                                       <tree string="storage" create="true" edit="true">
                                         <field name="location_id"/>
                                         <field name="check_in"/>
@@ -126,25 +124,14 @@
               <!-- <field name="partner_id" /> -->
               <field name="customer_id"/>
             </xpath>
-
-
-            <!-- <xpath expr="//group[1]/group[2]" position="replace">
+            <xpath expr="//group[1]/group[2]" position="replace">
                 <group>
                     <field name="maintenance_team_id" attrs="{'required': [('period', '!=', 0)]}"/>
                     <field name="technician_user_id"/>
                     <field name="assign_date" groups="base.group_no_one"/>
                     <field name="scrap_date" groups="base.group_no_one"/>
                 </group>
-            </xpath> -->
-            <!-- <xpath expr="//group[1]/group[2]" position="replace">
-                <group>
-                    <field name="maintenance_team_id" attrs="{'required': [('period', '!=', 0)]}"/>
-                    <field name="technician_user_id"/>
-                    <field name="assign_date" groups="base.group_no_one"/>
-                    <field name="scrap_date" groups="base.group_no_one"/>
-                </group>
-            </xpath> -->
-
+            </xpath>
             </field>
         </record>
 
