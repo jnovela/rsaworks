@@ -30,7 +30,7 @@
                 <header>
                     <!-- button name="open_tablet_view" type="object" string="Process" attrs="{'invisible': [('state', 'not in', ('ready', 'progress'))]}"/ -->
                     <button name="button_start" type="object" string="Start Working" attrs="{'invisible': [('state', 'in', ('progress', 'done'))]}"/>
-                    <button name="record_production" type="object" string="Dones" class="btn-success" attrs="{'invisible': [('state', 'in', ('ready', 'done'))]}"/>
+                    <button name="record_production" type="object" string="Done" class="btn-success" attrs="{'invisible': [('state', 'in', ('ready', 'done'))]}"/>
                     <field name="state" widget="statusbar" statusbar_visible="pending,ready,progress,done"/>
                 </header>
             </xpath>
