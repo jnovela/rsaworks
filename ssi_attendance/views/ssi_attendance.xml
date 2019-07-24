@@ -9,6 +9,8 @@
         <field name="type">form</field>
             <field name="arch" type="xml">
 			<xpath expr="//field[@name='check_out']" position="after">
+                <field name="job_id"/>
+                <field name="workorder_id"/>
 				<field name="attendance_lines"> 
 				  <tree string="lines" create="true" edit="true">
 					<field name="check_in"/>
