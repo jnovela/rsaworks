@@ -69,6 +69,7 @@
                 <page name="info" string="Creation Info"/>
             </notebook>
           </sheet>
+            <field name="message_ids" widget="mail_thread"/>
         </form>
     </field>
 </record>
