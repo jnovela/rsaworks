@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+
+<odoo>
+
+        <record model="ir.ui.view" id="ssi_wo_customizations">
+          <field name="name">ssi_wo_customizations.tree</field>
+          <field name="model">mrp.workorder</field>
+          <field name="inherit_id" ref="mrp.production.work.order.tree"/>
+          <field name="type">tree</field>
+          <field name="arch" type="xml">
+            <xpath expr="//tree[1]/field[@name='name']" position="before">
+              <field name="x_studio_job"/>
+              <field name="x_studio_field_xYmNf"/>
+            </xpath>
+          </field>
+      </record>
+
+    </data>
+</odoo>
