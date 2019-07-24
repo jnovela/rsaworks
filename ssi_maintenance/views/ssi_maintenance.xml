@@ -130,6 +130,7 @@
                     <field name="technician_user_id"/>
                     <field name="assign_date" groups="base.group_no_one"/>
                     <field name="scrap_date" groups="base.group_no_one"/>
+                    <field name="workcenter_id" invisible="1"/>
                 </group>
             </xpath>
             </field>
