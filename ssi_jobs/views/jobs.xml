@@ -65,7 +65,7 @@
                     </group>
                 </group>
             <notebook>
-                <page name="equipment" string="Equioment"/>
+                <page name="equipment" string="Equipment"/>
                 <page name="info" string="Creation Info"/>
             </notebook>
           </sheet>
