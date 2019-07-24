@@ -147,7 +147,7 @@
         <record id="ssi_equipment_form" model="ir.ui.view">
         <field name="name">ssi.equipment_mrp_form</field>
         <field name="model">maintenance.equipment</field>
-        <field name="inherit_id" ref="maintenance.equipment.view.form.inherit.mrp"/>
+        <field name="inherit_id" ref="mrp_maintenance.maintenance_equipment_view_form_inherit_mrp"/>
         <field eval="20" name="sequence"/>
         <field name="type">form</field>
             <field name="arch" type="xml">
