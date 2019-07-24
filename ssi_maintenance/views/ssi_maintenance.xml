@@ -124,7 +124,7 @@
               <!-- <field name="partner_id" /> -->
               <field name="customer_id"/>
             </xpath>
-            <xpath expr="//group[1]/group[2]" position="replace">
+            <!-- <xpath expr="//group[1]/group[2]" position="replace">
                 <group>
                     <field name="maintenance_team_id" attrs="{'required': [('period', '!=', 0)]}"/>
                     <field name="technician_user_id"/>
@@ -133,7 +133,7 @@
                     <field name="location" invisible="1" string="Used in location"/>
 
                 </group>
-            </xpath>
+            </xpath> -->
             </field>
         </record>
 
