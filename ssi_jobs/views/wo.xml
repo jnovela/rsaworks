@@ -4,7 +4,7 @@
 <!-- License URL : <https://store.webkul.com/license.html/> -->
 
 <odoo>
-
+    <data>
         <record model="ir.ui.view" id="ssi_wo_customizations">
           <field name="name">ssi_wo_customizations.tree</field>
           <field name="model">mrp.workorder</field>
