@@ -144,7 +144,7 @@
             </field>
         </record>
 
-        <record id="ssi_equipment_form" model="ir.ui.view">
+        <record id="ssi_equipment_mrp_form" model="ir.ui.view">
         <field name="name">ssi.equipment_mrp_form</field>
         <field name="model">maintenance.equipment</field>
         <field name="inherit_id" ref="mrp_maintenance.maintenance_equipment_view_form_inherit_mrp"/>
