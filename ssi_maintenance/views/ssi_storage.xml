@@ -21,7 +21,7 @@
 
 
   <!-- LOOK INTO SECURITY ISSUES -->
-  <menuitem id="storage_menu" action="storage_action" parent="Maintenance/Reporting"
+  <menuitem id="storage_menu" action="storage_action" parent="maintenance.maintenance_reporting"
     sequence="100" name="Job Stages"/>
 
 </odoo>
