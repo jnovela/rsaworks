@@ -1,0 +1,56 @@
+  <!-- DASHBOARD -->
+  <record id="studio_customization.default_dashboard_vi_421f42a4-00e6-43d6-b7b5-a5534530281c" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <dashboard>
+        <view type="graph"/>
+        <view type="pivot"/>
+      </dashboard>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key" eval="False"/>
+    <field name="mode">primary</field>
+    <field name="model">x_jobs</field>
+    <field name="name">Default dashboard view for x_jobs</field>
+    <field name="priority">16</field>
+    <field name="type">dashboard</field>
+  </record>
+
+<!-- PIVOT -->
+  <record id="studio_customization.default_pivot_view_f_ecad425c-b0b6-41f0-a1e8-e6acc9a41e45" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <pivot string="Jobs"/>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key" eval="False"/>
+    <field name="mode">primary</field>
+    <field name="model">x_jobs</field>
+    <field name="name">Default pivot view for x_jobs</field>
+    <field name="priority">16</field>
+    <field name="type">pivot</field>
+  </record>
+
+  <record id="studio_customization.odoo_studio_default__0a99b6af-0b5d-4499-b807-212d23ed6804" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//pivot[1]" position="attributes">
+          <attribute name="display_quantity">true</attribute>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="studio_customization.default_pivot_view_f_ecad425c-b0b6-41f0-a1e8-e6acc9a41e45"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">x_jobs</field>
+    <field name="name">Odoo Studio: Default pivot view for x_jobs customization</field>
+    <field name="priority">99</field>
+    <field name="type">pivot</field>
+  </record>

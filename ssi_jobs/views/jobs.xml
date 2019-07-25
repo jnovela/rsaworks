@@ -45,30 +45,34 @@
                 </div>
                 <group name="main">
                     <group name="left">
-                        <field name="name"/>
+                        <field name="name" readonly="1"/>
                         <field name="partner_id"/>
-                        <field name="objects"/>
-                        <field name="size"/>
+                        <!-- <field name="objects"/> -->
+                        <!-- <field name="size"/>
                         <field name="sizeUM"/>
                         <field name="shaft"/>
-                        <field name="dimensions"/>
+                        <field name="dimensions"/> -->
                         <field name="equipment_id"/>
+                        <field name="ready_for_pickup"/>
                     </group>
                     <group name="right">
-                        <field name="ready_for_pickup"/>
                         <field name="urgency"/>
                         <field name="po_number"/>
-                        <field name="weight"/>
-                        <field name="weightUM"/>
+                        <!-- <field name="weight"/>
+                        <field name="weightUM"/> -->
                         <field name="notes"/>
                         <field name="status"/>
                     </group>
                 </group>
             <notebook>
-                <page name="equipment" string="Equioment"/>
+                <page name="equipment" string="Equipment"/>
                 <page name="info" string="Creation Info"/>
             </notebook>
           </sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="message_ids" widget="mail_thread"/>
+            </div>
         </form>
     </field>
 </record>
@@ -113,8 +117,8 @@
                         <div class="o_kanban_card_content">
                             <field bold="True" name="name" modifiers="{}"/>
                             <field name="partner_id" display="full"/>
-                            <field name="size"/>
-                            <field name="sizeUM"/>
+                            <!-- <field name="size"/>
+                            <field name="sizeUM"/> -->
                             <field name="serial" display="full"/>
 
                         </div>
@@ -179,9 +183,9 @@
         <tree string="Jobs">
             <field name="name"/>
             <field name="partner_id"/>
-            <field name="objects"/>
-            <field name="size"/>
-            <field name="sizeUM"/>
+            <!-- <field name="objects"/> -->
+            <!-- <field name="size"/>
+            <field name="sizeUM"/> -->
             <field name="stage_id"/>
         </tree>
     </field>
@@ -549,5 +553,13 @@
     <field name="view_type">form</field>
 </record>
 
+<!-- CREATE SEQUENCE -->
+<record id="ssi_job_sequence" model="ir.sequence">
+    <field name="name">SSI Job Sequence</field>
+    <field name="code">ssi_job_sequence</field>
+    <field name="prefix">JOB</field>
+    <field name="padding">3</field>
+    <field name="company_id" eval="False"/>
+</record>
 
 </odoo>

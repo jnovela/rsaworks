@@ -23,7 +23,7 @@ class Jobs(models.Model):
     # NECESSARY SUPPORT
     currency_id = fields.Many2one('res.currency', string='Account Currency',
                                   help="Forces all moves for this account to have this account currency.")
-    stage_id = fields.Many2one('ssi_jobs_stage', group_expand='_read_group_stage_ids', default=lambda self: self.env['ssi_jobs_stage'].search([('name', '=', 'New Job')]), string='Stage')
+    stage_id = fields.Many2one('ssi_jobs_stage', string='Stage')
 
     # LEFT
     name = fields.Char(required=True, index=True)
@@ -39,8 +39,6 @@ class Jobs(models.Model):
     shaft = fields.Selection(
         [('horizontal', 'Horizontal'), ('vertical', 'Vertical'), ('other', 'Other')], string='Shaft')
     dimensions = fields.Float(string='Dimensions')
-    equipment_id = fields.Many2one(
-        'maintenance.equipment', string='Equipment')
 
     # RIGHT
     ready_for_pickup = fields.Datetime(string='Ready for Pickup')
@@ -54,13 +52,7 @@ class Jobs(models.Model):
     status = fields.Selection(
         [('ready', 'Ready'), ('process', 'In Process'), ('done', 'Complete'), ('blocked', 'Blocked')], string='Status')
 
-    # NAMEPLATES
-    # job_type = fields.Selection(
-    #     [('10', '10'), ('12', '12'), ('20', '20'), ('30', '30'), ('40', '40'), ('50', '50'), ('60', '60'), ('00', '00'), ('11', '11')], string='Job Type')
-
     # OTHER
-    color = fields.Integer(string='Color')
-    serial = fields.Char(String="Serial #")
 
     _sql_constraints = [(
         'name_unique',
@@ -69,13 +61,6 @@ class Jobs(models.Model):
     )]
 
     # ACTIONS AND METHODS
-
-    @api.model
-    def _read_group_stage_ids(self,stages,domain,order):
-        stage_ids = self.env['ssi_jobs_stage'].search([])
-        return stage_ids
-
-
     @api.multi  # DONE
     def action_view_estimates(self):
         action = self.env.ref(
@@ -90,7 +75,6 @@ class Jobs(models.Model):
             'ssi_jobs.sale_order_po_line_action').read()[0]
         action['domain'] = [('ssi_job_id', '=', self.id)]
         return action
-
 
     @api.multi
     def action_view_ai_count(self):
@@ -117,28 +101,6 @@ class Jobs(models.Model):
     def action_view_wc_count(self):
         action = self.env.ref(
             'ssi_jobs.sale_order_wc_line_action').read()[0]
-        action['domain'] = [('ssi_job_id', '=', self.id)]
-        return action
-
-    @api.multi
-    def ssi_jobs_new_so_button(self):
-        action = self.env.ref(
-            'ssi_jobs.ssi_jobs_new_so_action').read()[0]
-        action['domain'] = [('ssi_job_id', '=', self.id)]
-        return action
-
-    @api.multi
-    def ssi_jobs_new_mrp_prod_button(self):
-        # raise UserError(_('TEST 1 '))
-        action = self.env.ref(
-            'ssi_jobs.ssi_jobs_new_prod_action').read()[0]
-        action['domain'] = [('ssi_job_id', '=', self.id)]
-        return action
-
-    @api.multi
-    def ssi_jobs_new_po_button(self):
-        action = self.env.ref(
-            'ssi_jobs.ssi_jobs_new_po_action').read()[0]
         action['domain'] = [('ssi_job_id', '=', self.id)]
         return action
 
