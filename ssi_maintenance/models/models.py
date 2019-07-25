@@ -100,7 +100,9 @@ class MaintenanceEquipment(models.Model):
             [('equipment_id', 'in', self.ids)])
 
         # raise UserError(_(jobs))
-        if len(jobs) > 1:
+        if len(jobs) == 0:
+            raise UserError(_('There are no jobs assiociated with with this record'))
+        elif len(jobs) > 1:
             action['domain'] = [('equipment_id', '=', self.id)]
         else:
             action['views'] = [(self.env.ref('ssi_jobs.jobs_form').id, 'form')]
