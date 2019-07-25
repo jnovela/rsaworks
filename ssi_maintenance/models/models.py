@@ -99,10 +99,14 @@ class MaintenanceEquipment(models.Model):
         jobs = self.env['ssi_jobs'].search(
             [('equipment_id', 'in', self.ids)])
 
-        raise UserError(_(jobs))
+        # raise UserError(_(jobs))
+        if len(jobs) > 1:
+            action['domain'] = [('equipment_id', '=', self.id)]
+        else:
+            action['views'] = [(self.env.ref('ssi_jobs.jobs_form').id, 'form')]
+            action['res_id'] = jobs[0].id
 
-        # action['domain'] = [('equipment_id', '=', self.id)]
-        # return action
+        return action
 
 
 
