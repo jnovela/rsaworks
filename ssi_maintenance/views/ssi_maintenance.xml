@@ -129,10 +129,6 @@
                 <attribute name="attrs">{}</attribute>
                 <attribute name="invisible">1</attribute>
             </xpath>
-            <xpath expr="//field[@name='workcenter_id']" position="attributes">
-                <attribute name="attrs">{}</attribute>
-                <attribute name="invisible">1</attribute>
-            </xpath>
 
 
             <!-- <xpath expr="//group[1]/group[2]" position="replace">
@@ -148,6 +144,20 @@
             </field>
         </record>
 
+        <record id="ssi_equipment_mrp_form" model="ir.ui.view">
+        <field name="name">ssi.equipment_mrp_form</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="mrp_maintenance.maintenance_equipment_view_form_inherit_mrp"/>
+        <field eval="20" name="sequence"/>
+        <field name="type">form</field>
+            <field name="arch" type="xml">
+            <xpath expr="//field[@name='workcenter_id']" position="attributes">
+                <attribute name="attrs">{}</attribute>
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            </field>
+        </record>
 
         <record model="ir.ui.view" id="storage_form_view">
           <field name="name">storage.form</field>
