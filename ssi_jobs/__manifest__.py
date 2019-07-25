@@ -24,11 +24,13 @@
         'sale',
         'stock',
         'sale_timesheet',
+        'mail'
     ],
     'data': [
         'security/ir.model.access.csv',
         'views/add_default_job_stages.xml',
         'views/jobs.xml',
+        'views/wo.xml',
     ],
     'installable': True,
     'application': True,

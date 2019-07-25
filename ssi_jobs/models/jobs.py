@@ -7,7 +7,7 @@ class Jobs(models.Model):
     _name = 'ssi_jobs'
     _description = 'Jobs'
     _order = "create_date,display_name desc"
-    # _inherit = ['mail.thread', 'mail.activity.mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     # TOP AND RELATED
     so_ids = fields.One2many(
@@ -26,31 +26,38 @@ class Jobs(models.Model):
     stage_id = fields.Many2one('ssi_jobs_stage', group_expand='_read_group_stage_ids', default=lambda self: self.env['ssi_jobs_stage'].search([('name', '=', 'New Job')]), string='Stage')
 
     # LEFT
-    name = fields.Char(required=True, index=True)
+    name = fields.Char(string="Job Name", required=True, copy=False, readonly=True,
+                   index=True, default=lambda self: _('New'))
     partner_id = fields.Many2one(
         'res.partner', string='Partner', ondelete='restrict', required=True,
         domain=[('parent_id', '=', False)])
     active = fields.Boolean(default=True)
-    objects = fields.Selection(
-        [('motor', 'Motor'), ('generator', 'Generator'), ('coil', 'Coil'), ('brake', 'Brake'), ('other', 'Other')], string='Object')
-    size = fields.Integer(string='Size')
-    sizeUM = fields.Selection(
-        [('hp', 'Horsepower'), ('kw', 'Kilowatts'), ('lb-ft', 'Torque')], string='Size UM')
-    shaft = fields.Selection(
-        [('horizontal', 'Horizontal'), ('vertical', 'Vertical'), ('other', 'Other')], string='Shaft')
-    dimensions = fields.Float(string='Dimensions')
+    # objects = fields.Selection(
+    #     [('motor', 'Motor'), ('generator', 'Generator'), ('coil', 'Coil'), ('brake', 'Brake'), ('other', 'Other')], string='Object')
+    # size = fields.Integer(string='Size')
+    # sizeUM = fields.Selection(
+    #     [('hp', 'Horsepower'), ('kw', 'Kilowatts'), ('lb-ft', 'Torque')], string='Size UM')
+    # shaft = fields.Selection(
+    #     [('horizontal', 'Horizontal'), ('vertical', 'Vertical'), ('other', 'Other')], string='Shaft')
+    # dimensions = fields.Float(string='Dimensions')
+    equipment_id = fields.Many2one(
+        'maintenance.equipment', string='Equipment')
 
     # RIGHT
     ready_for_pickup = fields.Datetime(string='Ready for Pickup')
     urgency = fields.Selection(
         [('straight', 'Straight time'), ('straight_quote', 'Straight time quote before repair'), ('overtime', 'Overtime'), ('overtime_quote', 'Overtime quote before repair')], string='Urgency')
     po_number = fields.Char(string='PO Number')
-    weight = fields.Float(string='Weight')
-    weightUM = fields.Selection(
-        [('lbs', 'pounds'), ('tons', 'tons'), ('kgs', 'kilograms')], string='Weight UM')
+    # weight = fields.Float(string='Weight')
+    # weightUM = fields.Selection(
+    #     [('lbs', 'pounds'), ('tons', 'tons'), ('kgs', 'kilograms')], string='Weight UM')
     notes = fields.Text(string='Notes')
     status = fields.Selection(
         [('ready', 'Ready'), ('process', 'In Process'), ('done', 'Complete'), ('blocked', 'Blocked')], string='Status')
+
+    # NAMEPLATES
+    # job_type = fields.Selection(
+    #     [('10', '10'), ('12', '12'), ('20', '20'), ('30', '30'), ('40', '40'), ('50', '50'), ('60', '60'), ('00', '00'), ('11', '11')], string='Job Type')
 
     # OTHER
     color = fields.Integer(string='Color')
@@ -63,6 +70,12 @@ class Jobs(models.Model):
     )]
 
     # ACTIONS AND METHODS
+    @api.model
+    def create(self, vals):
+        if vals.get('name', _('New')) == _('New'):
+            vals['name'] = self.env['ir.sequence'].next_by_code('ssi_job_sequence') or _('New')
+        res = super(Jobs, self).create(vals)
+        return res
 
     @api.model
     def _read_group_stage_ids(self,stages,domain,order):
@@ -84,6 +97,7 @@ class Jobs(models.Model):
             'ssi_jobs.sale_order_po_line_action').read()[0]
         action['domain'] = [('ssi_job_id', '=', self.id)]
         return action
+
 
     @api.multi
     def action_view_ai_count(self):
@@ -110,6 +124,28 @@ class Jobs(models.Model):
     def action_view_wc_count(self):
         action = self.env.ref(
             'ssi_jobs.sale_order_wc_line_action').read()[0]
+        action['domain'] = [('ssi_job_id', '=', self.id)]
+        return action
+
+    @api.multi
+    def ssi_jobs_new_so_button(self):
+        action = self.env.ref(
+            'ssi_jobs.ssi_jobs_new_so_action').read()[0]
+        action['domain'] = [('ssi_job_id', '=', self.id)]
+        return action
+
+    @api.multi
+    def ssi_jobs_new_mrp_prod_button(self):
+        # raise UserError(_('TEST 1 '))
+        action = self.env.ref(
+            'ssi_jobs.ssi_jobs_new_prod_action').read()[0]
+        action['domain'] = [('ssi_job_id', '=', self.id)]
+        return action
+
+    @api.multi
+    def ssi_jobs_new_po_button(self):
+        action = self.env.ref(
+            'ssi_jobs.ssi_jobs_new_po_action').read()[0]
         action['domain'] = [('ssi_job_id', '=', self.id)]
         return action
 

@@ -8,9 +8,9 @@
     <field name="arch" type="xml">
         <form string="Jobs">
             <header>
-                <button name="ssi_jobs_new_mrp_prod_button" type="action" class="oe_stat_button" icon="fa-wrench" string="Start Job"/>
-                <button name="ssi_jobs_new_po_button" type="action" class="oe_stat_button" icon="fa-dollar" string="Create Estimate" context="{'default_partner_id': partner_id, 'default_ssi_jobs': active_id}"/>
-                <button name="758" type="action" class="oe_stat_button" icon="fa-credit-card" string="Order Parts" context="{'default_ssi_jobs': active_id}"/>
+                <button name="ssi_jobs_new_mrp_prod_button" type="object" class="oe_stat_button" icon="fa-wrench" string="Start Job"/>
+                <button name="ssi_jobs_new_so_button" type="object" class="oe_stat_button" icon="fa-dollar" string="Create Estimate" context="{'default_partner_id': partner_id, 'default_ssi_jobs': active_id}"/>
+                <button name="ssi_jobs_new_po_button" type="object" class="oe_stat_button" icon="fa-credit-card" string="Order Parts" context="{'default_ssi_jobs': active_id}"/>
                 <field name="stage_id" options="{'clickable': '1'}" widget="statusbar"/>
 
             </header>
@@ -45,29 +45,34 @@
                 </div>
                 <group name="main">
                     <group name="left">
-                        <field name="name"/>
+                        <field name="name" readonly="1"/>
                         <field name="partner_id"/>
-                        <field name="objects"/>
-                        <field name="size"/>
+                        <!-- <field name="objects"/> -->
+                        <!-- <field name="size"/>
                         <field name="sizeUM"/>
                         <field name="shaft"/>
-                        <field name="dimensions"/>
+                        <field name="dimensions"/> -->
+                        <field name="equipment_id"/>
+                        <field name="ready_for_pickup"/>
                     </group>
                     <group name="right">
-                        <field name="ready_for_pickup"/>
                         <field name="urgency"/>
                         <field name="po_number"/>
-                        <field name="weight"/>
-                        <field name="weightUM"/>
+                        <!-- <field name="weight"/>
+                        <field name="weightUM"/> -->
                         <field name="notes"/>
                         <field name="status"/>
                     </group>
                 </group>
             <notebook>
-                <page name="equipment" string="Equioment"/>
+                <page name="equipment" string="Equipment"/>
                 <page name="info" string="Creation Info"/>
             </notebook>
           </sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="message_ids" widget="mail_thread"/>
+            </div>
         </form>
     </field>
 </record>
@@ -112,8 +117,8 @@
                         <div class="o_kanban_card_content">
                             <field bold="True" name="name" modifiers="{}"/>
                             <field name="partner_id" display="full"/>
-                            <field name="size"/>
-                            <field name="sizeUM"/>
+                            <!-- <field name="size"/>
+                            <field name="sizeUM"/> -->
                             <field name="serial" display="full"/>
 
                         </div>
@@ -178,9 +183,9 @@
         <tree string="Jobs">
             <field name="name"/>
             <field name="partner_id"/>
-            <field name="objects"/>
-            <field name="size"/>
-            <field name="sizeUM"/>
+            <!-- <field name="objects"/> -->
+            <!-- <field name="size"/>
+            <field name="sizeUM"/> -->
             <field name="stage_id"/>
         </tree>
     </field>
@@ -481,20 +486,40 @@
   <field name="view_type">form</field>
 </record>
 
-
 <!-- HEADER BUTTONS -->
-<!-- <record id="ssi_jobs_new_mrp_prod_button" model="ir.actions.act_window" name="ssi_jobs_new_mrp_prod_button">
+<record id="ssi_jobs_new_so_action" model="ir.actions.act_window">
     <field name="auto_search" eval="True"/>
     <field name="binding_model_id" eval="False"/>
     <field name="binding_type">action</field>
-    <field name="context">{'search_default_ssi_jobs': active_id}</field>
-    <field name="domain">[('ssi_jobs', '=', active_id)]</field>
+  <field name="context">{'search_default_ssi_job_id': active_id,'default_ssi_job_id': active_id}</field>
+  <field name="domain">[('ssi_job_id', '=', active_id)]</field>
     <field name="filter" eval="False"/>
     <field name="groups_id" eval="[(6, 0, [])]"/>
-    <field name="help"><![CDATA[<p class="o_view_nocontent_smiling_face">Create a new manufacturing order</p>]]></field>
-    <field name="limit">80</field>
+    <field name="help" eval="False"/>
     <field name="multi" eval="False"/>
-    <field name="name">Manufacture Orders</field>
+    <field name="name">Estimates</field>
+    <field name="res_model">sale.order</field>
+    <field name="search_view_id" eval="False"/>
+    <field name="src_model" eval="False"/>
+    <field name="target">current</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="usage" eval="False"/>
+    <field name="view_id" eval="False"/>
+    <field name="view_mode">form,tree</field>
+    <field name="view_type">form</field>
+</record>
+
+<record id="ssi_jobs_new_prod_action" model="ir.actions.act_window">
+    <field name="auto_search" eval="True"/>
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+  <field name="context">{'search_default_ssi_job_id': active_id,'default_ssi_job_id': active_id}</field>
+  <field name="domain">[('ssi_job_id', '=', active_id)]</field>
+    <field name="filter" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="help" eval="False"/>
+    <field name="multi" eval="False"/>
+    <field name="name">Estimates</field>
     <field name="res_model">mrp.production</field>
     <field name="search_view_id" eval="False"/>
     <field name="src_model" eval="False"/>
@@ -502,22 +527,21 @@
     <field name="type">ir.actions.act_window</field>
     <field name="usage" eval="False"/>
     <field name="view_id" eval="False"/>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">form,tree</field>
     <field name="view_type">form</field>
-</record> -->
+</record>
 
-<!-- <record id="ssi_jobs_new_po_button" model="ir.actions.act_window">
+<record id="ssi_jobs_new_po_action" model="ir.actions.act_window">
     <field name="auto_search" eval="True"/>
     <field name="binding_model_id" eval="False"/>
     <field name="binding_type">action</field>
-    <field name="context">{'search_default_ssi_jobs': active_id,'default_ssi_jobs': active_id}</field>
-    <field name="domain">[('ssi_jobs', '=', active_id)]</field>
+  <field name="context">{'search_default_ssi_job_id': active_id,'default_ssi_job_id': active_id}</field>
+  <field name="domain">[('ssi_job_id', '=', active_id)]</field>
     <field name="filter" eval="False"/>
     <field name="groups_id" eval="[(6, 0, [])]"/>
     <field name="help" eval="False"/>
-    <field name="limit">80</field>
     <field name="multi" eval="False"/>
-    <field name="name">Purchase Orders</field>
+    <field name="name">Estimates</field>
     <field name="res_model">purchase.order</field>
     <field name="search_view_id" eval="False"/>
     <field name="src_model" eval="False"/>
@@ -525,25 +549,17 @@
     <field name="type">ir.actions.act_window</field>
     <field name="usage" eval="False"/>
     <field name="view_id" eval="False"/>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">form,tree</field>
     <field name="view_type">form</field>
-</record> -->
+</record>
 
-
-
-<!-- <record id="sale_order_estimate_line_action" model="ir.actions.act_window">
-        <field name="name">Estimates</field>
-        <field name="res_model">sale.order</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree, form</field>
-        <field name="view_id" ref="view_move_line_tree"/>
-        <field name="help" type="html">
-          <p class="o_view_nocontent_empty_folder">
-            There's no product move yet
-          </p>
-        </field>
-</record> -->
-
+<!-- CREATE SEQUENCE -->
+<record id="ssi_job_sequence" model="ir.sequence">
+    <field name="name">SSI Job Sequence</field>
+    <field name="code">ssi_job_sequence</field>
+    <field name="prefix">JOB</field>
+    <field name="padding">3</field>
+    <field name="company_id" eval="False"/>
+</record>
 
 </odoo>

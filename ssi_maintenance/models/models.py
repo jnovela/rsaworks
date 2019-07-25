@@ -18,9 +18,7 @@ class MaintenanceEquipment(models.Model):
         'TEWAC', 'TEWAC'), ('TEAAC', 'TEAAC'), ('TENV', 'TENV'), ('TEXP', 'TEXP'), ('TEBC', 'TEBC')], string='Enclosure')
     mounting = fields.Selection([('Solid shaft vertical', 'Solid shaft vertical'), ('Horizontal', 'Horizontal'), (
         'C-Flange', 'C-Flange'), ('D-Flange', 'D-Flange'), ('Hollow shaft vertical', 'Hollow shaft vertical')], string='Mounting')
-    manufacture = fields.Char(string='Manufacure')
-    model_number = fields.Char(string='Model#')
-    serial_number = fields.Char(string='Serial#')
+    manufacture = fields.Char(string='Manufacture')
     customer_stock_number = fields.Char(string='Customer Stock#')
     customer_id_number = fields.Char(string='Customer ID#')
     amps = fields.Float(string='Amps')
@@ -76,3 +74,59 @@ class MaintenanceEquipment(models.Model):
 
     customer_id = fields.Many2one(
         'res.partner', string='Customer', domain="[('customer', '=', 1)]")
+
+
+    ssi_jobs_count = fields.Integer(string='Jobs', compute='_get_ssi_jobs_count')
+
+
+    @api.depends('description')
+    def _get_ssi_jobs_count(self):
+        results = self.env['ssi_jobs'].read_group(
+            [('equipment_id', 'in', self.ids)], 'equipment_id', 'equipment_id')
+        dic = {}
+        for x in results:
+            dic[x['equipment_id'][0]] = x['equipment_id_count']
+        for record in self:
+            record.ssi_jobs_count = dic.get(
+                record.id, 0)
+
+    @api.multi
+    def action_ssi_jobs_count_button(self):
+        action = self.env.ref(
+            'ssi_maintenance.sale_order_equipment_id_line_action').read()[0]
+        action['domain'] = [('equipment_id', '=', self.id)]
+        return action
+
+
+
+        # action = self.env.ref('stock.action_picking_tree_all').read()[0]
+
+        # pickings = self.mapped('picking_ids')
+        # if len(pickings) > 1:
+        #     action['domain'] = [('id', 'in', pickings.ids)]
+        # elif pickings:
+        #     action['views'] = [(self.env.ref('stock.view_picking_form').id, 'form')]
+        #     action['res_id'] = pickings.id
+        # return action
+
+
+        # <record id="action_picking_tree_all" model="ir.actions.act_window">
+        #     <field name="name">Transfers</field>
+        #     <field name="res_model">stock.picking</field>
+        #     <field name="type">ir.actions.act_window</field>
+        #     <field name="view_type">form</field>
+        #     <field name="view_mode">tree,kanban,form,calendar</field>
+        #     <field name="domain"></field>
+        #     <field name="context">{
+        #             'contact_display': 'partner_address',
+        #     }
+        #     </field>
+        #     <field name="search_view_id" ref="view_picking_internal_search"/>
+        #     <field name="help" type="html">
+        #       <p class="o_view_nocontent_smiling_face">
+        #         Define a new transfer
+        #       </p>
+        #     </field>
+        # </record>
+
+        # <menuitem id="all_picking" name="Transfers" parent="menu_stock_warehouse_mgmt" sequence="5" action="action_picking_tree_all" groups="stock.group_stock_manager,stock.group_stock_user"/>
