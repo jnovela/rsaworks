@@ -159,7 +159,7 @@
 
             <xpath expr="//button[@icon='fa-ticket']" position="before">
                 <!-- <button name="action_ssi_jobs_count_button" type="object" class="oe_stat_button" icon="fa-wrench" string="Start Job"/> -->
-                <button class="oe_stat_button" icon="fa-dollar" type="object" name="action_ssi_jobs_count_button">
+                <button class="oe_stat_button" icon="fa-briefcase" type="object" name="action_ssi_jobs_count_button">
                     <field name="ssi_jobs_count" string="Jobs" widget="statinfo"/>
                 </button>
 
