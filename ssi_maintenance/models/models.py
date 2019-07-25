@@ -96,3 +96,37 @@ class MaintenanceEquipment(models.Model):
             'ssi_maintenance.sale_order_equipment_id_line_action').read()[0]
         action['domain'] = [('equipment_id', '=', self.id)]
         return action
+
+
+
+        # action = self.env.ref('stock.action_picking_tree_all').read()[0]
+
+        # pickings = self.mapped('picking_ids')
+        # if len(pickings) > 1:
+        #     action['domain'] = [('id', 'in', pickings.ids)]
+        # elif pickings:
+        #     action['views'] = [(self.env.ref('stock.view_picking_form').id, 'form')]
+        #     action['res_id'] = pickings.id
+        # return action
+
+
+        # <record id="action_picking_tree_all" model="ir.actions.act_window">
+        #     <field name="name">Transfers</field>
+        #     <field name="res_model">stock.picking</field>
+        #     <field name="type">ir.actions.act_window</field>
+        #     <field name="view_type">form</field>
+        #     <field name="view_mode">tree,kanban,form,calendar</field>
+        #     <field name="domain"></field>
+        #     <field name="context">{
+        #             'contact_display': 'partner_address',
+        #     }
+        #     </field>
+        #     <field name="search_view_id" ref="view_picking_internal_search"/>
+        #     <field name="help" type="html">
+        #       <p class="o_view_nocontent_smiling_face">
+        #         Define a new transfer
+        #       </p>
+        #     </field>
+        # </record>
+
+        # <menuitem id="all_picking" name="Transfers" parent="menu_stock_warehouse_mgmt" sequence="5" action="action_picking_tree_all" groups="stock.group_stock_manager,stock.group_stock_user"/>
