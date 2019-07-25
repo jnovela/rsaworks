@@ -186,7 +186,7 @@
 
         <record id="ssi_jobs_tree_equipment" model="ir.ui.view">
             <field name="name">ssi_jobs_tree_equipment.tree</field>
-            <field name="model">ssi_jobs</field>
+            <field name="model">model_ssi_jobs</field>
             <field name="arch" type="xml">
                 <tree string="Jobs">
                     <field name="name"/>
