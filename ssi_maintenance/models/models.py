@@ -94,8 +94,14 @@ class MaintenanceEquipment(models.Model):
     def action_ssi_jobs_count_button(self):
         action = self.env.ref(
             'ssi_maintenance.sale_order_equipment_id_line_action').read()[0]
-        action['domain'] = [('equipment_id', '=', self.id)]
-        return action
+
+        jobs = self.env['ssi_jobs'].search(
+            [('equipment_id', 'in', self.ids)])
+
+        raise UserError(_(jobs))
+
+        # action['domain'] = [('equipment_id', '=', self.id)]
+        # return action
 
 
 
