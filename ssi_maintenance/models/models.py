@@ -74,3 +74,22 @@ class MaintenanceEquipment(models.Model):
 
     customer_id = fields.Many2one(
         'res.partner', string='Customer', domain="[('customer', '=', 1)]")
+
+
+    @api.depends('description')
+    def _get_ssi_jobs_count(self):
+        results = self.env['ssi_jobs.ssi_jobs'].read_group(
+            [('equipment_id', 'in', self.ids)], 'equipment_id', 'equipment_id')
+        dic = {}
+        for x in results:
+            dic[x['equipment_id'][0]] = x['equipment_id_count']
+        for record in self:
+            record.wc_count = dic.get(
+                record.id, 0)
+
+    @api.multi
+    def action_ssi_jobs_count(self):
+        action = self.env.ref(
+            'ssi_maintenance.sale_order_equipment_id_line_action').read()[0]
+        action['domain'] = [('equipment_id', '=', self.id)]
+        return action
