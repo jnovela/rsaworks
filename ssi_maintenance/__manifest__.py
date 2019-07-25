@@ -17,6 +17,7 @@
         'maintenance',
         'mrp',
         'mrp_maintenance',
+        'ssi_jobs',
 
     ],
     "data":  [
