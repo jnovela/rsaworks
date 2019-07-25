@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models, tools, _
+from odoo.exceptions import UserError
 
 
 class MaintenanceEquipment(models.Model):
