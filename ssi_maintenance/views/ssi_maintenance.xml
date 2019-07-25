@@ -151,14 +151,11 @@
         <field eval="20" name="sequence"/>
         <field name="type">form</field>
             <field name="arch" type="xml">
-<!-- <div class="oe_button_box" name="button_box">
-        <button name="152" type="action" class="oe_stat_button" icon="fa-ticket">
-            <field string="Maintenance" name="maintenance_count" widget="statinfo"/>
-        </button>
-        <button class="oe_stat_button" type="object" name="toggle_active" icon="fa-archive">
-            <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
-        </button>
-    </div> -->
+            
+            <xpath expr="//field[@name='workcenter_id']" position="attributes">
+                <attribute name="attrs">{}</attribute>
+                <attribute name="invisible">1</attribute>
+            </xpath>
 
             <xpath expr="//button[@icon='fa-ticket']" position="before">
                 <!-- <button name="action_ssi_jobs_count_button" type="object" class="oe_stat_button" icon="fa-wrench" string="Start Job"/> -->
@@ -166,11 +163,6 @@
                     <field name="ssi_jobs_count" string="Jobs" widget="statinfo"/>
                 </button>
 
-            </xpath>
-
-            <xpath expr="//field[@class='workcenter_id']" position="attributes">
-                <attribute name="attrs">{}</attribute>
-                <attribute name="invisible">1</attribute>
             </xpath>
 
             </field>
