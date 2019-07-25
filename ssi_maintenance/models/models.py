@@ -81,7 +81,7 @@ class MaintenanceEquipment(models.Model):
 
     @api.depends('description')
     def _get_ssi_jobs_count(self):
-        results = self.env['ssi_jobs.ssi_jobs'].read_group(
+        results = self.env['ssi_jobs'].read_group(
             [('equipment_id', 'in', self.ids)], 'equipment_id', 'equipment_id')
         dic = {}
         for x in results:
