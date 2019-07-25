@@ -76,6 +76,9 @@ class MaintenanceEquipment(models.Model):
         'res.partner', string='Customer', domain="[('customer', '=', 1)]")
 
 
+    ssi_jobs_count = fields.Integer(string='Jobs', compute='_get_ssi_jobs_count')
+
+
     @api.depends('description')
     def _get_ssi_jobs_count(self):
         results = self.env['ssi_jobs.ssi_jobs'].read_group(
@@ -88,7 +91,7 @@ class MaintenanceEquipment(models.Model):
                 record.id, 0)
 
     @api.multi
-    def action_ssi_jobs_count(self):
+    def action_ssi_jobs_count_button(self):
         action = self.env.ref(
             'ssi_maintenance.sale_order_equipment_id_line_action').read()[0]
         action['domain'] = [('equipment_id', '=', self.id)]
