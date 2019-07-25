@@ -87,7 +87,7 @@ class MaintenanceEquipment(models.Model):
         for x in results:
             dic[x['equipment_id'][0]] = x['equipment_id_count']
         for record in self:
-            record.wc_count = dic.get(
+            record.ssi_jobs_count = dic.get(
                 record.id, 0)
 
     @api.multi
