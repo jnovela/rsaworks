@@ -7,7 +7,7 @@
       <field name="model">storage</field>
       <field name="arch" type="xml">
           <tree string="Storage">
-              <field name="name"/>
+              <field name="equipment_id"/>
           </tree>
       </field>
   </record>
