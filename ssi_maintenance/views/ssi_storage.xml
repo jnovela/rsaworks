@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 
 <odoo>
-
   <record id="storage_tree" model="ir.ui.view">
       <field name="name">storage.tree</field>
       <field name="model">storage</field>
