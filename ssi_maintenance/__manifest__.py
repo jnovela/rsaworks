@@ -20,6 +20,7 @@
     ],
     "data":  [
         'views/ssi_maintenance.xml',
+        'views/ssi_storage.xml',
         'security/ir.model.access.csv',
 
     ],
