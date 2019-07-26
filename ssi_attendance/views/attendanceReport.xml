@@ -34,12 +34,12 @@
   </record> -->
 
 
-  <menuitem 
+  <!-- <menuitem 
     id="menu_hr_attendance_reports_view"
     parent="hr_attendance.menu_hr_attendance_report" 
     name="Attendance Reports" 
     sequence="10" 
-    action="hr_attendance_reports_view"/>
+    action="hr_attendance_reports_view"/> -->
 
 
 </odoo>
