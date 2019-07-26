@@ -50,7 +50,7 @@
              <xpath expr="//tree" position="replace">
               <tree string="Employee attendances">
                   <field name="employee_id"/>
-                  <!-- <field name="job_id"/> -->
+                  <field name="job_id"/>
                   <field name="workorder_id"/>
                   <field name="check_in"/>
                   <field name="check_out"/>
