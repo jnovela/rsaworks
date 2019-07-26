@@ -23,7 +23,7 @@
       </field>
   </record> -->
 
-
+<!-- 
   <record 
     model="ir.actions.act_window" 
     id="hr_attendance_reports_view">
@@ -31,7 +31,7 @@
       <field name="res_model">hr.attendance.reports</field>
       <field name="view_mode">tree,form</field>
 
-  </record>
+  </record> -->
 
 
   <menuitem 
