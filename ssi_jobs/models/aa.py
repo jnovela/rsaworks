@@ -8,3 +8,5 @@ class AA(models.Model):
 
     ssi_job_id = fields.Many2one(
         'ssi_jobs', string='Job')
+    # so_id = fields.Many2one(
+    #     'sale.order', string='Job')
