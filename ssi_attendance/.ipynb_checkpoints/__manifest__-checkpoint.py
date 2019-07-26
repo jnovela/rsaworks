@@ -2,27 +2,24 @@
 
 #################################################################################
 # Systems Services, Inc.
-# Desc: To extend maintenance module to add fields to equipment
+# Desc: To extend attendance module in order to create detail attendance records
 #################################################################################
 
 {
-    "name":  "SSI Maintenance Mods",
-    "summary":  "Add feilds to the equipment table",
+    "name":  "SSI Attendance Mods",
+    "summary":  "Attendance Detail model and other modifications",
     "category":  "SSI",
     "version":  "1.0",
     "sequence":  1,
     "author":  "Systems Services, Inc.",
     "website":  "https://ssibtr.com",
     "depends":  [
-        'maintenance',
-        'mrp',
-        'mrp_maintenance',
+        'hr_attendance',
         'ssi_jobs',
-
     ],
     "data":  [
-        'views/ssi_maintenance.xml',
-        'views/ssi_storage.xml',
+        'views/ssi_attendance.xml',
+        'views/ssi_attendance_report.xml',
         'security/ir.model.access.csv',
 
     ],

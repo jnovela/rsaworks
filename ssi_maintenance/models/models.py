@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models, tools, _
+from odoo.exceptions import UserError
 
 
 class MaintenanceEquipment(models.Model):
@@ -74,3 +75,71 @@ class MaintenanceEquipment(models.Model):
 
     customer_id = fields.Many2one(
         'res.partner', string='Customer', domain="[('customer', '=', 1)]")
+
+
+    ssi_jobs_count = fields.Integer(string='Jobs', compute='_get_ssi_jobs_count')
+
+
+    @api.depends('description')
+    def _get_ssi_jobs_count(self):
+        results = self.env['ssi_jobs'].read_group(
+            [('equipment_id', 'in', self.ids)], 'equipment_id', 'equipment_id')
+        dic = {}
+        for x in results:
+            dic[x['equipment_id'][0]] = x['equipment_id_count']
+        for record in self:
+            record.ssi_jobs_count = dic.get(
+                record.id, 0)
+
+    @api.multi
+    def action_ssi_jobs_count_button(self):
+        action = self.env.ref(
+            'ssi_maintenance.sale_order_equipment_id_line_action').read()[0]
+
+        jobs = self.env['ssi_jobs'].search(
+            [('equipment_id', 'in', self.ids)])
+
+        # raise UserError(_(jobs))
+        if len(jobs) == 0:
+            raise UserError(_('There are no jobs assiociated with with this record'))
+        elif len(jobs) > 1:
+            action['domain'] = [('equipment_id', '=', self.id)]
+        else:
+            action['views'] = [(self.env.ref('ssi_jobs.jobs_form').id, 'form')]
+            action['res_id'] = jobs[0].id
+
+        return action
+
+
+
+        # action = self.env.ref('stock.action_picking_tree_all').read()[0]
+
+        # pickings = self.mapped('picking_ids')
+        # if len(pickings) > 1:
+        #     action['domain'] = [('id', 'in', pickings.ids)]
+        # elif pickings:
+        #     action['views'] = [(self.env.ref('stock.view_picking_form').id, 'form')]
+        #     action['res_id'] = pickings.id
+        # return action
+
+
+        # <record id="action_picking_tree_all" model="ir.actions.act_window">
+        #     <field name="name">Transfers</field>
+        #     <field name="res_model">stock.picking</field>
+        #     <field name="type">ir.actions.act_window</field>
+        #     <field name="view_type">form</field>
+        #     <field name="view_mode">tree,kanban,form,calendar</field>
+        #     <field name="domain"></field>
+        #     <field name="context">{
+        #             'contact_display': 'partner_address',
+        #     }
+        #     </field>
+        #     <field name="search_view_id" ref="view_picking_internal_search"/>
+        #     <field name="help" type="html">
+        #       <p class="o_view_nocontent_smiling_face">
+        #         Define a new transfer
+        #       </p>
+        #     </field>
+        # </record>
+
+        # <menuitem id="all_picking" name="Transfers" parent="menu_stock_warehouse_mgmt" sequence="5" action="action_picking_tree_all" groups="stock.group_stock_manager,stock.group_stock_user"/>
