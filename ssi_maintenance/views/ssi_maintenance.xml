@@ -154,7 +154,7 @@
             <field name="arch" type="xml">
             
                 <xpath expr="//field[@name='serial_no']" position="after">
-                    <field name="customer_id"/>                
+                    <field name="partner_id"/>                
                 </xpath>
 
             </field>
