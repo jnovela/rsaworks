@@ -8,5 +8,5 @@ class SO(models.Model):
 
     ssi_job_id = fields.Many2one(
         'ssi_jobs', string='Job')
-    aa_id = fields.Many2one(
-        'account.analytic.account', string='Account Analytic')
+    # aa_id = fields.Many2one(
+    #     'account.analytic.account', string='Account Analytic')
