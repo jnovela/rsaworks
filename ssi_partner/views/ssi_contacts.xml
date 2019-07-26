@@ -5,7 +5,7 @@
         <record id="ssi_contacts_form" model="ir.ui.view">
         <field name="name">ssi_contacts_form</field>
 			<field name="model">res.partner</field>
-        <field name="inherit_id" ref="base_view_partner_form"/>
+        <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="type">form</field>
             <field name="arch" type="xml">
 			<xpath expr="//field[@name='user_id']" position="after">
