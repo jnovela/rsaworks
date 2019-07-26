@@ -215,16 +215,20 @@ class SalesForceImporter(models.Model):
         if accountid:
             query = "select id, name, shippingStreet,\
                     ShippingCity,Website, \
-                    ShippingPostalCode, shippingCountry, \
-                    fax, phone, Description from account %s"
+                     ShippingPostalCode, shippingCountry, phone, Description,\
+                      RSAW_Customer__c, Project_Manager__c,\
+                       owner.name\
+                        from account a %s"
 
             extend_query = "where id='%s'" % accountid
             contacts = self.sales_force.query(query % extend_query)["records"]
 
         else:
-            query = "select id, name, shippingStreet, ShippingCity,Website,\
-             ShippingPostalCode, shippingCountry, fax,\
-              phone, Description from account %s"
+            query = "select id, a.name, shippingStreet, ShippingCity,Website,\
+             ShippingPostalCode, shippingCountry, phone, Description,\
+              RSAW_Customer__c, Project_Manager__c,\
+               owner.name\
+                from account a %s"
 
             if customer_id:
                 extend_query = "where id='%s'" % customer_id
@@ -249,10 +253,14 @@ class SalesForceImporter(models.Model):
             customer_data["phone"] = customer["Phone"] if customer["Phone"] else ""
             customer_data["comment"] = customer['Description'] if customer['Description'] else ""
             customer_data['website'] = customer["Website"] if customer["Website"] else ""
-            customer_data["fax"] = customer["Fax"] if customer["Fax"] else ""
             customer_data["zip"] = customer["ShippingPostalCode"] if customer["ShippingPostalCode"] else ""
             country = self.add_country(customer['ShippingCountry'])
             customer_data["country_id"] = country[0].id if country else ''
+            user = self.env["res.users"].search([("name", "=", customer["Owner"]["Name"])])
+            customer_data["user_id"] = user.id if user.id else ""
+            customer_data["ref"] = customer["RSAW_Customer__c"] if customer["RSAW_Customer__c"] else ""
+            customer_data["comment"] = customer["Project_Manager__c"] if customer["Project_Manager__c"] else ""
+#             raise UserError(_(customer_data))
             customer_detail = partner_model.create(customer_data)
             self.env.cr.commit()
             self.add_child_customers(customer['Id'], customer_detail.id)
