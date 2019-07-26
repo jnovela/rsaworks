@@ -32,7 +32,6 @@
                         'user_id': a.employee_id.user_id.id,
                         'date_start': a.check_in,
                         'date_end': a.check_out,
-                        'x_studio_labor_codes': a.labor_code_id.id
                     }
                     a.write({
                         'status': 'approved'

@@ -15,6 +15,8 @@
     "website":  "https://ssibtr.com",
     "depends":  [
         'hr_attendance',
+        'mrp',
+        'ssi_jobs'
     ],
     "data":  [
         'views/ssi_attendance.xml',

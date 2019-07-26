@@ -71,7 +71,7 @@ odoo.define('hr_attendance.greeting_message_custom', function(require) {
       //         CUSTOM
       this.jobs = action.jobs;
       this.wos = action.wos;
-      this.lcs = action.lcs;
+      // this.lcs = action.lcs;
 
       // check in/out times displayed in the greeting message template.
       this.format_time = 'HH:mm:ss';
@@ -414,7 +414,7 @@ odoo.define('hr_attendance.kiosk_confirm_custom', function(require) {
       //         CUSTOM
       this.jobs = [];
       this.wos = [];
-      this.lcs = [];
+      // this.lcs = [];
     },
     start: function() {
       var self = this;
@@ -441,15 +441,15 @@ odoo.define('hr_attendance.kiosk_confirm_custom', function(require) {
           //   });
           //   self.wos.push(wo);
           // }
-          self.lcs = await self._rpc({
-            model: 'x_labor.codes',
-            method: 'search_read',
-            args: [[]]
-          });
+          // self.lcs = await self._rpc({
+          //   model: 'x_labor.codes',
+          //   method: 'search_read',
+          //   args: [[]]
+          // });
 
           console.log('JOBZ', self.jobs);
           // console.log('WOZ', self.wos);
-          console.log('LCZ', self.lcs);
+          // console.log('LCZ', self.lcs);
 
           self
             .getSession()
