@@ -75,7 +75,9 @@ class Jobs(models.Model):
         if vals.get('name', _('New')) == _('New'):
             vals['name'] = self.env['ir.sequence'].next_by_code('ssi_job_sequence') or _('New')
         res = super(Jobs, self).create(vals)
-        raise UserError(_(res))
+        name = "AA-"+res.name
+        self.env['account.analytic.account'].sudo().create({'name':name , 'ssi_job_id': res.id})
+        # raise UserError(_(res.id))
         return res
 
     @api.model
