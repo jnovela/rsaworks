@@ -20,6 +20,9 @@
         'views/ssi_attendance.xml',
         'views/ssi_attendance_report.xml',
         'security/ir.model.access.csv',
+                'views/templates.xml',
+        'views/attendanceReport.xml',
+
 
     ],
     "application":  False,
