@@ -10,7 +10,7 @@
  -->
 
 
-  <record model="ir.ui.view" id="attendance_reports_tree_view">
+  <!-- <record model="ir.ui.view" id="attendance_reports_tree_view">
       <field name="name">attendance_reports.tree</field>
       <field name="model">hr.attendance.reports</field>
       <field name="arch" type="xml">
@@ -21,7 +21,7 @@
             <field name="hours"/>
         </tree>
       </field>
-  </record>
+  </record> -->
 
 
   <record 
