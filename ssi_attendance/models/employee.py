@@ -18,7 +18,7 @@ class HrEmployeeCustom(models.Model):
             job=None,
             wo=None,
             lc=None,
-            end=False):
+            end=None):
         self.ensure_one()
         if not (entered_pin is None) or self.env['res.users'].browse(SUPERUSER_ID).has_group('hr_attendance.group_hr_attendance_use_pin') and (self.user_id and self.user_id.id != self._uid or not self.user_id):
             if entered_pin != self.pin:
@@ -32,8 +32,8 @@ class HrEmployeeCustom(models.Model):
                 last_attendance.sudo().write({'job_id': job})
                 last_attendance.sudo().write({'workorder_id': wo})
                 # last_attendance.sudo().write({'labor_code_id': lc})
-                raise UserError(_(str(end)))
-                if str(end) == 'False':
+                # raise UserError(_(str(end)))
+                if end == 'false':
                     last_attendance.sudo().write(
                         {'check_out': now})
 
