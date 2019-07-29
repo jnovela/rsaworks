@@ -32,7 +32,7 @@ class HrEmployeeCustom(models.Model):
                 last_attendance.sudo().write({'job_id': job})
                 last_attendance.sudo().write({'workorder_id': wo})
                 # last_attendance.sudo().write({'labor_code_id': lc})
-                raise UserError(_(end))
+                raise UserError(_(str(end)))
                 if str(end) == 'False':
                     last_attendance.sudo().write(
                         {'check_out': now})
