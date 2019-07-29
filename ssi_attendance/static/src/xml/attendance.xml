@@ -137,7 +137,7 @@
 
 
 
-    <t t-name="ssi_attendance_two.HrAttendanceGreetingMessageCustom">
+    <t t-name="ssi_attendance.HrAttendanceGreetingMessageCustom">
         <div class="o_hr_attendance_kiosk_mode_container o_home_menu_background">
             <span class="o_hr_attendance_kiosk_backdrop"/>
             <div class="o_hr_attendance_clock text-center"/>

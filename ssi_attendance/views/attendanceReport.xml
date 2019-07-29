@@ -5,7 +5,7 @@
   <!-- <record id="attendance_reports_table_fields" model="ir.ui.view">
       <field name="name">attendance_reports_table_fields</field>
       <field name="model">hr.attendance.reports</field>
-      <field name="inherit_id" ref="ssi_attendance_two.hr_attendance_reports_view"/>
+      <field name="inherit_id" ref="ssi_attendance.hr_attendance_reports_view"/>
   </record>		
  -->
 

@@ -8,8 +8,8 @@ odoo.define('hr_attendance.greeting_message_custom', function(require) {
   var _t = core._t;
 
   var GreetingMessage = GreatingMessageOld.extend({
-    // template: 'ssi_attendance_two.HrAttendanceGreetingMessageCustom',
-    // xmlDependencies: ['/ssi_attendance_two/static/src/xml/attendance.xml'],
+    // template: 'ssi_attendance.HrAttendanceGreetingMessageCustom',
+    // xmlDependencies: ['/ssi_attendance/static/src/xml/attendance.xml'],
 
     events: {
       'click .o_hr_attendance_button_dismiss': function() {
@@ -265,8 +265,8 @@ odoo.define('hr_attendance.kiosk_confirm_custom', function(require) {
   var QWeb = core.qweb;
 
   KioskConfirm.include({
-    template: 'ssi_attendance_two.HrAttendanceKioskConfirmCustom',
-    xmlDependencies: ['/ssi_attendance_two/static/src/xml/attendance.xml'],
+    template: 'ssi_attendance.HrAttendanceKioskConfirmCustom',
+    xmlDependencies: ['/ssi_attendance/static/src/xml/attendance.xml'],
     events: {
       'click .o_hr_attendance_back_button': function() {
         this.do_action(this.next_action, { clear_breadcrumbs: true });
