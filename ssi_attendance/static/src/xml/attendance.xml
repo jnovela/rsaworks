@@ -54,7 +54,7 @@
 
 
                       <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                           <div class="form-group">
                             <label style="fontSize: 8px" for="exampleFormControlSelect1">Jobs</label>
                             <select id="job-select" class="form-control">
@@ -67,7 +67,7 @@
                           </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                           <div class="form-group">
                             <label style="fontSize: 8px" for="">Work Orders</label>
                             <select id="wo-select-js" class="form-control">

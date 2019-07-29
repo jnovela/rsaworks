@@ -24,7 +24,7 @@ class HrEmployeeCustom(models.Model):
             if entered_pin != self.pin:
                 return {'warning': _('Wrong PIN')}
 
-        if not (job is None) and not (wo is None) and not (lc is None):
+        if not (job is None) and not (wo is None):
             last_attendance = self.env['hr.attendance'].search(
                 [('employee_id', '=', self.id)], limit=1)
             if last_attendance:
