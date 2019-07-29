@@ -45,7 +45,7 @@ class attendance(http.Controller):
         #         attendance.sudo().write({'labor_code_id': lc})
 
         #         wojs = request.env['mrp.workorder'].search_read(
-        #             [('x_studio_job.id', '=', job)])
+        #             [('ssi_job_id.id', '=', job)])
 
         #         if wo != '':
         #             attendance.sudo().write({'workorder_id': wo})

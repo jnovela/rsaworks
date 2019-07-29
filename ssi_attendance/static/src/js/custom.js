@@ -348,7 +348,7 @@ odoo.define('hr_attendance.kiosk_confirm_custom', function(require) {
         this._rpc({
           model: 'mrp.workorder',
           method: 'search_read',
-          args: [[['x_studio_job.id', '=', job_id]]]
+          args: [[['ssi_job_id.id', '=', job_id]]]
         }).then(function(results) {
           console.log(results);
           if (results) {
@@ -429,7 +429,7 @@ odoo.define('hr_attendance.kiosk_confirm_custom', function(require) {
           self.wos = await self._rpc({
             model: 'mrp.workorder',
             method: 'search_read',
-            args: [[['x_studio_job', '=', self.jobs[0].id]]]
+            args: [[['ssi_job_id', '=', self.jobs[0].id]]]
           });
 
           // var i;
@@ -437,7 +437,7 @@ odoo.define('hr_attendance.kiosk_confirm_custom', function(require) {
           //   var wo = await self._rpc({
           //     model: 'mrp.workorder',
           //     method: 'search_read',
-          //     args: [[['x_studio_job', '=', self.jobs[i].id]]]
+          //     args: [[['ssi_job_id', '=', self.jobs[i].id]]]
           //   });
           //   self.wos.push(wo);
           // }
