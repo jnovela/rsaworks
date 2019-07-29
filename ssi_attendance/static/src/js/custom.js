@@ -377,8 +377,6 @@ odoo.define('hr_attendance.kiosk_confirm_custom', function(require) {
           'disabled'
         );
 
-        // TODO Use function with rpc call that updates the record
-
         var end = 'false';
         if (this.$("input[name='end-job']:checked").val() !== undefined) {
           end = this.$("input[name='end-job']:checked")
