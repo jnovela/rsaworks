@@ -377,7 +377,7 @@ odoo.define('hr_attendance.kiosk_confirm_custom', function(require) {
           'disabled'
         );
 
-        var end = 'false';
+        var end = 'True';
         if (this.$("input[name='end-job']:checked").val() !== undefined) {
           end = this.$("input[name='end-job']:checked")
             .val()
