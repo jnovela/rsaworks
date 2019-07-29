@@ -55,7 +55,7 @@ class HrEmployeeCustom(models.Model):
         action_message['next_action'] = next_action
 
 #         CUSTOM
-        action_message['jobs'] = self.env['x_jobs'].search_read([])
+        action_message['jobs'] = self.env['ssi_jobs'].search_read([])
         job_ids = []
         for job in action_message['jobs']:
             job_ids.append(job['id'])

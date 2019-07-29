@@ -421,7 +421,7 @@ odoo.define('hr_attendance.kiosk_confirm_custom', function(require) {
       async function renderWithDropdowns() {
         try {
           self.jobs = await self._rpc({
-            model: 'x_jobs',
+            model: 'ssi_jobs',
             method: 'search_read',
             args: [[]]
           });
