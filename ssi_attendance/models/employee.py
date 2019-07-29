@@ -17,7 +17,6 @@ class HrEmployeeCustom(models.Model):
             entered_pin=None,
             job=None,
             wo=None,
-            lc=None,
             end=None):
         self.ensure_one()
         if not (entered_pin is None) or self.env['res.users'].browse(SUPERUSER_ID).has_group('hr_attendance.group_hr_attendance_use_pin') and (self.user_id and self.user_id.id != self._uid or not self.user_id):

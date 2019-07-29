@@ -378,12 +378,18 @@ odoo.define('hr_attendance.kiosk_confirm_custom', function(require) {
         );
 
         // TODO Use function with rpc call that updates the record
-        // console.log(
-        //   'CHECK VALUES',
-        //   this.$("input[name='end-job']:checked")
-        //     .val()
-        //     .toString()
-        // );
+
+        var end = 'false';
+        if (
+          this.$("input[name='end-job']:checked")
+            .val()
+            .toString() !== undefined
+        ) {
+          end = this.$("input[name='end-job']:checked")
+            .val()
+            .toString();
+        }
+        console.log('CHECK VALUES', end);
         this._rpc({
           model: 'hr.employee',
           method: 'attendance_manual',
@@ -394,9 +400,7 @@ odoo.define('hr_attendance.kiosk_confirm_custom', function(require) {
             this.$('#job-select').val(),
             this.$('#wo-select-js').val(),
             // this.$('#lc-select').val(),
-            this.$("input[name='end-job']:checked")
-              .val()
-              .toString()
+            end
           ]
         }).then(function(result) {
           if (result.action) {
