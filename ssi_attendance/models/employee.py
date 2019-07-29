@@ -60,7 +60,7 @@ class HrEmployeeCustom(models.Model):
         for job in action_message['jobs']:
             job_ids.append(job['id'])
         action_message['wos'] = self.env['mrp.workorder'].search_read(
-            [('ssi_jobs', 'in', job_ids)])
+            [('ssi_job_id', 'in', job_ids)])
         # action_message['lcs'] = self.env['x_labor.codes'].search_read([])
 
         if self.user_id:
