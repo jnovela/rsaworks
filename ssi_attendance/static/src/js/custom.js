@@ -458,12 +458,9 @@ odoo.define('hr_attendance.kiosk_confirm_custom', function(require) {
               self.use_pin = has_group;
               // setTimeout(function() {
               self.$el.html(
-                QWeb.render(
-                  'ssi_attendance_two.HrAttendanceKioskConfirmCustom',
-                  {
-                    widget: self
-                  }
-                )
+                QWeb.render('ssi_attendance.HrAttendanceKioskConfirmCustom', {
+                  widget: self
+                })
               );
               // }, 100);
               self.start_clock();
