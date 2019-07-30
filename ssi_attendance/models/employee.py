@@ -43,6 +43,7 @@ class HrEmployeeCustom(models.Model):
                         'job_id': job,
                         'workorder_id': wo
                     })
+                    raise UserError(_(last_attendance.attendance_lines))
                     last_attendance.sudo().write(
                         {'check_out': now})
 
