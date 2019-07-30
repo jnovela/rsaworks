@@ -6,6 +6,9 @@ from string import digits
 from odoo import models, fields, api, exceptions, _, SUPERUSER_ID
 from odoo.exceptions import UserError
 
+# TODO: STEP 1 CHECK IN CREATE NEW ATTENDANCE AND NEW ATTENDANCE LINE
+# TODO: STEP 2 SWITCH CLOSE CURRENT LINE AND CREATE NEW ONE
+# TODO: STEP 3 CLOSE CLOSE CURRENT LINE AND ATTENDANCE
 
 class HrEmployeeCustom(models.Model):
     _inherit = "hr.employee"
@@ -32,6 +35,13 @@ class HrEmployeeCustom(models.Model):
                 last_attendance.sudo().write({'workorder_id': wo})
                 # last_attendance.sudo().write({'labor_code_id': lc})
                 if end == 'False':
+                    last_attendance.attendance_lines.sudo().write({
+                        'attendance_id': last_attendance.id,
+                        'check_in': last_attendance.check_in,
+                        'check_out': now,
+                        'job_id': job,
+                        'workorder_id': wo
+                    })
                     last_attendance.sudo().write(
                         {'check_out': now})
 
