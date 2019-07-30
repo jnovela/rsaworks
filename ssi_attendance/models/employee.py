@@ -36,6 +36,7 @@ class HrEmployeeCustom(models.Model):
                 # last_attendance.sudo().write({'labor_code_id': lc})
                 if end == 'False':
                     self.env['hr.attendance.line'].sudo().write({
+                        'employee_id': self.id,
                         'attendance_id': last_attendance.id,
                         'check_in': last_attendance.check_in,
                         'check_out': now,
