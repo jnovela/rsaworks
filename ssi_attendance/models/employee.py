@@ -34,7 +34,7 @@ class HrEmployeeCustom(models.Model):
                 last_attendance.sudo().write({'job_id': job})
                 last_attendance.sudo().write({'workorder_id': wo})
                 # last_attendance.sudo().write({'labor_code_id': lc})
-                self.env['hr.attendance.line'].sudo().write({
+                self.env['hr.attendance.line'].sudo().create({
                     'employee_id': self.id,
                     'attendance_id': last_attendance.id,
                     'check_in': last_attendance.check_in,
@@ -44,7 +44,6 @@ class HrEmployeeCustom(models.Model):
                 })
                 if end == 'False':
                     # TO TEST SPIT OUT ATTENDANCES HERE 
-                    raise UserError(_(self.env['hr.attendance.line'].search([], limit=1).attendance_id))
                     last_attendance.sudo().write(
                         {'check_out': now})
 
