@@ -86,7 +86,7 @@ class HrEmployeeCustom(models.Model):
         if len(self) > 1:
             raise exceptions.UserError(_('Cannot perform check in or check out on multiple employees.'))
         action_date = fields.Datetime.now()
-
+        self.env['hr.attendance'].search([('employee_id', '=', self.id)], limit=1).sudo().write({'check_out': None})
         if self.attendance_state != 'checked_in':
             vals = {
                 'employee_id': self.id,
