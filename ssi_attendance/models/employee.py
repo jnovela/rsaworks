@@ -43,6 +43,8 @@ class HrEmployeeCustom(models.Model):
                     'workorder_id': wo
                 })
                 if end == 'False':
+                    # TO TEST SPIT OUT ATTENDANCES HERE 
+                    raise UserError(_(self.env['hr.attendance.line'].search([], limit=1).attendance_id))
                     last_attendance.sudo().write(
                         {'check_out': now})
 
