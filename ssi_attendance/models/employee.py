@@ -10,6 +10,10 @@ from odoo.exceptions import UserError
 # TODO: STEP 2 SWITCH CLOSE CURRENT LINE AND CREATE NEW ONE
 # TODO: STEP 3 CLOSE CLOSE CURRENT LINE AND ATTENDANCE
 
+
+#! NEXT ACTION CREATES A NEW ATTENDANCE 
+#! THE ONLY THING MANIPULATED HERE IS THE CKECK OUT OPTION CLOSING OR NOT THE ATTENDANCE
+
 class HrEmployeeCustom(models.Model):
     _inherit = "hr.employee"
 
@@ -34,14 +38,6 @@ class HrEmployeeCustom(models.Model):
                 last_attendance.sudo().write({'job_id': job})
                 last_attendance.sudo().write({'workorder_id': wo})
                 # last_attendance.sudo().write({'labor_code_id': lc})
-                self.env['hr.attendance.line'].sudo().create({
-                    'employee_id': self.id,
-                    'attendance_id': last_attendance.id,
-                    'check_in': last_attendance.check_in,
-                    'check_out': now,
-                    'job_id': job,
-                    'workorder_id': wo
-                })
                 if end == 'False':
                     # TO TEST SPIT OUT ATTENDANCES HERE 
                     last_attendance.sudo().write(
@@ -80,3 +76,40 @@ class HrEmployeeCustom(models.Model):
             modified_attendance = self.sudo().attendance_action_change()
         action_message['attendance'] = modified_attendance.read()[0]
         return {'action': action_message}
+
+    @api.multi
+    def attendance_action_change(self):
+        """ Check In/Check Out action
+            Check In: create a new attendance record
+            Check Out: modify check_out field of appropriate attendance record
+        """
+        if len(self) > 1:
+            raise exceptions.UserError(_('Cannot perform check in or check out on multiple employees.'))
+        action_date = fields.Datetime.now()
+
+        if self.attendance_state != 'checked_in':
+            vals = {
+                'employee_id': self.id,
+                'check_in': action_date,
+            }
+            attendance = self.env['hr.attendance'].create(vals)
+            self.env['hr.attendance.line'].sudo().create({
+                'employee_id': self.id,
+                'attendance_id': attendance.id,
+                'check_in': attendance.check_in,
+                # 'check_out': now,
+                # 'job_id': job,
+                # 'workorder_id': wo
+            })
+
+            return attendance
+        else:
+            attendance = self.env['hr.attendance'].search([('employee_id', '=', self.id), ('check_out', '=', False)], limit=1)
+            attendance_l = self.env['hr.attendance.line'].search([('employee_id', '=', self.id), ('attendance_id', '=', attendance.id)], limit=1)
+            if attendance:
+                # attendance.check_out = action_date
+                attendance_l.check_out = action_date
+            else:
+                raise exceptions.UserError(_('Cannot perform check out on %(empl_name)s, could not find corresponding check in. '
+                    'Your attendances have probably been modified manually by human resources.') % {'empl_name': self.name, })
+            return attendance
