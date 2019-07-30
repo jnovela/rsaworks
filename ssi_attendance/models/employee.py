@@ -34,16 +34,15 @@ class HrEmployeeCustom(models.Model):
                 last_attendance.sudo().write({'job_id': job})
                 last_attendance.sudo().write({'workorder_id': wo})
                 # last_attendance.sudo().write({'labor_code_id': lc})
+                self.env['hr.attendance.line'].sudo().write({
+                    'employee_id': self.id,
+                    'attendance_id': last_attendance.id,
+                    'check_in': last_attendance.check_in,
+                    'check_out': now,
+                    'job_id': job,
+                    'workorder_id': wo
+                })
                 if end == 'False':
-                    self.env['hr.attendance.line'].sudo().write({
-                        'employee_id': self.id,
-                        'attendance_id': last_attendance.id,
-                        'check_in': last_attendance.check_in,
-                        'check_out': now,
-                        'job_id': job,
-                        'workorder_id': wo
-                    })
-                    raise UserError(_(last_attendance.attendance_lines))
                     last_attendance.sudo().write(
                         {'check_out': now})
 
