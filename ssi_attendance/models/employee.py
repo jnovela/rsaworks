@@ -33,13 +33,15 @@ class HrEmployeeCustom(models.Model):
         if not (job is None) and not (wo is None):
             last_attendance = self.env['hr.attendance'].search(
                 [('employee_id', '=', self.id)], limit=1)
+            current_attendance = self.env['hr.attendance'].search([('employee_id', '=', self.id), ('check_out', '=', False)], limit=1)
             if last_attendance:
                 now = fields.Datetime.now()
                 last_attendance.sudo().write({'job_id': job})
                 last_attendance.sudo().write({'workorder_id': wo})
                 # last_attendance.sudo().write({'labor_code_id': lc})
                 if end == 'False':
-                    raise UserError(_(self.env['hr.attendance'].search([('employee_id', '=', self.id), ('check_out', '=', False)], limit=1)))
+                    current_attendance.sudo().write(
+                        {'check_out': now})
                     last_attendance.sudo().write(
                         {'check_out': now})
 
