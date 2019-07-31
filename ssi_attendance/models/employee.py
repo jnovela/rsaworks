@@ -39,7 +39,7 @@ class HrEmployeeCustom(models.Model):
                 last_attendance.sudo().write({'workorder_id': wo})
                 # last_attendance.sudo().write({'labor_code_id': lc})
                 if end == 'False':
-                    # TO TEST SPIT OUT ATTENDANCES HERE 
+                    raise UserError(_(self.env['hr.attendance'].search([('employee_id', '=', self.id), ('check_out', '=', False)], limit=1)))
                     last_attendance.sudo().write(
                         {'check_out': now})
 
@@ -86,6 +86,7 @@ class HrEmployeeCustom(models.Model):
         if len(self) > 1:
             raise exceptions.UserError(_('Cannot perform check in or check out on multiple employees.'))
         action_date = fields.Datetime.now()
+        #here
         self.env['hr.attendance'].search([('employee_id', '=', self.id)], limit=1).sudo().write({'check_out': None})
         if self.attendance_state != 'checked_in':
             vals = {
@@ -93,6 +94,7 @@ class HrEmployeeCustom(models.Model):
                 'check_in': action_date,
             }
             attendance = self.env['hr.attendance'].create(vals)
+            #here
             self.env['hr.attendance.line'].sudo().create({
                 'employee_id': self.id,
                 'attendance_id': attendance.id,
@@ -105,6 +107,7 @@ class HrEmployeeCustom(models.Model):
             return attendance
         else:
             attendance = self.env['hr.attendance'].search([('employee_id', '=', self.id), ('check_out', '=', False)], limit=1)
+            #here
             attendance_l = self.env['hr.attendance.line'].search([('employee_id', '=', self.id), ('attendance_id', '=', attendance.id)], limit=1)
             if attendance:
                 # attendance.check_out = action_date
