@@ -39,7 +39,7 @@
                                 <field name="c_referal_type"/>
                             </group>
                         </page>
-                        <page string="Accounts"  invisble="[['customer', '=', True]]">
+                        <page string="Accounts"  invisible="[['customer', '=', True]]">
                             <group>
                                 <field name="a_annual_revenue"/>
                                 <field name="a_employees"/>
