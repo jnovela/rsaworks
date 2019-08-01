@@ -9,7 +9,7 @@
         <record id="ssi_contact_first_form" model="ir.ui.view">
             <field name="name">ssi.ssi_contact_first_form</field>
             <field name="model">res.partner</field>
-            <field name="inherit_id" ref="res.res_partner_form"/>
+            <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <xpath expr="//page[@name='sales_purchases']" position="after">
