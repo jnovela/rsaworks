@@ -6,7 +6,6 @@
 <odoo>
     <data>
 
-
         <record id="ssi_leads_first_form" model="ir.ui.view">
             <field name="name">ssi.ssi_leads_first_form</field>
             <field name="model">crm.lead</field>
@@ -41,6 +40,30 @@
                                 <field name="l_this_prospect_will_be_our_coach"/>
                                 <field name="l_personality_type"/>
                                 <field name="l_personality_type_matched_mirrored"/>
+                            </group>
+                        </page>
+                    <!-- </notebook> -->
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="ssi_opportunities_first_form" model="ir.ui.view">
+            <field name="name">ssi.ssi_opportunities_first_form</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.lead_form_opportunitys"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='lead']" position="after">
+                    <!-- <notebook> -->
+                        <page string="Opportunities">
+                            <group>
+                                <field name="l_prospect_fits_our_ideal_customer_group"/>
+                                <field name="l_prospect_has_critical_or_urgent_need"/>
+                                <field name="l_we_have_solution_to_satisfy_the_need"/>
+                                <field name="l_we_have_a_coach_in_or_close_to_company"/>
+                                <field name="l_solving_this_need_is_in_their_budget"/>
+                                <field name="l_revenues_and_margins_are_sufficient"/>
                             </group>
                         </page>
                     <!-- </notebook> -->
