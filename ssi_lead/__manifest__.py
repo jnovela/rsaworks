@@ -17,12 +17,9 @@
         'base',
         'crm',
     ],
-    # 'data': [
-    #     'security/ir.model.access.csv',
-    #     'views/add_default_job_stages.xml',
-    #     'views/jobs.xml',
-    #     'views/wo.xml',
-    # ],
+    'data': [
+        'views/leads.xml',
+    ],
     'installable': True,
     'application': True,
 }
