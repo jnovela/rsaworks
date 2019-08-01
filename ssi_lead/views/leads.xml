@@ -51,7 +51,7 @@
         <record id="ssi_opportunities_first_form" model="ir.ui.view">
             <field name="name">ssi.ssi_opportunities_first_form</field>
             <field name="model">crm.lead</field>
-            <field name="inherit_id" ref="crm.lead_form_opportunitys"/>
+            <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <xpath expr="//page[@name='lead']" position="after">
