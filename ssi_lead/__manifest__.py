@@ -19,6 +19,7 @@
     ],
     'data': [
         'views/leads.xml',
+        'views/contact.xml',
     ],
     'installable': True,
     'application': True,
