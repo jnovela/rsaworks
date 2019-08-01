@@ -15,7 +15,6 @@
     'website': 'https://ssibtr.com',
     "depends":  [
         'base',
-        'res',
         'crm',
     ],
     # 'data': [
