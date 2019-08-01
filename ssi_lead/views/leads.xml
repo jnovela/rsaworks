@@ -14,7 +14,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <xpath expr="//page[@name='extra']" position="after">
-                    <notebook>
+                    <!-- <notebook> -->
                         <page string="Leads">
                             <group>
                                 <field name="l_prospect_fits_our_ideal_customer_group"/>
@@ -43,7 +43,7 @@
                                 <field name="l_personality_type_matched_mirrored"/>
                             </group>
                         </page>
-                    </notebook>
+                    <!-- </notebook> -->
                 </xpath>
             </field>
         </record>
