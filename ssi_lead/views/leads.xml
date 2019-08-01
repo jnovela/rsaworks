@@ -13,38 +13,39 @@
             <field name="inherit_id" ref="maintenance.hr_equipment_view_form"/>
             <field name="type">form</field>
             <field name="arch" type="xml">
-            <xpath expr="//page[@name='extra']" position="after">
-                <notebook>
-                    <page string="Leads">
-                        <group>
-                            <field name="l_prospect_fits_our_ideal_customer_group"/>
-                            <field name="l_prospect_has_critical_or_urgent_need"/>
-                            <field name="l_we_have_solution_to_satisfy_the_need"/>
-                            <field name="l_we_have_a_coach_in_or_close_to_company"/>
-                            <field name="l_solving_this_need_is_in_their_budget"/>
-                            <field name="l_revenues_and_margins_are_sufficient"/>
-                        </group>
-                        <group>
-                            <field name="l_annual_revenue"/>
-                            <field name="l_no_of_employees"/>
-                            <field name="l_industry"/>
-                            <field name="l_website"/>
-                            <field name="l_buyer_role"/>
-                            <field name="l_description"/>
-                            <field name="l_prospect_linkedin"/>
-                            <field name="l_linkedin_company"/>
-                            <field name="l_products_they_sell"/>
-                            <field name="l_markets_they_serve"/>
-                            <field name="l_competitors"/>
-                        </group>
-                        <group>
-                            <field name="l_this_prospect_will_be_our_coach"/>
-                            <field name="l_personality_type"/>
-                            <field name="l_personality_type_matched_mirrored"/>
-                        </group>
-                    </page>
-                </notebook>
-            </xpath>
+                <xpath expr="//page[@name='extra']" position="after">
+                    <notebook>
+                        <page string="Leads">
+                            <group>
+                                <field name="l_prospect_fits_our_ideal_customer_group"/>
+                                <field name="l_prospect_has_critical_or_urgent_need"/>
+                                <field name="l_we_have_solution_to_satisfy_the_need"/>
+                                <field name="l_we_have_a_coach_in_or_close_to_company"/>
+                                <field name="l_solving_this_need_is_in_their_budget"/>
+                                <field name="l_revenues_and_margins_are_sufficient"/>
+                            </group>
+                            <group>
+                                <field name="l_annual_revenue"/>
+                                <field name="l_no_of_employees"/>
+                                <field name="l_industry"/>
+                                <field name="l_website"/>
+                                <field name="l_buyer_role"/>
+                                <field name="l_description"/>
+                                <field name="l_prospect_linkedin"/>
+                                <field name="l_linkedin_company"/>
+                                <field name="l_products_they_sell"/>
+                                <field name="l_markets_they_serve"/>
+                                <field name="l_competitors"/>
+                            </group>
+                            <group>
+                                <field name="l_this_prospect_will_be_our_coach"/>
+                                <field name="l_personality_type"/>
+                                <field name="l_personality_type_matched_mirrored"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </xpath>
+            </field>
         </record>
 
 
