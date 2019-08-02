@@ -28,9 +28,9 @@ class Lead(models.Model):
     l_competitors = fields.Char(string='Competitors')
 
     # 3 LEAD - COACHES AND PERSONALITIES
-    l_this_prospect_will_be_our_coach = fields.Boolean(string='This Prospect Will Be Our coach')
-    l_personality_type = fields.Char(string='Personality Type')
-    l_personality_type_matched_mirrored = fields.Boolean(string='Personality Type Matched/Mirrored')
+    l_this_prospect_will_be_our_coach = fields.Boolean(help="80 percent chance of making the sale when you have a coach vs. 20 percent when you don’t", string='This Prospect Will Be Our coach')
+    l_personality_type = fields.Char(help="When you match or mirror a personality type you have an 80 percent chance of making the sale vs. 20 percent if you don’t", string='Personality Type')
+    l_personality_type_matched_mirrored = fields.Boolean(help="Drivers - high goal orientation, low empathy (goal driven). Motivators high goal orientation, high empathy(relationship driven). Thinkers low goal orientation, low empathy (task driven). Supports low goal orientation, high empathy (people driven)", string='Personality Type Matched/Mirrored')
 
     # II) OPPORTUNITIES
     # 1 OPPORTUNITY - FOCUS
