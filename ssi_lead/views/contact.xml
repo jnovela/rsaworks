@@ -35,7 +35,7 @@
                                     <field name="c_this_prospect_will_be"/>
                                     <field name="c_personality_type"/>
                                 </group>
-                                <group string="Referrals"
+                                <group string="Referrals">
                                     <field name="c_who"/>
                                     <field name="c_introduce_us"/>
                                     <field name="c_referal_pursued"/>
