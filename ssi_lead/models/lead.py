@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, tools, _
 
+# FIX TEXT FIELD
+
 class Lead(models.Model):
     _inherit = 'crm.lead'
 
