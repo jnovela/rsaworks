@@ -42,8 +42,8 @@ class Lead(models.Model):
     o_revenues_and_margins_are_sufficient = fields.Boolean(string='Revenues And Margins Are Sufficient')
 
     # 2 OPPORTUNITY - COACHES AND PERSONALITIES
-    o_this_prospect_will_be_our_coach = fields.Boolean(string='This Prospect Will Be Our coach')
-    o_personality_type = fields.Char(string='Personality Type')
+    o_this_prospect_will_be_our_coach = fields.Boolean(help="80 percent chance of making the sale when you have a coach vs. 20 percent when you don’t", string='This Prospect Will Be Our coach')
+    o_personality_type = fields.Char(help="When you match or mirror a personality type you have an 80 percent chance of making the sale vs. 20 percent if you don’t", string='Personality Type')
     o_key_buyers_researched = fields.Boolean(string='Key Buyers Researched')
     o_personality_type_matched_mirrored = fields.Boolean(string='Personality Type Matched/Mirrored')
 
@@ -55,12 +55,12 @@ class Lead(models.Model):
     o_bought_a_timeframe = fields.Boolean(string='Bought a Timeframe')
 
     # 4 OPPORTUNITY - MARKETING MESSAGES
-    o_killer_argument_delivered = fields.Boolean(string='Killer Argument Delivered')
-    o_key_discriminators_delivered = fields.Boolean(string='Key Discriminators Delivered')
-    o_ghosting_discriminators_delivered = fields.Boolean(string='Ghosting Discriminators Delivered')
-    o_roi_type_determined = fields.Boolean(string='ROI Type Determined')
-    o_roi_story_delivered = fields.Boolean(string='ROI Story Delivered')
-    o_testimonials_delivered = fields.Boolean(string='Testimonials Delivered')
+    o_killer_argument_delivered = fields.Boolean(help="Answers the question - Can we do this?", string='Killer Argument Delivered')
+    o_key_discriminators_delivered = fields.Boolean(help="Answers the question – Why choose us?", string='Key Discriminators Delivered')
+    o_ghosting_discriminators_delivered = fields.Boolean(help="Answers the question – Why not choose the competition (without directly naming them)", string='Ghosting Discriminators Delivered')
+    o_roi_type_determined = fields.Boolean(help="Check this box if the ROI type (hard, soft, what-if) has been determined for this opportunity", string='ROI Type Determined')
+    o_roi_story_delivered = fields.Boolean(help="Answers the question – why do this at all?", string='ROI Story Delivered')
+    o_testimonials_delivered = fields.Boolean(help="Answers the question – have you done it for others", string='Testimonials Delivered')
 
     # 5 OPPORTUNITY - BUSINESS CONSULTANT
     o_highest_needs_determined = fields.Boolean(string='Highest Needs Determined')

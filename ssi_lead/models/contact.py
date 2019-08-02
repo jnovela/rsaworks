@@ -20,16 +20,17 @@ class Contact(models.Model):
         [('User', 'User'), ('Technical/System', 'Technical/System'), ('Economic/Strategic', 'Economic/Strategic')], string='Buyer Role')
 
     # 3 COACHES AND PERSONALITIES
-    c_this_prospect_will_be = fields.Boolean(string='This Prospect Will Be')
-    c_personality_type = fields.Selection(
-        [('Driver', 'Driver'), ('Motivator', 'Motivator'), ('Thinker', 'Thinker'), ('Supporter', 'Supporter')], string='Personality Type')
+    c_this_prospect_will_be = fields.Boolean(help="80 percent chance of making the sale when you have a coach vs. 20 percent when you don’t", string='This Prospect Will Be')
+    c_personality_type = fields.Selection([('Driver', 'Driver'), ('Motivator', 'Motivator'), ('Thinker', 'Thinker'), ('Supporter', 'Supporter')], 
+        help="When you match or mirror a personality type you have an 80 percent chance of making the sale vs. 20 percent if you don’t",
+        string='Personality Type')
 
     # 4 REFERRALS
     c_who = fields.Char('Who?')
     c_introduce_us = fields.Selection(
         [('Yes', 'Yes'), ('No', 'No')], string='Introduce Us?')
-    c_referal_pursued = fields.Selection(
-        [('Yes', 'Yes'), ('No', 'No')], string='Referal Pursued?')
+    c_referal_pursued = fields.Selection([('Yes', 'Yes'), ('No', 'No')], help="Business that results from referrals from existing clients have a 92 percent retention rate, and 54 percent of all referrals eventually buy. But 87 percent of referrals are never pursued",
+        string='Referal Pursued?')
     c_referal_type = fields.Selection(
         [('Existing Customer', 'Existing Customer'), ('Vendor', 'Vendor'), ('Supplier', 'Supplier'), ('Partner', 'Partner'), ('Consultant', 'Consultant'), ('Business Associate', 'Business Associate'), ('Friend/Family', 'Friend/Family'), ('Other', 'Other')], string='Referal Type')
 
@@ -53,4 +54,6 @@ class Contact(models.Model):
     a_what_are_your_current_needs = fields.Char(string='What Are Your Current Needs?')
     a_what_are_your_future_requirements = fields.Char(string='What Are Your Future Requirements?')
     a_net_promoter_score = fields.Selection(
-        [('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'), ('6', '6'), ('7', '7'), ('8', '8'), ('9', '9'), ('10', '10')], string='Net Promoter Score')
+        [('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'), ('6', '6'), ('7', '7'), ('8', '8'), ('9', '9'), ('10', '10')], 
+        help="On a scale of one to ten, ten being the highest, how likely is it that you would recommend us to your friends or colleagues?",
+        string='Net Promoter Score')
