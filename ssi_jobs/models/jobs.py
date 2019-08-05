@@ -23,11 +23,12 @@ class Jobs(models.Model):
     # NECESSARY SUPPORT
     currency_id = fields.Many2one('res.currency', string='Account Currency',
                                   help="Forces all moves for this account to have this account currency.")
-    stage_id = fields.Many2one('ssi_jobs_stage', group_expand='_read_group_stage_ids', default=lambda self: self.env['ssi_jobs_stage'].search([('name', '=', 'New Job')]), string='Stage')
+    stage_id = fields.Many2one('ssi_jobs_stage', group_expand='_read_group_stage_ids',
+                               default=lambda self: self.env['ssi_jobs_stage'].search([('name', '=', 'New Job')]), string='Stage')
 
     # LEFT
     name = fields.Char(string="Job Name", required=True, copy=False, readonly=True,
-                   index=True, default=lambda self: _('New'))
+                       index=True, default=lambda self: _('New'))
     partner_id = fields.Many2one(
         'res.partner', string='Partner', ondelete='restrict', required=True,
         domain=[('parent_id', '=', False)])
@@ -75,19 +76,20 @@ class Jobs(models.Model):
     @api.model
     def create(self, vals):
         if vals.get('name', _('New')) == _('New'):
-            vals['name'] = self.env['ir.sequence'].next_by_code('ssi_job_sequence') or _('New')
+            vals['name'] = self.env['ir.sequence'].next_by_code(
+                'ssi_job_sequence') or _('New')
         res = super(Jobs, self).create(vals)
         name = "AA-"+res.name
-        aa = self.env['account.analytic.account'].sudo().create({'name':name , 'ssi_job_id': res.id})
+        aa = self.env['account.analytic.account'].sudo().create(
+            {'name': name, 'ssi_job_id': res.id})
         res.write({'aa_id': aa.id})
         # raise UserError(_(res.id))
         return res
 
     @api.model
-    def _read_group_stage_ids(self,stages,domain,order):
+    def _read_group_stage_ids(self, stages, domain, order):
         stage_ids = self.env['ssi_jobs_stage'].search([])
         return stage_ids
-
 
     @api.multi  # DONE
     def action_view_estimates(self):
@@ -103,7 +105,6 @@ class Jobs(models.Model):
             'ssi_jobs.sale_order_po_line_action').read()[0]
         action['domain'] = [('ssi_job_id', '=', self.id)]
         return action
-
 
     @api.multi
     def action_view_ai_count(self):
@@ -137,7 +138,8 @@ class Jobs(models.Model):
     def ssi_jobs_new_so_button(self):
         action = self.env.ref(
             'ssi_jobs.ssi_jobs_new_so_action').read()[0]
-        action['domain'] = [('ssi_job_id', '=', self.id), ('analytic_account_id', '=', self.aa_id)]
+        action['domain'] = [('ssi_job_id', '=', self.id)]
+        # action['domain'] = [('ssi_job_id', '=', self.id), ('analytic_account_id', '=', self.aa_id)]
         # action['context'] = [('ssi_job_id', '=', self.id), ('aa_id', '=', self.aa_id)]
         return action
 
