@@ -139,7 +139,7 @@ class Jobs(models.Model):
         action = self.env.ref(
             'ssi_jobs.ssi_jobs_new_so_action').read()[0]
 
-        raise UserError(_('TEST 1 '))
+        # raise UserError(_('TEST 1 '))
 
         # action['domain'] = [('ssi_job_id', '=', self.id)]
         # action['domain'] = [('ssi_job_id', '=', self.id), ('analytic_account_id', '=', self.aa_id)]
