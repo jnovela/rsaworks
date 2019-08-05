@@ -12,7 +12,6 @@
                 <button name="ssi_jobs_new_so_button" type="object" class="oe_stat_button" icon="fa-dollar" string="Create Estimate" context="{'default_partner_id': partner_id, 'default_ssi_jobs': active_id}"/>
                 <button name="ssi_jobs_new_po_button" type="object" class="oe_stat_button" icon="fa-credit-card" string="Order Parts" context="{'default_ssi_jobs': active_id}"/>
                 <field name="stage_id" options="{'clickable': '1'}" widget="statusbar"/>
-
             </header>
             <sheet string="Jobs">
                 <div class="oe_button_box" name="button_box">
@@ -491,8 +490,8 @@
     <field name="auto_search" eval="True"/>
     <field name="binding_model_id" eval="False"/>
     <field name="binding_type">action</field>
-  <field name="context">{'search_default_ssi_job_id': active_id,'default_ssi_job_id': active_id, 'search_default_analytic_account_id': active_id.aa_id,'default_analytic_account_id': active_id.aa_id}</field>
-  <field name="domain">[('ssi_job_id', '=', active_id), ('analytic_account_id', '=', active_id.aa_id)]</field>
+  <!-- <field name="context">{'search_default_ssi_job_id': active_id,'default_ssi_job_id': active_id, 'search_default_analytic_account_id': active_id.aa_id,'default_analytic_account_id': active_id.aa_id}</field>
+  <field name="domain">[('ssi_job_id', '=', active_id), ('analytic_account_id', '=', active_id.aa_id)]</field> -->
     <field name="filter" eval="False"/>
     <field name="groups_id" eval="[(6, 0, [])]"/>
     <field name="help" eval="False"/>
