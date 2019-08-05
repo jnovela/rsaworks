@@ -138,7 +138,7 @@ class Jobs(models.Model):
     def ssi_jobs_new_so_button(self):
         action = self.env.ref(
             'ssi_jobs.ssi_jobs_new_so_action').read()[0]
-        action['domain'] = [('ssi_job_id', '=', self.id)]
+        # action['domain'] = [('ssi_job_id', '=', self.id)]
         # action['domain'] = [('ssi_job_id', '=', self.id), ('analytic_account_id', '=', self.aa_id)]
         # action['context'] = [('ssi_job_id', '=', self.id), ('aa_id', '=', self.aa_id)]
         return action
