@@ -83,7 +83,7 @@ class Jobs(models.Model):
         res = super(Jobs, self).create(vals)
         name = res.name
         group = self.env['account.analytic.group'].search(
-            ['name', '=', 'Jobs'], limit=1).id
+            [], limit=1).id
         partner = res.partner_id.id
         aa = self.env['account.analytic.account'].sudo().create(
             {'name': name, 'ssi_job_id': res.id, 'group_id': group, 'partner_id': partner})
