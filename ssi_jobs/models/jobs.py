@@ -82,8 +82,7 @@ class Jobs(models.Model):
                 'ssi_job_sequence') or _('New')
         res = super(Jobs, self).create(vals)
         name = res.name
-        group = self.env['account.group'].search(
-            ['name', '=', 'Jobs'], limit=1).id
+        group = self.env['account.group'].search([])[0].id
         partner = res.partner_id.id
         aa = self.env['account.analytic.account'].sudo().create(
             {'name': name, 'ssi_job_id': res.id, 'group_id': group, 'partner_id': partner})
