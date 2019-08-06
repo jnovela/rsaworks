@@ -88,8 +88,8 @@ class Jobs(models.Model):
         aa = self.env['account.analytic.account'].sudo().create(
             {'name': name, 'ssi_job_id': res.id, 'group_id': group, 'partner_id': partner})
         res.write({'aa_id': aa.id})
-        # raise UserError(_(res.id))
         return res
+        # raise UserError(_(res.id))
 
     @api.model
     def _read_group_stage_ids(self, stages, domain, order):
