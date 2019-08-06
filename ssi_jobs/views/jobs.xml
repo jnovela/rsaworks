@@ -85,7 +85,7 @@
         <kanban default_group_by="stage_id">
             <field name="status"/>
             <field name="order_total"/>
-            <progressbar field="status" colors="{&quot;done&quot;: &quot;success&quot;, &quot;process&quot;: &quot;warning&quot;, &quot;blocked&quot;: &quot;danger&quot;}" sum_field="x_studio_order_total" help="This bar allows to filter the jobs based on status."/>
+            <progressbar field="status" colors="{&quot;done&quot;: &quot;success&quot;, &quot;process&quot;: &quot;warning&quot;, &quot;blocked&quot;: &quot;danger&quot;}" help="This bar allows to filter the jobs based on status."/>
             <field name="stage_id"/>
             <field name="color"/>
             <templates>

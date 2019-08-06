@@ -81,9 +81,10 @@ class Jobs(models.Model):
             vals['name'] = self.env['ir.sequence'].next_by_code(
                 'ssi_job_sequence') or _('New')
         res = super(Jobs, self).create(vals)
-        name = "AA-"+res.name
+        name = res.name
+        group = self.env['ssi_jobs_stage'].search([('name', '=', 'Jobs')], limit=1)[0]
         aa = self.env['account.analytic.account'].sudo().create(
-            {'name': name, 'ssi_job_id': res.id})
+            {'name': name, 'ssi_job_id': res.id, 'group_id': group})
         res.write({'aa_id': aa.id})
         # raise UserError(_(res.id))
         return res
