@@ -51,7 +51,7 @@
                         <field name="sizeUM"/>
                         <field name="shaft"/>
                         <field name="dimensions"/> -->
-                        <field name="equipment_id" domain="[('customer_id.id', '=', self.partner_id.id)]"/>
+                        <field name="equipment_id" t-attr-domain="[('customer_id.id', '=', self.partner_id.id)]"/>
                         <field name="ready_for_pickup"/>
                     </group>
                     <group name="right">
