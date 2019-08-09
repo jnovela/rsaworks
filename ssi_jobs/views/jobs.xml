@@ -51,7 +51,7 @@
                         <field name="sizeUM"/>
                         <field name="shaft"/>
                         <field name="dimensions"/> -->
-                        <field name="equipment_id" domain="[['customer_id.id','=', active_id.partner_id.id]]"/>
+                        <field name="equipment_id" domain="[('customer_id.id', 'ilike', self.partner_id.id)]"/>
                         <field name="ready_for_pickup"/>
                     </group>
                     <group name="right">
