@@ -76,15 +76,15 @@ class MaintenanceEquipment(models.Model):
     customer_id = fields.Many2one(
         'res.partner', string='Customer', domain="[('customer', '=', 1)]")
 
-
-    ssi_jobs_count = fields.Integer(string='Jobs', compute='_get_ssi_jobs_count')
+    ssi_jobs_count = fields.Integer(
+        string='Jobs', compute='_get_ssi_jobs_count')
 
     customer_id_number_general = fields.Char(string='Customer ID# General')
-    customer_id_number_motor_specific = fields.Char(string='Customer ID# General Motor Specific')
+    customer_id_number_motor_specific = fields.Char(
+        string='Customer ID# General Motor Specific')
     ui_rated = fields.Selection(
         [('Yes', 'Yes'), ('No', 'No')], string='UI Rated')
     ui_rating = fields.Char(string='UI Rating')
-
 
     @api.depends('description')
     def _get_ssi_jobs_count(self):
@@ -107,7 +107,8 @@ class MaintenanceEquipment(models.Model):
 
         # raise UserError(_(jobs))
         if len(jobs) == 0:
-            raise UserError(_('There are no jobs assiociated with with this record'))
+            raise UserError(
+                _('There are no jobs assiociated with with this record'))
         elif len(jobs) > 1:
             action['domain'] = [('equipment_id', '=', self.id)]
         else:
@@ -116,11 +117,14 @@ class MaintenanceEquipment(models.Model):
 
         return action
 
-
     @api.multi
     def ssi_equ_qm_button(self):
         raise UserError(_('button works'))
-  
+        # BASIC API REQUEST PYTHON
+        # import requests
+        # response = requests.get('https://api.github.com')
+
+
 class MaintenanceRequest(models.Model):
     _inherit = 'maintenance.request'
 
@@ -133,5 +137,3 @@ class MaintenanceRequest(models.Model):
     verify_location = fields.Selection(
         [('Yes', 'Yes'), ('No', 'No')], string='Verify Location')
     note_problem = fields.Char(string='Note any problems')
-
-
