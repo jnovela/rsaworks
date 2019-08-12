@@ -117,7 +117,10 @@ class MaintenanceEquipment(models.Model):
         return action
 
 
-
+    @api.multi
+    def ssi_equ_qm_button(self):
+        raise UserError(_('button works'))
+  
 class MaintenanceRequest(models.Model):
     _inherit = 'maintenance.request'
 
