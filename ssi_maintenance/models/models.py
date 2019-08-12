@@ -121,6 +121,7 @@ class MaintenanceEquipment(models.Model):
     def ssi_equ_qm_button(self):
         raise UserError(_('button works'))
         # BASIC API REQUEST PYTHON
+        # https://realpython.com/python-requests/
         # import requests
         # response = requests.get('https://api.github.com')
 
