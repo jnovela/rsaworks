@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
-<!-- See LICENSE file for full copyright and licensing details. -->
-<!-- License URL : <https://store.webkul.com/license.html/> -->
 
 <odoo>
     <data>
@@ -23,6 +20,7 @@
                             <field name="model"/>
                             <field name="serial_no"/>
 
+<!--                             <field name="equip_id" attrs="{'required': [('category_id', '=', 4)]}"/> -->
                             <field name="description" attrs="{'required': [('category_id', '=', 4)]}"/>
                             <field name="rating" attrs="{'required': [('category_id', '!=', 4)]}"/>
                             <field name="rating_unit" attrs="{'required': [('category_id', '!=', 4)]}"/>
@@ -41,6 +39,12 @@
                             <field name="bearing_type"/>
                             <field name="de_bearing"/>
                             <field name="ode_bearing"/>
+
+                            <field name="customer_id_number_general"/>
+                            <field name="customer_id_number_motor_specific"/>
+                            <field name="ui_rated"/>
+                            <field name="ui_rating"/>
+
                           </group>
                           <group>
                             <field name="lube_type"/>
@@ -95,6 +99,7 @@
                                     </div>
                                 </group>
                                 <group>
+
                                     <field name="length"/>
                                     <field name="additional_length"/>
                                     <field name="width"/>
@@ -128,6 +133,9 @@
             <xpath expr="//field[@name='location']" position="attributes">
                 <attribute name="attrs">{}</attribute>
                 <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='toggle_active']" position="after">
+                <button name="ssi_equ_qm_button" type="object" class="oe_stat_button" icon="fa-wrench" string="Sync with QM Wizard"/>
             </xpath>
 
 
@@ -226,6 +234,67 @@
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
         </record>
+
+
+<!-- maintenance.hr_equipment_request_view_form -->
+        <!-- <record>
+            <xpath expr="//field[@name='production_id']" position="after">
+                <field name="megger_test_motor"/>
+                <field name="check_add_oil"/>
+                <field name="rotate_the_shaft"/>
+                <field name="verify_location"/>
+                <field name="note_problem"/>
+            </xpath>
+        </record> -->
+
+
+        <record id="ssi_hr_equipment_request_view_form" model="ir.ui.view">
+            <field name="name">ssi.hr_equipment_request_view_form_ssi</field>
+            <field name="model">maintenance.request</field>
+            <field name="inherit_id" ref="maintenance.hr_equipment_request_view_form"/>
+            <field eval="20" name="sequence"/>
+            <field name="type">form</field>
+                <field name="arch" type="xml">
+                
+                <xpath expr="//field[@name='stage_id']" position="before">
+                    <button name="do_print_logistics" type="object" class="oe_stat_button" string="Print"/>
+                </xpath>
+
+                <xpath expr="//field[@name='equipment_id']" position="attributes">
+                    <attribute name="attrs">{}</attribute>
+                    <attribute name="required">1</attribute>
+                 </xpath>
+
+                 <xpath expr="//field[@name='maintenance_type']" position="attributes">
+                    <attribute name="attrs">{}</attribute>
+                    <attribute name="invisible">1</attribute>
+                 </xpath>
+                    
+                <xpath expr="//field[@name='close_date']" position="after">
+                    <field name="logistics_type" attrs ="{'invisible':[('maintenance_team_id','!=', 2)]}"/>
+                    <field name="ssi_job_id"/>
+                </xpath>
+                    
+                <xpath expr="//field[@name='description']" position="after">
+<!--                     if maintenance_team_id.name !== Logistics -->
+                    <notebook  attrs ="{'invisible':[('maintenance_team_id','==', 2)]}">
+                            <page string="Checks">
+                                <group>
+                                    <field name="megger_test_motor" attrs ="{'required':[('maintenance_team_id','!=', 2)]}"/>
+                                    <field name="check_add_oil" attrs ="{'required':[('maintenance_team_id','!=', 2)]}"/>
+                                    <field name="rotate_the_shaft" attrs ="{'required':[('maintenance_team_id','!=', 2)]}"/>
+                                    <field name="verify_location" attrs ="{'required':[('maintenance_team_id','!=', 2)]}"/>
+                                    <field name="note_problem" attrs ="{'required':[('maintenance_team_id','!=', 2)]}"/>
+                                </group>
+
+                            </page>
+                    </notebook>
+
+                </xpath>
+
+            </field>
+        </record>
+        
 
     </data>
 </odoo>

@@ -2,11 +2,13 @@
 
 from odoo import api, fields, models, tools, _
 from odoo.exceptions import UserError
+import requests
 
 
 class MaintenanceEquipment(models.Model):
     _inherit = 'maintenance.equipment'
-
+    
+#     equip_id = fields.Char(string='Equip_id')
     description = fields.Char(string='Description')
     rating = fields.Float(string='Rating')
     rating_unit = fields.Selection(
@@ -30,7 +32,7 @@ class MaintenanceEquipment(models.Model):
     winding_type = fields.Selection(
         [('Form', 'Form'), ('Random', 'Random')], string='Winding Type')
     bearing_type = fields.Selection([('Anti Friction', 'Anit Friction'), (
-        'Sleeve', 'Sleeve'), ('Kingsbury Thrust', 'Kingsbury Thrust')], string='Bearing Type')
+        'Sleeve', 'Sleeve'), ('Kingsbury Thrust', 'Kingsbury Thrust'), ('No Bearing', 'No Bearing'), ('Single Bearing', 'Single Bearing')], string='Bearing Type')
     de_bearing = fields.Char(string='DE Bearing')
     ode_bearing = fields.Char(string='ODE Bearing')
     lube_type = fields.Selection([('Grease', 'Grease'), ('Oil Mist', 'Oil Mist'), ('Force Lube', 'Force Lube'), (
@@ -76,9 +78,15 @@ class MaintenanceEquipment(models.Model):
     customer_id = fields.Many2one(
         'res.partner', string='Customer', domain="[('customer', '=', 1)]")
 
+    ssi_jobs_count = fields.Integer(
+        string='Jobs', compute='_get_ssi_jobs_count')
 
-    ssi_jobs_count = fields.Integer(string='Jobs', compute='_get_ssi_jobs_count')
-
+    customer_id_number_general = fields.Char(string='Customer ID# General')
+    customer_id_number_motor_specific = fields.Char(
+        string='Customer ID# General Motor Specific')
+    ui_rated = fields.Selection(
+        [('Yes', 'Yes'), ('No', 'No')], string='UI Rated')
+    ui_rating = fields.Char(string='UI Rating')
 
     @api.depends('description')
     def _get_ssi_jobs_count(self):
@@ -101,7 +109,8 @@ class MaintenanceEquipment(models.Model):
 
         # raise UserError(_(jobs))
         if len(jobs) == 0:
-            raise UserError(_('There are no jobs assiociated with with this record'))
+            raise UserError(
+                _('There are no jobs assiociated with with this record'))
         elif len(jobs) > 1:
             action['domain'] = [('equipment_id', '=', self.id)]
         else:
@@ -110,36 +119,80 @@ class MaintenanceEquipment(models.Model):
 
         return action
 
+    @api.multi
+    def ssi_equ_qm_button(self):
+        # BASIC API REQUEST PYTHON
+        # https://realpython.com/python-requests/
+        # import requests
+        login_response = requests.post(
+            'http://api.springpt.com:38136/api/v1/login',
+            headers={'Content-Type': 'application/json'},
+            json={"user_name": "RS_API_USER", "password": "b+PHhK2M", "company_id": "RedStick"},
+        )
+        json_login_response = login_response.json()
+        token = json_login_response['data']['token']
+        nameplate_response = requests.get(
+            'http://api.springpt.com:38136/api/v1/RSReturnNamePlate/EM-1000',
+            headers={'x-access-token': token}
+        )
+        nameplate_response_json = nameplate_response.json()
+        nameplate_data = nameplate_response_json['data']
+#         raise UserError(_(nameplate_data[0]['Equip ID']))
+# 
+        self.write({
+#             'equip_id': nameplate_data[0]['Equip ID'],
+            'description': nameplate_data[0]['Description'],
+            'manufacture': nameplate_data[0]['Manufacturer'],
+            'model': nameplate_data[0]['Model'],
+            'serial_no': nameplate_data[0]['Serial Number'],
+            'rating': nameplate_data[0]['Rating'],
+#             'poles': nameplate_data[0]['Poles'],  #return wront value
+#             'enclosure': nameplate_data[0]['Enclosure'],    #return wront value
+            'customer_stock_number': nameplate_data[0]['Customer Stock'],
+            'mounting': nameplate_data[0]['Mounting'],
+#             'id_name': nameplate_data['Customer ID'],
+            'amps': nameplate_data[0]['Amps'],
+            'rpm_nameplate': nameplate_data[0]['RPM Nameplate'],
+            'phase': nameplate_data[0]['Phase'],
+            'frame': nameplate_data[0]['Frame'],
+            'winding_type': nameplate_data[0]['Winding Type'],
+            'bearing_type': nameplate_data[0]['Bearing Type'],
+            'de_bearing': nameplate_data[0]['DE Bearing'],
+            'ode_bearing': nameplate_data[0]['ODE Bearing'],
+            'lube_type': nameplate_data[0]['Lube Type'],
+            'weight_in_lbs': nameplate_data[0]['Weight in LBS'],
+            'duty': nameplate_data[0]['Duty'],
+            'service_factor': nameplate_data[0]['Service Factor'],
+            'ul_rating': nameplate_data[0]['UL Rating'],
+            'nema_design': nameplate_data[0]['Nema Design'],
+            'temp_rise': nameplate_data[0]['Temp Rise'],
+            'hz': nameplate_data[0]['HZ'],
+#             'insulation_class': nameplate_data[0]['Insulation Class'],    #return wront value
+            'direction_of_rotation': nameplate_data[0]['Direction of rotation'],
+            'jbox_location': nameplate_data[0]['JBox Location'],
+            'r_voltage': nameplate_data[0]['R Voltage'],
+            'r_amps': nameplate_data[0]['R Amps'],
+            'excit_type': nameplate_data[0]['Excit Type'],
+            'field_volts': nameplate_data[0]['Field Volts'],
+            'field_amps': nameplate_data[0]['Field Amps'],
+            'f_ohm': nameplate_data[0]['F Ohm 25C'],
+            'armature_winding_type': nameplate_data[0]['Armature winding type'],
+            'coupling_installed': nameplate_data[0]['Couple installed']
+        })        
+        
 
 
-        # action = self.env.ref('stock.action_picking_tree_all').read()[0]
 
-        # pickings = self.mapped('picking_ids')
-        # if len(pickings) > 1:
-        #     action['domain'] = [('id', 'in', pickings.ids)]
-        # elif pickings:
-        #     action['views'] = [(self.env.ref('stock.view_picking_form').id, 'form')]
-        #     action['res_id'] = pickings.id
-        # return action
+class MaintenanceRequest(models.Model):
+    _inherit = 'maintenance.request'
 
-
-        # <record id="action_picking_tree_all" model="ir.actions.act_window">
-        #     <field name="name">Transfers</field>
-        #     <field name="res_model">stock.picking</field>
-        #     <field name="type">ir.actions.act_window</field>
-        #     <field name="view_type">form</field>
-        #     <field name="view_mode">tree,kanban,form,calendar</field>
-        #     <field name="domain"></field>
-        #     <field name="context">{
-        #             'contact_display': 'partner_address',
-        #     }
-        #     </field>
-        #     <field name="search_view_id" ref="view_picking_internal_search"/>
-        #     <field name="help" type="html">
-        #       <p class="o_view_nocontent_smiling_face">
-        #         Define a new transfer
-        #       </p>
-        #     </field>
-        # </record>
-
-        # <menuitem id="all_picking" name="Transfers" parent="menu_stock_warehouse_mgmt" sequence="5" action="action_picking_tree_all" groups="stock.group_stock_manager,stock.group_stock_user"/>
+#     megger_test_motor = fields.Selection(
+#         [('1', '1'), ('2', '2'), ('3', '3'), ('4', '4')], string='Megger test motor')
+    megger_test_motor = fields.Char(string='Megger test motor')
+    rotate_the_shaft = fields.Selection(
+        [('Yes', 'Yes'), ('No', 'No')], string='Rotate the shaft')
+    check_add_oil = fields.Selection(
+        [('Yes', 'Yes'), ('No', 'No')], string='Check/Add oil')
+    verify_location = fields.Selection(
+        [('Yes', 'Yes'), ('No', 'No')], string='Verify Location')
+    note_problem = fields.Char(string='Note any problems')
