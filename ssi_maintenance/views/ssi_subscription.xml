@@ -12,11 +12,12 @@
 			  <group>
 				<field name="storage_id">
 				  <tree>
-					<field name="equipment_id"/>
-					<field name="location_id"/>
-					<field name="check_in"/>
-					<field name="check_out"/>
-					<field name="status"/>
+					  <field name="equipment_id"/>
+					  <field name="location_id"/>
+					  <field name="equip_serial_no"/>
+					  <field name="check_in"/>
+					  <field name="check_out"/>
+					  <field name="equip_square_feet"/>
 				  </tree>
 				</field>
 			  </group>

@@ -8,10 +8,9 @@
           <tree string="Storage">
               <field name="equipment_id"/>
               <field name="location_id"/>
-              <field name="equip_serial_no"/>
               <field name="check_in"/>
               <field name="check_out"/>
-              <field name="equip_square_feet"/>
+              <field name="status"/>
           </tree>
       </field>
   </record>
