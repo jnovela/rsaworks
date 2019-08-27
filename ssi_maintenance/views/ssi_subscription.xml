@@ -20,6 +20,9 @@
 					  <field name="equip_square_feet"/>
 				  </tree>
 				</field>
+                <group class="oe_subtotal_footer oe_right">
+                    <field name="square_foot_total" class="oe_subtotal_footer_separator" modifiers="{'readonly': true}"/>
+                </group>
 			  </group>
 			</page>
 		  </xpath>
