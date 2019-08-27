@@ -250,7 +250,7 @@ class FileBatch(object):
         self.entries = []
 
         for entry, addenda in entries:
-            entadd_count += 1
+            # entadd_count += 1 # Commented out because its giving wrong no of addenda.
             entadd_count += len(addenda)
             self.entries.append(FileEntry(entry, addenda))
 
