@@ -48,7 +48,7 @@ class AccountPaymentOrder(models.Model):
                 _('%s does not have a Routing Number assigned!' % bank.name))
         return {
             'immediate_dest': routing_number,
-            'immediate_org': legal_id_number,
+            'immediate_org': routing_number,
             'immediate_dest_name': bank.name,
             'immediate_org_name': self.company_id.name,
             'company_id': legal_id_number,
@@ -127,4 +127,6 @@ class AccountPaymentOrder(models.Model):
         outbound_payment = self.payment_type == 'outbound'
         ach_file.add_batch('CTX', entries, credits=outbound_payment,
                            debits=inbound_payment)
+        print("FINAL STRING",ach_file.render_to_string(), filename)
+        stop
         return ach_file.render_to_string(), filename
