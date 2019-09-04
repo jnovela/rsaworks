@@ -448,12 +448,14 @@ class BatchControl(Ach):
         super(BatchControl, self).__setattr__(name, value)
 
     def get_row(self):
-
+        # As we are preparing for CTX and 200 type transaction
+        # Both debit and credit will be same
+        # so passing credit_amount twice
         return self.record_type_code +\
             self.serv_cls_code +\
             self.entadd_count +\
             self.entry_hash +\
-            self.debit_amount +\
+            self.credit_amount +\
             self.credit_amount +\
             self.company_id +\
             self.mesg_auth_code +\
