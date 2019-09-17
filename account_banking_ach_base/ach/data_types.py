@@ -405,7 +405,7 @@ class BatchControl(Ach):
         'batch_id': 7,
     }
 
-    def __init__(self, serv_cls_code='220', entadd_count='', entry_hash='',
+    def __init__(self, serv_cls_code='200', entadd_count='', entry_hash='',
                  debit_amount='', credit_amount='', company_id='',
                  orig_dfi_id='', batch_id='', mesg_auth_code=''):
         """
@@ -455,7 +455,7 @@ class BatchControl(Ach):
             self.serv_cls_code +\
             self.entadd_count +\
             self.entry_hash +\
-            self.credit_amount +\
+            self.debit_amount +\
             self.credit_amount +\
             self.company_id +\
             self.mesg_auth_code +\
