@@ -30,7 +30,7 @@ class Jobs(models.Model):
     name = fields.Char(string="Job Name", required=True, copy=False, readonly=True,
                        index=True, default=lambda self: _('New'))
     partner_id = fields.Many2one(
-        'res.partner', string='Partner', ondelete='restrict', required=True,
+        'res.partner', string='Customer', ondelete='restrict', required=True,
         domain=[('parent_id', '=', False)])
     active = fields.Boolean(default=True)
     # objects = fields.Selection(
@@ -64,9 +64,9 @@ class Jobs(models.Model):
     color = fields.Integer(string='Color')
     serial = fields.Char(String="Serial #")
     aa_id = fields.Many2one(
-        'account.analytic.account', string='Account Analytic')
-    aa_count = fields.Integer(
-        string='Analytics Count', compute='_get_aa_count')
+        'account.analytic.account', string='Analytic Account')
+#     aa_count = fields.Integer(
+#         string='Analytics Count', compute='_get_aa_count')
 
     _sql_constraints = [(
         'name_unique',
@@ -139,12 +139,12 @@ class Jobs(models.Model):
         action['domain'] = [('ssi_job_id', '=', self.id)]
         return action
 
-    @api.multi
-    def action_view_aa_count(self):
-        action = self.env.ref(
-            'ssi_jobs.sale_order_aa_line_action').read()[0]
-        action['domain'] = [('ssi_job_id', '=', self.id)]
-        return action
+#     @api.multi
+#     def action_view_aa_count(self):
+#         action = self.env.ref(
+#             'ssi_jobs.sale_order_aa_line_action').read()[0]
+#         action['domain'] = [('ssi_job_id', '=', self.id)]
+#         return action
 
     @api.multi
     def ssi_jobs_new_so_button(self):
@@ -184,7 +184,7 @@ class Jobs(models.Model):
 
     @api.depends('order_total')
     def _get_ai_count(self):
-        results = self.env['account.invoice'].read_group(
+        results = self.env['account.invoice.line'].read_group(
             [('ssi_job_id', 'in', self.ids)], 'ssi_job_id', 'ssi_job_id')
         dic = {}
         for x in results:
@@ -226,13 +226,50 @@ class Jobs(models.Model):
             record.wc_count = dic.get(
                 record.id, 0)
 
-    @api.depends('order_total')
-    def _get_aa_count(self):
-        results = self.env['account.analytic.account'].read_group(
-            [('ssi_job_id', 'in', self.ids)], 'ssi_job_id', 'ssi_job_id')
-        dic = {}
-        for x in results:
-            dic[x['ssi_job_id'][0]] = x['ssi_job_id_count']
-        for record in self:
-            record.wc_count = dic.get(
-                record.id, 0)
+#     @api.depends('order_total')
+#     def _get_aa_count(self):
+#         results = self.env['account.analytic.account'].read_group(
+#             [('ssi_job_id', 'in', self.ids)], 'ssi_job_id', 'ssi_job_id')
+#         dic = {}
+#         for x in results:
+#             dic[x['ssi_job_id'][0]] = x['ssi_job_id_count']
+#         for record in self:
+#             record.wc_count = dic.get(
+#                 record.id, 0)
+
+    def _get_name(self):
+        """ Utility method to allow name_get to be overrided without re-browse the partner """
+        partner = self.partner_id
+        name = partner.name or ''
+
+#         raise UserError(partner.parent_id)
+        if partner.company_name or partner.parent_id:
+            if not name and partner.type in ['invoice', 'delivery', 'other']:
+                name = dict(self.fields_get(['type'])['type']['selection'])[partner.type]
+            if not partner.is_company:
+#                 raise UserError(partner.parent_id)
+                name = "%s, %s" % (partner.commercial_company_name or partner.parent_id.name, name)
+        if self._context.get('show_address_only'):
+            name = partner._display_address(without_company=True)
+        if self._context.get('show_address'):
+            name = name + "\n" + partner._display_address(without_company=True)
+        name = name.replace('\n\n', '\n')
+        name = name.replace('\n\n', '\n')
+        if self._context.get('address_inline'):
+            name = name.replace('\n', ', ')
+        if self._context.get('show_email') and partner.email:
+            name = "%s <%s>" % (name, partner.email)
+        if self._context.get('html_format'):
+            name = name.replace('\n', '<br/>')
+        if self._context.get('show_vat') and partner.vat:
+            name = "%s ‒ %s" % (name, partner.vat)
+        return name
+
+    @api.multi
+    def name_get(self):
+        res = []
+        for partner in self:
+            name = partner._get_name()
+            res.append((partner.id, name))
+        return res
+

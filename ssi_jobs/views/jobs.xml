@@ -9,7 +9,7 @@
         <form string="Jobs">
             <header>
                 <button name="ssi_jobs_new_mrp_prod_button" type="object" class="oe_stat_button" icon="fa-wrench" string="Start Job"/>
-                <button name="ssi_jobs_new_so_button" type="object" class="oe_stat_button" icon="fa-dollar" string="Create Estimate" context="{'default_partner_id': partner_id, 'default_ssi_jobs': active_id,'default_analytic_account_id': aa_id}"/>
+                <button name="ssi_jobs_new_so_button" type="object" class="oe_stat_button" icon="fa-dollar" string="Create Estimate" context="{'default_partner_id': partner_id, 'default_ssi_job_id': active_id,'default_analytic_account_id': aa_id}"/>
                 <button name="ssi_jobs_new_po_button" type="object" class="oe_stat_button" icon="fa-credit-card" string="Order Parts" context="{'default_ssi_jobs': active_id}"/>
                 <field name="stage_id" options="{'clickable': '1'}" widget="statusbar"/>
             </header>
@@ -21,7 +21,7 @@
                     <button class="oe_stat_button" icon="fa-credit-card" type="object" name="action_view_po_count">
                     <field name="po_count" string="Purchase Orders" placeholder="Purchase Orders" widget="statinfo"/>
                     </button>
-                    <button class="oe_stat_button" icon="fa-file-o" type="object" name="action_view_ai_count">
+                    <button class="oe_stat_button" icon="fa-file-o"> <!-- type="object" name="action_view_ai_count" -->
                     <field name="ai_count" string="Vendor Bills" widget="statinfo"/>
                     </button>
 
@@ -45,7 +45,7 @@
                 <group name="main">
                     <group name="left">
                         <field name="name" readonly="1"/>
-                        <field name="partner_id"/>
+                        <field name="partner_id" widget="res_partner_many2one" domain="[('customer','=',True)]" context="{'search_default_customer':1, 'show_address': 1}" options="{&quot;always_reload&quot;: True}"/>
                         <!-- <field name="objects"/> -->
                         <!-- <field name="size"/>
                         <field name="sizeUM"/>
@@ -94,10 +94,12 @@
                 <t t-name="kanban-box">
 
                     <div color="color" t-attf-class="oe_kanban_card oe_kanban_global_click">
+                      <div class="o_project_kanban_main">
+                        <div class="o_kanban_card_content">
                         
-                        <div class="o_dropdown_kanban dropdown" name="kanban_dropdown">
+                        <!-- div class="o_dropdown_kanban dropdown" name="kanban_dropdown">
                             <a class="dropdown-toggle o-no-caret btn" data-toggle="dropdown" href="#">
-                            <span class="fa fa-bars fa-lg"/>
+                                <i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage" modifiers="{}"></i>
                             </a>
                             <div class="dropdown-menu" role="menu" name="ssi_div_e9f40d">
                             <t t-if="widget.editable">
@@ -108,7 +110,21 @@
                             </t>
                             <ul class="oe_kanban_colorpicker" data-field="color"/>
                             </div>
+                        </div -->
+                        <div class="o_kanban_card_manage_pane dropdown-menu" role="menu">
+                              <div class="o_kanban_card_manage_section o_kanban_manage_reports">
+                                   <div role="menuitem">
+                                       <a type="edit">Edit</a>
+                                   </div>
+                                   <div role="menuitem">
+                                       <a type="delete">Delete</a>
+                                   </div>
+                              </div>
+                              <div role="menuitem" aria-haspopup="true" class="o_no_padding_kanban_colorpicker">
+                                   <ul class="oe_kanban_colorpicker" data-field="color" role="popup"/>
+                              </div>
                         </div>
+
                         <div class="oe_kanban_bottom_left" name="studio_div_d9f9e7">
                             <field name="urgency" widget="priority" default_value="straight"/>
                         </div>
@@ -116,12 +132,15 @@
 
                         <div class="o_kanban_card_content">
                             <field bold="True" name="name" modifiers="{}"/>
+                            <field name="notes" display="full"/>
                             <field name="partner_id" display="full"/>
                             <!-- <field name="size"/>
                             <field name="sizeUM"/> -->
                             <field name="serial" display="full"/>
 
                         </div>
+                        </div>
+                      </div>
                     </div>
                 </t>
             </templates>
@@ -338,7 +357,7 @@
 </record>
 
 
-<record id="sale_order_ai_line_action" model="ir.actions.act_window">
+<!-- record id="sale_order_ai_line_action" model="ir.actions.act_window">
   <field name="auto_search" eval="True"/>
   <field name="binding_model_id" eval="False"/>
   <field name="binding_type">action</field>
@@ -359,7 +378,7 @@
   <field name="view_id" ref="ssi_ai_tree"/>
   <field name="view_mode">tree,form</field>
   <field name="view_type">form</field>
-</record>
+</record -->
 
 <record id="ssi_prod_tree" model="ir.ui.view">
     <field name="name">ssi_prod.tree</field>
@@ -428,7 +447,7 @@
 </record>
 
 
-<record id="sale_order_aa_line_action" model="ir.actions.act_window">
+<!-- record id="sale_order_aa_line_action" model="ir.actions.act_window">
   <field name="auto_search" eval="True"/>
   <field name="binding_model_id" eval="False"/>
   <field name="binding_type">action</field>
@@ -449,7 +468,7 @@
   <field name="view_id" ref="ssi_prod_tree"/>
   <field name="view_mode">tree,form</field>
   <field name="view_type">form</field>
-</record>
+</record -->
 
 
 
@@ -484,7 +503,7 @@
   <field name="help" eval="False"/>
   <field name="limit">80</field>
   <field name="multi" eval="False"/>
-  <field name="name">Vendor Bills</field>
+  <field name="name">Work Orders</field>
   <field name="res_model">mrp.workorder</field>
   <field name="search_view_id" eval="False"/>
   <field name="src_model" eval="False"/>
@@ -506,6 +525,7 @@
             <field name="workcenter_id"/>
             <field name="user_id"/>
             <field name="loss_id"/>
+            <field name="cost_already_recorded"/>
             <field name="duration"/>
         </tree>
     </field>
@@ -522,7 +542,7 @@
   <field name="help" eval="False"/>
   <field name="limit">80</field>
   <field name="multi" eval="False"/>
-  <field name="name">Vendor Bills</field>
+  <field name="name">Timesheets</field>
   <field name="res_model">mrp.workcenter.productivity</field>
   <field name="search_view_id" eval="False"/>
   <field name="src_model" eval="False"/>
