@@ -547,6 +547,7 @@ class MRPProduction(models.Model):
         string='Material Cost',
         compute='_compute_wo_lines_costs_overview'
     )
+    wip2cogs_cleared = fields.Boolea("WIP2COGS Cleared?")
 
     @api.multi
     def _generate_additional_raw_move(self, product, quantity):
@@ -579,17 +580,37 @@ class MRPProduction(models.Model):
         return True
 
     @api.multi
-    def create_cogs_entry(self):
-        # Create Journal Entry from WIP To COGS
+    def create_cogs_entry(self, job=False):
+        if not job:
+            return False
+        combined_mo_move_lines = []
+        combined_name = job.name
+        journal_id = False
+        mo_ids = []
+
+        # Create Journal Entry from WIP To COGS for one or more MOs related to Job
         for mo in self:
-            for wo in mo.workorder_ids:
+            mo_ids.append(mo.id)
+            combined_name += '-' + mo.name
+            if not journal_id:
+                accounts = mo.product_id.product_tmpl_id.get_product_accounts()
+                journal_id = accounts['stock_journal'].id
+            mo_move_lines = mo._prepare_wip2cogs_material_acc_move()
+            if mo_move_lines:
+                combined_mo_move_lines.append(mo_move_lines)
+        if combined_mo_move_lines:
+            # Create Combined Material Journal Entry from WIP To COGS for one or more MOs related to Job
+            self._create_wip2cogs_material_acc_move(move_lines=combined_mo_move_lines, name=combined_name, journal_id=journal_id)
+
+        # Create One JE for Labor and Overhead per each job irrespective of MO and WO
+        # Search all workorders and clear them from WIP to COGS
+        workorder_ids = self.env['mrp.workorder'].search([('production_id','in', mo_ids)])
+        for wo in workorder_ids:
                 wo._create_wip2cogs_labor_acc_move()
-            mo._create_wip2cogs_material_acc_move()
         return True
 
-    def _create_wip2cogs_material_acc_move(self):
+    def _prepare_wip2cogs_material_acc_move(self):
         production = self
-        move_obj = self.env['account.move']
         material_cost = production.material_cost
         if material_cost == 0:
             return True
@@ -597,7 +618,6 @@ class MRPProduction(models.Model):
 
         # Prepare accounts
         accounts = product.product_tmpl_id.get_product_accounts()
-        journal_id = accounts['stock_journal'].id
         production_account_id = accounts['production_account_id'].id
         # COGS Accounts
         expense_account_id = accounts['expense'].id
@@ -616,7 +636,6 @@ class MRPProduction(models.Model):
 
         name = job_id and job_id.name + '-' + production.name or production.name
         ref = job_id and job_id.name + '-' + production.name or production.name
-
 
         # WIP to COGS account move lines (Material)
         debit_line_vals = {
@@ -645,7 +664,10 @@ class MRPProduction(models.Model):
         }
 
         move_lines = [(0, 0, debit_line_vals), (0, 0, credit_line_vals)]
+        return move_lines
 
+    def _create_wip2cogs_material_acc_move(self, move_lines=False, name='', journal_id=False):
+        move_obj = self.env['account.move']
         # WIP to COGS account move (Material)
         if move_lines:
             new_move = move_obj.create(
