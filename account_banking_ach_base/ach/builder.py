@@ -37,7 +37,7 @@ class AchFile(object):
         self.batches = list()
 
     def add_batch(self, std_ent_cls_code, batch_entries=None,
-                  credits=True, debits=True, eff_ent_date=None):
+                  credits=True, debits=False, eff_ent_date=None):
         """
         Use this to add batches to the file. For valid std_ent_cls_codes see:
         http://en.wikipedia.org/wiki/Automated_Clearing_House#SEC_codes
@@ -58,6 +58,9 @@ class AchFile(object):
             serv_cls_code = '220'
         elif debits:
             serv_cls_code = '225'
+        
+        if std_ent_cls_code == 'CTX':
+            serv_cls_code = '200'
 
         batch_header = BatchHeader(
             serv_cls_code=serv_cls_code,
@@ -250,13 +253,15 @@ class FileBatch(object):
         self.entries = []
 
         for entry, addenda in entries:
-            # entadd_count += 1 # Commented out because its giving wrong no of addenda.
+            entadd_count += 1 # Commented out because its giving wrong no of addenda.
             entadd_count += len(addenda)
             self.entries.append(FileEntry(entry, addenda))
 
         #set up batch_control
 
         batch_control = BatchControl(self.batch_header.serv_cls_code)
+        # Making it Batch control 200 for CTX type of Transaction
+        # batch_control = BatchControl('200')
 
         batch_control.entadd_count = entadd_count
         batch_control.entry_hash = self.get_entry_hash(self.entries)

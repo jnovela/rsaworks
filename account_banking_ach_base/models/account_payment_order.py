@@ -125,6 +125,6 @@ class AccountPaymentOrder(models.Model):
                 }],
             })
         outbound_payment = self.payment_type == 'outbound'
-        ach_file.add_batch('CTX', entries, credits=True,
-                           debits=True)
+        ach_file.add_batch('CTX', entries, credits=outbound_payment,
+                           debits=inbound_payment)
         return ach_file.render_to_string(), filename
