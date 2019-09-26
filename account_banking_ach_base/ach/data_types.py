@@ -308,7 +308,7 @@ class BatchHeader(Ach):
         'batch_id': 7,
     }
 
-    def __init__(self, serv_cls_code='220', company_name='', cmpy_dis_data='',
+    def __init__(self, serv_cls_code='200', company_name='', cmpy_dis_data='',
                  company_id='', std_ent_cls_code='PPD', entry_desc='',
                  desc_date='', eff_ent_date='', orig_stat_code='',
                  orig_dfi_id='', batch_id=''):
@@ -405,7 +405,7 @@ class BatchControl(Ach):
         'batch_id': 7,
     }
 
-    def __init__(self, serv_cls_code='220', entadd_count='', entry_hash='',
+    def __init__(self, serv_cls_code='200', entadd_count='', entry_hash='',
                  debit_amount='', credit_amount='', company_id='',
                  orig_dfi_id='', batch_id='', mesg_auth_code=''):
         """
@@ -448,7 +448,9 @@ class BatchControl(Ach):
         super(BatchControl, self).__setattr__(name, value)
 
     def get_row(self):
-
+        # As we are preparing for CTX and 200 type transaction
+        # Both debit and credit will be same
+        # so passing credit_amount twice
         return self.record_type_code +\
             self.serv_cls_code +\
             self.entadd_count +\
