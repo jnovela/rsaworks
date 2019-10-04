@@ -7,6 +7,8 @@
       <field name="arch" type="xml">
           <tree string="Storage">
               <field name="equipment_id"/>
+              <field name="equip_square_feet"/>
+              <field name="customer_id"/>
               <field name="location_id"/>
               <field name="check_in"/>
               <field name="check_out"/>
@@ -51,11 +53,11 @@
             <search string="Equipment Storage Records">
                 <field name="equipment_id"/>
                 <field name="check_in"/>
-                <field name="x_studio_customer"/>
+                <field name="customer_id"/>
                 <filter name="checked_out" string="Checked Out" domain="[('check_out', '!=', False)]"/>
                 <group name="groupby">
                     <filter name="partner_groupby" string="Customer"
-                        context="{'group_by': 'x_studio_customer'}"/>
+                        context="{'group_by': 'customer_id'}"/>
                 </group>
             </search>
           </field>
