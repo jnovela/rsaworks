@@ -12,6 +12,7 @@
               <field name="check_out"/>
               <field name="subscription_id"/>
               <field name="subscription_price"/>
+              <field name="subscription_uom"/>
               <field name="last_invoiced"/>
           </tree>
       </field>
@@ -34,6 +35,7 @@
                           <group>
                               <field name="subscription_id"/>
                               <field name="subscription_price"/>
+                              <field name="subscription_uom" groups="uom.group_uom"/>
                               <field name="last_invoiced"/>
                           </group>
                       </group>
@@ -41,6 +43,23 @@
               </form>
           </field>
       </record>
+
+    <record model="ir.ui.view" id="storage_search_view">
+          <field name="name">storage.search</field>
+          <field name="model">storage</field>
+          <field name="arch" type="xml">
+            <search string="Equipment Storage Records">
+                <field name="equipment_id"/>
+                <field name="check_in"/>
+                <field name="x_studio_customer"/>
+                <filter name="checked_out" string="Checked Out" domain="[('check_out', '!=', False)]"/>
+                <group name="groupby">
+                    <filter name="partner_groupby" string="Customer"
+                        context="{'group_by': 'x_studio_customer'}"/>
+                </group>
+            </search>
+          </field>
+    </record>
 
   <!-- FOR DASHBOARD TO WORK DONT FORGET TO INSTALL DASHBOARD MODULE -->
   <record id="storage_action" model="ir.actions.act_window">

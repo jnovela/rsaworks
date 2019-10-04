@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models, tools, _
+from odoo.exceptions import UserError
 from odoo.addons import decimal_precision as dp
 
 
@@ -18,7 +19,8 @@ class Storage(models.Model):
     equip_square_feet = fields.Float(string='Square Feet', related='equipment_id.square_feet')
     equip_serial_no = fields.Char(string='Serial Number', related='equipment_id.serial_no')
     subscription_price = fields.Float(string='Subscription Price', digits=dp.get_precision('Product Price'))
-    last_invoiced = fields.Date(string='Last Invoiced')
+    subscription_uom = fields.Many2one('uom.uom', 'Unit of Measure')
+    last_invoiced = fields.Date(string='Last Invoiced', related='subscription_id.last_invoice_date', readonly=True)
     status = fields.Boolean(string='Status')
 
     def name_get(self):
@@ -29,3 +31,33 @@ class Storage(models.Model):
         res.append((self.id, name))
         return res
 
+    @api.onchange('check_out')
+    def _on_check_out_change(self):
+        for rec in self:
+            if rec.last_invoiced:
+                if rec.last_invoiced.month < rec.check_out.date().month:
+                    diff = rec.check_out.date().month - rec.last_invoiced.month
+                    if diff == 1:
+                        rec.subscription_uom = 20
+                    elif diff == 2:
+                        rec.subscription_uom = 25
+                    elif diff == 3:
+                        rec.subscription_uom = 21
+                    elif diff == 4:
+                        rec.subscription_uom = 28
+                    elif diff == 5:
+                        rec.subscription_uom = 29
+                    elif diff == 6:
+                        rec.subscription_uom = 30
+                    elif diff == 7:
+                        rec.subscription_uom = 31
+                    elif diff == 8:
+                        rec.subscription_uom = 32
+                    elif diff == 9:
+                        rec.subscription_uom = 33
+                    elif diff == 10:
+                        rec.subscription_uom = 34
+                    elif diff == 11:
+                        rec.subscription_uom = 35
+                    elif diff == 12:
+                        rec.subscription_uom = 36

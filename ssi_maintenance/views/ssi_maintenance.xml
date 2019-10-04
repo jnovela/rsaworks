@@ -48,7 +48,7 @@
                           </group>
                           <group>
                             <field name="lube_type"/>
-                            <field name="weight_in_lbs"  attrs="{'required': [('category_id', '!=', 5)]}"/>
+                            <field name="weight_in_lbs"  attrs="{'required': [('category_id', '!=', 4)]}"/>
                             <field name="duty"/>
                             <field name="service_factor"/>
                             <field name="ul_rating"/>
@@ -118,6 +118,7 @@
                                           <field name="check_out"/>
                                           <field name="subscription_id"/>
                                           <field name="subscription_price"/>
+                                          <field name="subscription_uom"/>
                                           <field name="last_invoiced" readonly="1"/>
                                       </tree>
                                     </field>
@@ -152,6 +153,26 @@
 
                 </group>
             </xpath> -->
+            </field>
+        </record>
+        
+        <record id="ssi_equipment_tree" model="ir.ui.view">
+        <field name="name">ssi.equipment_tree</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_tree"/>
+        <field eval="20" name="sequence"/>
+        <field name="type">tree</field>
+            <field name="arch" type="xml">
+              <xpath expr="//field[@name='technician_user_id']" position="replace">
+                <field name="customer_stock_number"/>
+              </xpath>
+              <xpath expr="//field[@name='department_id']" position="replace"/>
+              <xpath expr="//field[@name='employee_id']" position="replace"/>
+              <xpath expr="//tree[1]/field[@name='name']" position="after">
+                <field name="customer_id"/>
+                <field name="description"/>
+                <field name="location"/>
+              </xpath>
             </field>
         </record>
 
@@ -200,6 +221,7 @@
                                       <group>
                                           <field name="subscription_id"/>
                                           <field name="subscription_price"/>
+                                          <field name="subscription_uom" groups="uom.group_uom"/>
                                           <field name="last_invoiced" readonly="1"/>
                                       </group>
                                   </group>
@@ -279,20 +301,20 @@
                  </xpath>
                     
                 <xpath expr="//field[@name='close_date']" position="after">
-                    <field name="logistics_type" attrs ="{'invisible':[('maintenance_team_id','!=', 2)]}"/>
+                    <field name="logistics_type" attrs ="{'invisible':[('maintenance_team_id','!=', 5)]}"/>
                     <field name="ssi_job_id"/>
                 </xpath>
                     
                 <xpath expr="//field[@name='description']" position="after">
 <!--                     if maintenance_team_id.name !== Logistics -->
-                    <notebook  attrs ="{'invisible':[('maintenance_team_id','==', 2)]}">
+                    <notebook  attrs ="{'invisible':[('maintenance_team_id','==', 5)]}">
                             <page string="Checks">
                                 <group>
-                                    <field name="megger_test_motor" attrs ="{'required':[('maintenance_team_id','!=', 2)]}"/>
-                                    <field name="check_add_oil" attrs ="{'required':[('maintenance_team_id','!=', 2)]}"/>
-                                    <field name="rotate_the_shaft" attrs ="{'required':[('maintenance_team_id','!=', 2)]}"/>
-                                    <field name="verify_location" attrs ="{'required':[('maintenance_team_id','!=', 2)]}"/>
-                                    <field name="note_problem" attrs ="{'required':[('maintenance_team_id','!=', 2)]}"/>
+                                    <field name="megger_test_motor" attrs ="{'required':[('maintenance_team_id','!=', 5)]}"/>
+                                    <field name="check_add_oil" attrs ="{'required':[('maintenance_team_id','!=', 5)]}"/>
+                                    <field name="rotate_the_shaft" attrs ="{'required':[('maintenance_team_id','!=', 5)]}"/>
+                                    <field name="verify_location" attrs ="{'required':[('maintenance_team_id','!=', 5)]}"/>
+                                    <field name="note_problem" attrs ="{'required':[('maintenance_team_id','!=', 5)]}"/>
                                 </group>
 
                             </page>
