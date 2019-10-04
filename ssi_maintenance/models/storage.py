@@ -21,8 +21,8 @@ class Storage(models.Model):
     subscription_price = fields.Float(string='Subscription Price', digits=dp.get_precision('Product Price'))
     subscription_uom = fields.Many2one('uom.uom', 'Unit of Measure')
     last_invoiced = fields.Date(string='Last Invoiced', related='subscription_id.last_invoice_date', readonly=True)
-    customer_id = fields.many2one(string='Customer', related='equipment_id.customer_id', readonly=True)
-    equip_square_feet = fields.float(string='Square Feet', related='	equipment_id.square_feet', readonly=True)
+    customer_id = fields.Many2one(string='Customer', related='equipment_id.customer_id', readonly=True)
+    equip_square_feet = fields.Float(string='Square Feet', related='	equipment_id.square_feet', readonly=True)
     status = fields.Boolean(string='Status')
 
     def name_get(self):
