@@ -14,7 +14,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//page[@name='sales_purchases']" position="after">
                     <!-- <notebook> -->
-                        <page string="ASHER"  attrs="{'invisible':[('customer', '=', True)]}">
+                        <!-- page string="ASHER"  attrs="{'invisible':[('customer', '=', True)]}">
                             <group>
                               <group string="Focus - Elite Salespeople Focus on a Few Top Contacts">
                                   <field name="c_contact_fits_our_ideal_customer_group"/>
@@ -65,7 +65,7 @@
                                     <field name="a_net_promoter_score"/>
                                 </group>
                             </group>
-                        </page>
+                        </page -->
                     <!-- </notebook> -->
                 </xpath>
                 <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='sales_purchases']/group[@name='container_row_2']/group[@name='purchase']/field[@name='supplier']" position="after">

@@ -18,7 +18,7 @@
         'crm',
     ],
     'data': [
-        'views/leads.xml',
+        # 'views/leads.xml',
         'views/contact.xml',
     ],
     'installable': True,
