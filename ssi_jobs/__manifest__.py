@@ -33,7 +33,7 @@
         'views/ssi_mrp_production.xml',
         'views/ssi_account_invoice.xml',
         'views/ssi_sale_order.xml',
-        'views/assets.xml',
+        # 'views/assets.xml',
     ],
     'installable': True,
     'application': True,
