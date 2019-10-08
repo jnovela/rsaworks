@@ -21,13 +21,13 @@
                             <field name="serial_no"/>
 
 <!--                             <field name="equip_id" attrs="{'required': [('category_id', '=', 4)]}"/> -->
-                            <field name="description" attrs="{'required': [('category_id', '=', 4)]}"/>
-                            <field name="rating" attrs="{'required': [('category_id', '!=', 4)]}"/>
-                            <field name="rating_unit" attrs="{'required': [('category_id', '!=', 4)]}"/>
-                            <field name="poles" attrs="{'required': [('category_id', '!=', 4)]}"/>
-                            <field name="voltage" attrs="{'required': [('category_id', '!=', 4)]}"/>
-                            <field name="enclosure" attrs="{'required': [('category_id', '!=', 4)]}"/>
-                            <field name="mounting" attrs="{'required': [('category_id', '!=', 4)]}"/>
+                            <field name="description" attrs="{'required': [('category_id', '=', 18)]}"/>
+                            <field name="rating" attrs="{'required': [('category_id', '!=', 18)]}"/>
+                            <field name="rating_unit" attrs="{'required': [('category_id', '!=', 18)]}"/>
+                            <field name="poles" attrs="{'required': [('category_id', '!=', 18)]}"/>
+                            <field name="voltage" attrs="{'required': [('category_id', '!=', 18)]}"/>
+                            <field name="enclosure" attrs="{'required': [('category_id', '!=', 18)]}"/>
+                            <field name="mounting" attrs="{'required': [('category_id', '!=', 18)]}"/>
                             <field name="manufacture"/>
                             <field name="customer_stock_number"/>
                             <field name="customer_id_number"/>
@@ -48,7 +48,7 @@
                           </group>
                           <group>
                             <field name="lube_type"/>
-                            <field name="weight_in_lbs"  attrs="{'required': [('category_id', '!=', 5)]}"/>
+                            <field name="weight_in_lbs"  attrs="{'required': [('category_id', '!=', 18)]}"/>
                             <field name="duty"/>
                             <field name="service_factor"/>
                             <field name="ul_rating"/>
@@ -57,8 +57,8 @@
                             <field name="hz"/>
                             <field name="code"/>
                             <field name="insulation_class"/>
-                            <field name="direction_of_rotation" attrs="{'required': [('category_id', '!=', 4)]}"/>
-                            <field name="jbox_location" attrs="{'required': [('category_id', '!=', 4)]}"/>
+                            <field name="direction_of_rotation" attrs="{'required': [('category_id', '!=', 18)]}"/>
+                            <field name="jbox_location" attrs="{'required': [('category_id', '!=', 18)]}"/>
                             <field name="r_voltage"/>
                             <field name="r_amps"/>
                             <field name="excit_type"/>
@@ -66,7 +66,7 @@
                             <field name="field_amps"/>
                             <field name="f_ohm"/>
                             <field name="armature_winding_type"/>
-                            <field name="coupling_installed" attrs="{'required': [('category_id', '!=', 4)]}"/>
+                            <field name="coupling_installed" attrs="{'required': [('category_id', '!=', 18)]}"/>
 
                           </group>
                         </group>
@@ -112,10 +112,14 @@
                                 </group>
 									<field name="storage_ids" context="{'default_equipment_id':active_id,'default_check_in':time.strftime('%Y-%m-%d %H:%M:%S')}"> 
                                       <tree string="storage" create="true" edit="true">
-                                        <field name="location_id"/>
-                                        <field name="check_in"/>
-                                        <field name="check_out"/>
-                                        <field name="status"/>
+                                          <field name="equipment_id"/>
+                                          <field name="location_id"/>
+                                          <field name="check_in"/>
+                                          <field name="check_out"/>
+                                          <field name="subscription_id"/>
+                                          <field name="subscription_price"/>
+                                          <field name="subscription_uom"/>
+                                          <field name="last_invoiced" readonly="1"/>
                                       </tree>
                                     </field>
 
@@ -151,6 +155,26 @@
             </xpath> -->
             </field>
         </record>
+        
+        <record id="ssi_equipment_tree" model="ir.ui.view">
+        <field name="name">ssi.equipment_tree</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_tree"/>
+        <field eval="20" name="sequence"/>
+        <field name="type">tree</field>
+            <field name="arch" type="xml">
+              <xpath expr="//field[@name='technician_user_id']" position="replace">
+                <field name="customer_stock_number"/>
+              </xpath>
+              <xpath expr="//field[@name='department_id']" position="replace"/>
+              <xpath expr="//field[@name='employee_id']" position="replace"/>
+              <xpath expr="//tree[1]/field[@name='name']" position="after">
+                <field name="customer_id"/>
+                <field name="description"/>
+                <field name="location"/>
+              </xpath>
+            </field>
+        </record>
 
         <record id="ssi_equipment_mrp_form" model="ir.ui.view">
         <field name="name">ssi.equipment_mrp_form</field>
@@ -176,30 +200,36 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="storage_form_view">
-          <field name="name">storage.form</field>
-          <field name="model">storage</field>
-          <field name="arch" type="xml">
-              <form string="Storage Form">
-                  <sheet>
-                      <group>
-                          <group>
+        <record id="ssi_equipment_storage_form" model="ir.ui.view">
+        <field name="name">ssi.equipment_storage_form</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_form"/>
+        <field eval="30" name="sequence"/>
+        <field name="type">form</field>
+            <field name="arch" type="xml">
+              <xpath expr="//field[@name='storage_ids']" position="inside">
+                <form string="Storage Form">
+                              <sheet>
+                                  <group>
+                                      <group>
 
-                              <field name="location_id"/>
-                              <field name="equipment_id" context="{'equipment_id':context.get('id')}"/>
-                              <field name="status"/>
-                          </group>
-                          <group>
-                              <field name="check_in"/>
-                              <field name="check_out"/>
-                          </group>
-                      </group>
-                  </sheet>
-              </form>
-          </field>
-      </record>
-
-
+                                          <field name="location_id"/>
+                                          <field name="equipment_id" context="{'equipment_id':context.get('id')}"  attrs="{'invisible':1}"/>
+                                          <field name="check_in"/>
+                                          <field name="check_out"/>
+                                      </group>
+                                      <group>
+                                          <field name="subscription_id"/>
+                                          <field name="subscription_price"/>
+                                          <field name="subscription_uom" groups="uom.group_uom"/>
+                                          <field name="last_invoiced" readonly="1"/>
+                                      </group>
+                                  </group>
+                              </sheet>
+                          </form>
+              </xpath>
+            </field>
+        </record>
 
         <record id="ssi_jobs_tree_equipment" model="ir.ui.view">
             <field name="name">ssi_jobs_tree_equipment.tree</field>
