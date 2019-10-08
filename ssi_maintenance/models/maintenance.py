@@ -93,6 +93,7 @@ class MaintenanceEquipment(models.Model):
     def _compute_current_location(self):
         """ Get the current location and save it at the equipment level
         """
+        loc = False
         for rec in self:
             for strg in rec.storage_ids:
                 loc = strg.location_id
