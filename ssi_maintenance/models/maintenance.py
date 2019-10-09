@@ -8,6 +8,8 @@ import requests
 class MaintenanceEquipment(models.Model):
     _inherit = 'maintenance.equipment'
     
+    name = fields.Char('Equipment Name', required=True, translate=True, copy=False, readonly=True,
+                       index=True, default=lambda self: _('New'))
     location = fields.Char('Location', compute='_compute_current_location')
 #     equip_id = fields.Char(string='Equip_id')
     description = fields.Char(string='Description')
@@ -88,6 +90,14 @@ class MaintenanceEquipment(models.Model):
     ui_rated = fields.Selection(
         [('Yes', 'Yes'), ('No', 'No')], string='UI Rated')
     ui_rating = fields.Char(string='UI Rating')
+
+    @api.model
+    def create(self, vals):
+        if vals.get('name', _('New')) == _('New'):
+            vals['name'] = self.env['ir.sequence'].next_by_code(
+                'maintenance.equipment') or _('New')
+        equipment = super(MaintenanceEquipment, self).create(vals)
+        return equipment
 
     @api.depends('storage_ids.location_id')
     def _compute_current_location(self):
