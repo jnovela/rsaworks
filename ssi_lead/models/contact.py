@@ -10,6 +10,7 @@ class Contact(models.Model):
     vendor_1099 = fields.Boolean(string='Vendor 1099')
     ach_email = fields.Char(string='ACH Email')
     ach_email_alt = fields.Char(string='ACH Email Alt')
+    coi_expiration_date = fields.Date(string='COI Expiration')
 
     # I) CONTACTS
     # 1 FOCUS
