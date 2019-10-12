@@ -73,7 +73,7 @@
                     <field name="opened_date"/>
                     <field name="ach_email"/>
                     <field name="ach_email_alt"/>
-                    <field name="coi_expiration"/>
+                    <field name="coi_expiration_date"/>
                 </xpath>
                 <xpath expr="//field[@name='mobile']" position="after">
                     <field name="fax"/>
