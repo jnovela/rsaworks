@@ -15,10 +15,10 @@
     'website': 'https://ssibtr.com',
     "depends":  [
         'base',
-        # 'crm',
+        'crm',
     ],
     'data': [
-        # 'views/leads.xml',
+        'views/leads.xml',
         'views/contact.xml',
     ],
     'installable': True,
