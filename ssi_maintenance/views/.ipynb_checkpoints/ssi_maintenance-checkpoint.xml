@@ -30,8 +30,7 @@
                             <field name="mounting" attrs="{'required': [('category_id', '!=', 4)]}"/>
                             <field name="manufacture"/>
                             <field name="customer_stock_number"/>
-                            <field name="customer_id_number_general"/>
-                            <field name="customer_id_number_motor_specific"/>
+                            <field name="customer_id_number"/>
                             <field name="amps"/>
                             <field name="rpm_nameplate"/>
                             <field name="phase"/>
@@ -41,13 +40,15 @@
                             <field name="de_bearing"/>
                             <field name="ode_bearing"/>
 
+                            <field name="customer_id_number_general"/>
+                            <field name="customer_id_number_motor_specific"/>
                             <field name="ui_rated"/>
                             <field name="ui_rating"/>
 
                           </group>
                           <group>
                             <field name="lube_type"/>
-                            <field name="weight"  attrs="{'required': [('category_id', '!=', 4)]}"/>
+                            <field name="weight_in_lbs"  attrs="{'required': [('category_id', '!=', 4)]}"/>
                             <field name="duty"/>
                             <field name="service_factor"/>
                             <field name="ul_rating"/>

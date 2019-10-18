@@ -14,6 +14,11 @@ class WO(models.Model):
         'ssi_jobs', related='production_id.ssi_job_id', string='Job', store=True)
 
     @api.multi
+    def name_get(self):
+        return [(wo.id, "%s(%s) %s" % (wo.ssi_job_id.name, wo.production_id.name, wo.name)) for wo in self]
+#         return [(wo.id, "%s - %s - %s" % (wo.production_id.name, wo.product_id.name, wo.name)) for wo in self]
+
+    @api.multi
     def button_start(self):
         self.ensure_one()
         # As button_start is automatically called in the new view
