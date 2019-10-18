@@ -11,6 +11,7 @@ class Contact(models.Model):
     ach_email = fields.Char(string='ACH Email')
     ach_email_alt = fields.Char(string='ACH Email Alt')
     coi_expiration_date = fields.Date(string='COI Expiration')
+    exemption_certificate_date = fields.Date(string='Exemption Certificate Date', help='Date exemption certificate expires.')
 
     # I) CONTACTS
     # 1 FOCUS
