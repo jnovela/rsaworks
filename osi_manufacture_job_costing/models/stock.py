@@ -35,7 +35,13 @@ class StockMove(models.Model):
         # adjust account move line name to show product name
         result=[]
         production = self.production_id or self.workorder_id.production_id or False
-        job_id = self.production_id.ssi_job_id or self.workorder_id.production_id.ssi_job_id or False
+        sale_order = self.sale_line_id.order_id or False
+        if production:
+            job_id = self.production_id.ssi_job_id or self.workorder_id.production_id.ssi_job_id or False
+        elif sale_order:
+            job_id = sale_order.ssi_job_id or False
+        else:
+            job_id = False
         
         for item in res:
             item[2]['name'] = self.product_id.name
