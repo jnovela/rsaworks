@@ -3,6 +3,7 @@
 
 from odoo import models, api, fields
 
+
 class AnalyticAccountLine(models.Model):
     _inherit = 'account.analytic.line'
 
@@ -25,18 +26,18 @@ class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
     @api.one
-    def action_invoice_open(self):
-        result = super(AccountInvoice, self).action_invoice_open()       
+    def invoice_validate(self):
+        result = super(AccountInvoice, self).invoice_validate()
         # Generate the Finish Goods to COGS entry for Consumable products
         # Check for SSI/ Redstick workflow here as Repair order vs normal SO
         for inv in self:
-            for line in self.invoice_line_ids:
+            for line in inv.invoice_line_ids:
                 if line.ssi_job_id and line.product_id and line.product_id.type == 'consu'\
                     and line.product_id.product_tmpl_id.is_job_type:
                     # Search unique MO with product_id and ssi_job_id
                     MO_id = self.env['mrp.production'].search(
                             [('ssi_job_id', '=', line.ssi_job_id.id),
-                            ('product_id','=', line.product_id.id)])
+                             ('product_id','=', line.product_id.id)])
                     if MO_id:
                         # Create WIP TO COGS JE for Labor, Burden and Material
                         MO_id.create_cogs_entry()

@@ -47,6 +47,20 @@
         </field>
     </record>
 
+    <record id="account_invoice_job_validate_form" model="ir.ui.view">
+        <field name="name">account.invoice.job.validate.form</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="arch" type="xml">
+            <button name="action_invoice_open" position="after">
+                <button name="%(osi_manufacture_job_costing.action_account_invoice_job_validate)d" type="action" string="Validate" class="oe_highlight" groups="account.group_account_invoice" states="draft"/>
+            </button>
+            <button name="action_invoice_open" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </button>
+        </field>
+    </record>
+
     <!-- record id="account_move_workcenter_form" model="ir.ui.view">
         <field name="name">account.move.workcenter.form</field>
         <field name="model">account.move.line</field>

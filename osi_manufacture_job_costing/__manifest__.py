@@ -24,6 +24,7 @@
         "wizard/wizard_product_remove_view.xml",
         "wizard/wizard_addition_wo_view.xml",
         "wizard/wizard_update_source_location_view.xml",
+        "wizard/account_invoice_job_validate_view.xml",
         "views/account_view.xml",
         "views/product_view.xml",
         "views/stock_view.xml",
