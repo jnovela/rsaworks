@@ -56,19 +56,6 @@
             print_report_name="'Check Bottom - %s' % (object.partner_id.name or '',)"
         />
 
-        <report id="action_print_check_stubs"
-            string="OSI Print Check Stubs"
-            model="account.payment"
-            name="osi_check_layout.osi_print_check_stubs"
-            file="osi_check_layout.osi_print_check_stubs"
-            report_type="qweb-pdf"
-            menu="True"
-            attachment_use="False"
-            attachment=""
-            paperformat="osi_check_layout.paperformat_check_us"
-            print_report_name="'Check Stubs - %s' % (object.partner_id.name or '',)"
-        />
-
         <report id="l10n_us_check_printing.action_print_check_top"
             string="Print Check (Top)"
             model="account.payment"
