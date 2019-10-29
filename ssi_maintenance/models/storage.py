@@ -37,29 +37,30 @@ class Storage(models.Model):
     def _on_check_out_change(self):
         for rec in self:
             if rec.last_invoiced:
-                if rec.last_invoiced.month < rec.check_out.date().month:
-                    diff = rec.check_out.date().month - rec.last_invoiced.month
-                    if diff == 1:
-                        rec.subscription_uom = 20
-                    elif diff == 2:
-                        rec.subscription_uom = 25
-                    elif diff == 3:
-                        rec.subscription_uom = 21
-                    elif diff == 4:
-                        rec.subscription_uom = 28
-                    elif diff == 5:
-                        rec.subscription_uom = 29
-                    elif diff == 6:
-                        rec.subscription_uom = 30
-                    elif diff == 7:
-                        rec.subscription_uom = 31
-                    elif diff == 8:
-                        rec.subscription_uom = 32
-                    elif diff == 9:
-                        rec.subscription_uom = 33
-                    elif diff == 10:
-                        rec.subscription_uom = 34
-                    elif diff == 11:
-                        rec.subscription_uom = 35
-                    elif diff == 12:
-                        rec.subscription_uom = 36
+                if rec.check_out:
+                    if rec.last_invoiced.month < rec.check_out.date().month:
+                        diff = rec.check_out.date().month - rec.last_invoiced.month
+                        if diff == 1:
+                            rec.subscription_uom = 20
+                        elif diff == 2:
+                            rec.subscription_uom = 25
+                        elif diff == 3:
+                            rec.subscription_uom = 21
+                        elif diff == 4:
+                            rec.subscription_uom = 28
+                        elif diff == 5:
+                            rec.subscription_uom = 29
+                        elif diff == 6:
+                            rec.subscription_uom = 30
+                        elif diff == 7:
+                            rec.subscription_uom = 31
+                        elif diff == 8:
+                            rec.subscription_uom = 32
+                        elif diff == 9:
+                            rec.subscription_uom = 33
+                        elif diff == 10:
+                            rec.subscription_uom = 34
+                        elif diff == 11:
+                            rec.subscription_uom = 35
+                        elif diff == 12:
+                            rec.subscription_uom = 36

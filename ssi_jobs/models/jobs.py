@@ -1,6 +1,8 @@
 
 from odoo import api, fields, models, _
+from datetime import datetime
 from odoo.exceptions import UserError
+import requests
 
 
 class Jobs(models.Model):
@@ -9,7 +11,6 @@ class Jobs(models.Model):
     _order = "create_date,display_name desc"
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    # TOP AND RELATED
     so_ids = fields.One2many(
         'sale.order', 'ssi_job_id', string='SO')
     order_total = fields.Monetary(
@@ -19,54 +20,33 @@ class Jobs(models.Model):
     prod_count = fields.Integer(string='Operations', compute='_get_prod_count')
     wo_count = fields.Integer(string='Work Orders', compute='_get_wo_count')
     wc_count = fields.Integer(string='Job Count', compute='_get_wc_count')
-
-    # NECESSARY SUPPORT
     currency_id = fields.Many2one('res.currency', string='Account Currency',
                                   help="Forces all moves for this account to have this account currency.")
     stage_id = fields.Many2one('ssi_jobs_stage', group_expand='_read_group_stage_ids',
                                default=lambda self: self.env['ssi_jobs_stage'].search([('name', '=', 'New Job')]), string='Stage')
-
-    # LEFT
     name = fields.Char(string="Job Name", required=True, copy=False, readonly=True,
                        index=True, default=lambda self: _('New'))
     partner_id = fields.Many2one(
         'res.partner', string='Customer', ondelete='restrict', required=True,
         domain=[('parent_id', '=', False)])
+    user_id = fields.Many2one('res.users', related='partner_id.user_id', string='Salesperson')
+    project_manager = fields.Many2one('res.users', related='partner_id.project_manager_id', string='Project Manager', store=True)
     active = fields.Boolean(default=True)
-    # objects = fields.Selection(
-    #     [('motor', 'Motor'), ('generator', 'Generator'), ('coil', 'Coil'), ('brake', 'Brake'), ('other', 'Other')], string='Object')
-    # size = fields.Integer(string='Size')
-    # sizeUM = fields.Selection(
-    #     [('hp', 'Horsepower'), ('kw', 'Kilowatts'), ('lb-ft', 'Torque')], string='Size UM')
-    # shaft = fields.Selection(
-    #     [('horizontal', 'Horizontal'), ('vertical', 'Vertical'), ('other', 'Other')], string='Shaft')
-    # dimensions = fields.Float(string='Dimensions')
-    equipment_id = fields.Many2one(
-        'maintenance.equipment', string='Equipment')
-
-    # RIGHT
+    equipment_id = fields.Many2one('maintenance.equipment', string='Equipment')
+#     deadline_date = fields.Datetime(string='Customer Deadline', required=True, default=datetime.today())
+    deadline_date = fields.Datetime(string='Customer Deadline', required=True)
     ready_for_pickup = fields.Datetime(string='Ready for Pickup')
+    type = fields.Selection(
+        [('Shop', 'Shop'), ('Field Service', 'Field Service')], string='Job Type', default='Shop')
     urgency = fields.Selection(
         [('straight', 'Straight time'), ('straight_quote', 'Straight time quote before repair'), ('overtime', 'Overtime'), ('overtime_quote', 'Overtime quote before repair')], string='Urgency')
     po_number = fields.Char(string='PO Number')
-    # weight = fields.Float(string='Weight')
-    # weightUM = fields.Selection(
-    #     [('lbs', 'pounds'), ('tons', 'tons'), ('kgs', 'kilograms')], string='Weight UM')
     notes = fields.Text(string='Notes')
     status = fields.Selection(
         [('ready', 'Ready'), ('process', 'In Process'), ('done', 'Complete'), ('blocked', 'Blocked')], string='Status')
-
-    # NAMEPLATES
-    # job_type = fields.Selection(
-    #     [('10', '10'), ('12', '12'), ('20', '20'), ('30', '30'), ('40', '40'), ('50', '50'), ('60', '60'), ('00', '00'), ('11', '11')], string='Job Type')
-
-    # OTHER
     color = fields.Integer(string='Color')
     serial = fields.Char(String="Serial #")
-    aa_id = fields.Many2one(
-        'account.analytic.account', string='Analytic Account')
-#     aa_count = fields.Integer(
-#         string='Analytics Count', compute='_get_aa_count')
+    aa_id = fields.Many2one('account.analytic.account', string='Analytic Account')
 
     _sql_constraints = [(
         'name_unique',
@@ -88,6 +68,48 @@ class Jobs(models.Model):
         aa = self.env['account.analytic.account'].sudo().create(
             {'name': name, 'ssi_job_id': res.id, 'group_id': group, 'partner_id': partner})
         res.write({'aa_id': aa.id})
+        
+        login_response = requests.post(
+            'http://api.springpt.com:38136/api/v1/login',
+            headers={'Content-Type': 'application/json'},
+            json={"user_name": "RS_API_USER", "password": "b+PHhK2M", "company_id": "RedStick"},
+        )
+        json_login_response = login_response.json()
+        token = json_login_response['data']['token']
+
+        create_qm_job = requests.post(
+            'http://api.springpt.com:38136/api/v1/RSImportJob',
+            headers={'Content-Type': 'application/json', 'x-access-token': token},
+            json= [{
+                "JobID" : res.name,
+                "CustomerID" : res.partner_id.id,
+                "CustomerName" : res.partner_id.name,
+                "Notes" : "",
+                "Make" : "",
+                "Model" : "",
+                "SerialNumber" : "",
+                "RatingUnit" : res.equipment_id.rating_unit,
+                "Poles" : "",
+                "RPM" : "",
+                "Frame" : "",
+                "Enclosure" : "",
+                "Voltage" : "",
+                "Amps" : "",
+                "ODEBearing" : "",
+                "DEBearing" : "",
+                "CustomerStock" : "",
+                "CustomerIDMotor" : "",
+                "Phase" : "",
+                "Mounting" : "",
+                "Duty" : "",
+                "NEMADesign" : "",
+                "ServiceFactor" : "",
+                "Weight" : "",
+                "BearingType" : "",
+                "StatorWindingType" : "",
+                "LubeType": ""
+            }]
+        )      
         return res
         # raise UserError(_(res.id))
 

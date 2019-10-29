@@ -21,8 +21,8 @@ Configuration
 * Go to Manufacturing > Master Data > Work Centers
 * Create/edit work centers with labor rate, overhead rate
 
-Usage
-=====
+Usage-1
+=======
 
 * Go to Manufacturing > Manufacturing Orders
 * Assign Job ID to manufacturing
@@ -35,6 +35,16 @@ Usage
   it will create analytic entries as well.
 * It will create Job costing scheduler to calculate workorder costing on daily basis.
 
+Usage-2
+=======
+
+* Create a Job with Product A and define BoM with route having operations.
+* Create Manufacture Order with the Product A and plan. Complete respective work orders and keep MO opened.
+* Create invoice related to this job Product
+* Click on 'Validate' button. It should open a wizard if corresponding invoice line product has the open manufacturing order.
+* From Opened wizard if user continue with Validate button click it should process the invoice validation process
+* Or if user click on cancel button then abort the invoice validation.
+
 Credits
 =======
 
@@ -45,4 +55,4 @@ Contributors
 
 * Balaji Kannan < bkannan@opensourceintegrators.com>
 * Sandip Mangukiya < smangukiya@opensourceintegrators.com>
-
+* Bhavesh Odedra < bodedra@opensourceintegrators.com>

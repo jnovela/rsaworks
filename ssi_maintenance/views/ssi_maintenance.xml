@@ -132,6 +132,7 @@
             <xpath expr="//field[@name='category_id']" position="after">
               <!-- <field name="partner_id" /> -->
               <field name="customer_id"/>
+              <field name="project_manager"/>
             </xpath>
             <xpath expr="//field[@name='location']" position="attributes">
                 <attribute name="attrs">{}</attribute>
@@ -140,18 +141,15 @@
             <xpath expr="//button[@name='toggle_active']" position="after">
                 <button name="ssi_equ_qm_button" type="object" class="oe_stat_button" icon="fa-wrench" string="Sync with QM Wizard"/>
             </xpath>
-
-
-            <!-- <xpath expr="//group[1]/group[2]" position="replace">
-                <group>
-                    <field name="maintenance_team_id" attrs="{'required': [('period', '!=', 0)]}"/>
-                    <field name="technician_user_id"/>
-                    <field name="assign_date" groups="base.group_no_one"/>
-                    <field name="scrap_date" groups="base.group_no_one"/>
-                    <field name="location" invisible="1" string="Used in location"/>
-
-                </group>
-            </xpath> -->
+              <xpath expr="//field[@name='equipment_assign_to']" position="attributes">
+                <attribute name="attrs">{}</attribute>
+                <attribute name="invisible">1</attribute>
+              </xpath>
+                <xpath expr="//field[@name='department_id']" position="replace"/>
+                <xpath expr="//field[@name='employee_id']" position="replace"/>
+                <xpath expr="//form[1]/sheet[1]/notebook[1]/page[1]" position="attributes">
+                <attribute name="string">Note</attribute>
+              </xpath>
             </field>
         </record>
         

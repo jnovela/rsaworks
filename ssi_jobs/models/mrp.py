@@ -12,6 +12,25 @@ class WO(models.Model):
     # 'ssi_jobs', string='Job')
     ssi_job_id = fields.Many2one(
         'ssi_jobs', related='production_id.ssi_job_id', string='Job', store=True)
+    duration_expected_hours = fields.Float(
+        'Expected Hours',
+        compute='_compute_expected_hours',
+        readonly=True, store=True,
+        help="Expected duration (in hours)")
+    duration_hours = fields.Float(
+        'Real Hours', compute='_compute_duration_hours',
+        readonly=True, store=True)
+
+
+    @api.depends('duration_expected')
+    def _compute_expected_hours(self):
+        for record in self:
+            record.duration_expected_hours = record.duration_expected / 60
+
+    @api.depends('duration')
+    def _compute_duration_hours(self):
+        for record in self:
+            record.duration_hours = record.duration / 60
 
     @api.multi
     def name_get(self):

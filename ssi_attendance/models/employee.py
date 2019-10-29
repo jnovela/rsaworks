@@ -39,14 +39,20 @@ class HrEmployeeCustom(models.Model):
         action_message['next_action'] = next_action
 
         if self.user_id:
-            modified_attendance = self.sudo(self.user_id.id).attendance_action_change(job, wo, end)
+            if next_action == 'hr_attendance.hr_attendance_action_kiosk_mode':           
+                modified_attendance = self.sudo(self.user_id.id).attendance_action_change_k(job, wo, end)
+            else:
+                modified_attendance = self.sudo(self.user_id.id).attendance_action_change()
         else:
-            modified_attendance = self.sudo().attendance_action_change(job, wo, end)
+            if next_action == 'hr_attendance.hr_attendance_action_kiosk_mode':           
+                modified_attendance = self.sudo().attendance_action_change_k(job, wo, end)
+            else:
+                modified_attendance = self.sudo().attendance_action_change()
         action_message['attendance'] = modified_attendance.read()[0]
         return {'action': action_message}
         
     @api.multi
-    def attendance_action_change(self, job=None, wo=None, end=None):
+    def attendance_action_change_k(self, job=None, wo=None, end=None):
         """ Check In/Check Out action
             Check In: create a new attendance record
             Check Out: modify check_out field of appropriate attendance record

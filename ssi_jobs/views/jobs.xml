@@ -2,6 +2,16 @@
 
 <odoo>
 
+<report 
+    id="action_job_cost"
+    model="ssi_jobs"
+    string="Job Cost Analysis"
+    report_type="qweb-html"
+    name="ssi_jobs.job_cost_structure"
+    file="ssi_jobs.job_cost_structure"
+    print_report_name="'Job Cost Analysis - %s ' % object.name"
+/>
+
 <record id="jobs_form" model="ir.ui.view">
     <field name="name">jobs.form</field>
     <field name="model">ssi_jobs</field>
@@ -41,6 +51,9 @@
                         <field name="active" widget="boolean_button"
                             options='{"terminology": "archive"}'/>
                     </button>
+                    <button name="%(ssi_jobs.action_job_cost)d" type="action"
+                        class="oe_stat_button" icon="fa-circle-o" string="Cost Analysis">
+                    </button>
                 </div>
                 <group name="main">
                     <group name="left">
@@ -52,13 +65,15 @@
                         <field name="shaft"/>
                         <field name="dimensions"/> -->
                         <field name="equipment_id" context="{'customer_id': partner_id}" domain="[('customer_id', '=', partner_id)]"/>
+                        <field name="deadline_date"/>
                         <field name="ready_for_pickup"/>
                     </group>
                     <group name="right">
                         <field name="urgency"/>
+                        <field name="type"/>
                         <field name="po_number"/>
-                        <!-- <field name="weight"/>
-                        <field name="weightUM"/> -->
+                        <field name="user_id"/>
+                        <field name="project_manager"/>
                         <field name="notes"/>
                         <field name="status"/>
                         <field name="aa_id"/>
@@ -132,9 +147,11 @@
                         <div class="oe_kanban_bottom_right" name="ssi_div_d9f9e8"></div>
 
                         <div class="o_kanban_card_content">
-                            <field bold="True" name="name" modifiers="{}"/>
+                            <div>
+                                <field bold="True" name="name" modifiers="{}"/> - 
+                                <field name="partner_id"/>
+                            </div>
                             <field name="notes" display="full"/>
-                            <field name="partner_id" display="full"/>
                             <!-- <field name="size"/>
                             <field name="sizeUM"/> -->
                             <field name="serial" display="full"/>

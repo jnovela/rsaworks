@@ -13,6 +13,7 @@ class SaleSubscription(models.Model):
     storage_id = fields.One2many('storage', 'subscription_id', string='Storage')
     square_foot_total = fields.Float(string='Square Foot Total', compute='_get_sqf_total')
     last_invoice_date = fields.Date(string='Last Invoiced Date', compute='_get_last_invoice')
+    project_manager = fields.Many2one('res.users', related='partner_id.project_manager_id', string='Project Manager', store=True)
 
     # ACTIONS AND METHODS
     def recurring_invoice(self):
