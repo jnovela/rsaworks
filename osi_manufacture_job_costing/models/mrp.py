@@ -594,7 +594,7 @@ class MRPProduction(models.Model):
         production = self
         material_cost = production.material_cost
         if material_cost == 0:
-            return True
+            return False
         product = production.product_id
 
         # Prepare accounts
