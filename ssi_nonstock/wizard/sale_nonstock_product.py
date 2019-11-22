@@ -14,7 +14,6 @@ class SaleNonstockProduct(models.TransientModel):
     partner_id = fields.Many2one('res.partner', string='Vendor', required=True, help="Vendor for Non Stock")
     price = fields.Float(string='Sale Price', default=1.0, required=True, help="Sale Price for Order")
     cost = fields.Float(string='Vendor Cost', default=1.0, required=True, help="Vendor Cost for PO")
-    categ_id = fields.Many2one('product.category', string='Product Category', help="Product Category")
     order_id = fields.Many2one(
         'sale.order', 'Sale Order', 
         default=lambda self: self.env.context.get('active_id', False))
@@ -24,13 +23,13 @@ class SaleNonstockProduct(models.TransientModel):
         # Create New NS Product
         prod_template = self.env['product.template']
         ns_name = self.product_template_id.default_code + self.env['ir.sequence'].next_by_code('ssi_non_stock')
-#         category = self.env['product.category'].search([('name','=','Non Stock Job Material')], limit=1).id
+        category = self.env['product.category'].search([('name','=','Non Stock Job Material')], limit=1).id
         vals = {
-            'categ_id':self.categ_id.id,
+            'categ_id':category,
             'sale_ok':self.product_template_id.sale_ok,
             'purchase_ok':self.product_template_id.purchase_ok,
             'type':self.product_template_id.type,
-            'taxes_id':[(6, 0, self.product_template_id.taxes_id.ids)],
+            'taxes_id':self.product_template_id.taxes_id,
             'invoice_policy':self.product_template_id.invoice_policy,
             'list_price':self.price,
             'default_code':ns_name,
@@ -73,7 +72,6 @@ class SaleNonstockProduct(models.TransientModel):
             'product_uom_qty':1,
             'product_uom':new_prod_id.uom_id.id,
             'price_unit':self.price,
-            'purchase_price':self.cost,
             'name':new_prod_id.name,
             'order_id':self.order_id.id,
         }

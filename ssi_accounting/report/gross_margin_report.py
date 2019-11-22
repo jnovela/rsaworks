@@ -2,7 +2,7 @@
 
 from odoo import tools
 from odoo import models, fields, api
-
+from odoo.addons import decimal_precision as dp
 
 class GrossMarginReport(models.Model):
     _name = "gross.margin.report"
@@ -10,80 +10,81 @@ class GrossMarginReport(models.Model):
     _auto = False
     _rec_name = 'date'
 
-    number = fields.Char('Invoice #', readonly=True)
-    account_name = fields.Char('Account Name', readonly=True)
-    date = fields.Date(readonly=True, string="Invoice Date")
+    name = fields.Char(string="Label", readonly=True)
+    quantity = fields.Float(digits=dp.get_precision('Product Unit of Measure'),
+        help="The optional quantity expressed by this line, eg: number of product sold.", readonly=True)
+    product_uom_id = fields.Many2one('uom.uom', string='Unit of Measure', readonly=True)
     product_id = fields.Many2one('product.product', string='Product', readonly=True)
-    product_qty = fields.Float(string='Product Quantity', readonly=True)
-    uom_name = fields.Char(string='Reference Unit of Measure', readonly=True)
-    payment_term_id = fields.Many2one('account.payment.term', string='Payment Terms', oldname='payment_term', readonly=True)
-    fiscal_position_id = fields.Many2one('account.fiscal.position', oldname='fiscal_position', string='Fiscal Position', readonly=True)
-    currency_id = fields.Many2one('res.currency', string='Currency', readonly=True)
-    categ_id = fields.Many2one('product.category', string='Product Category', readonly=True)
-    journal_id = fields.Many2one('account.journal', string='Journal', readonly=True)
+    debit = fields.Monetary(default=0.0, currency_field='company_currency_id', readonly=True)
+    credit = fields.Monetary(default=0.0, currency_field='company_currency_id', readonly=True)
+    balance = fields.Monetary(currency_field='company_currency_id',
+        help="Technical field holding the debit - credit in order to open meaningful graph views from reports", readonly=True)
+    debit_cash_basis = fields.Monetary(currency_field='company_currency_id', readonly=True)
+    credit_cash_basis = fields.Monetary(currency_field='company_currency_id', readonly=True)
+    balance_cash_basis = fields.Monetary(currency_field='company_currency_id',
+        help="Technical field holding the debit_cash_basis - credit_cash_basis in order to open meaningful graph views from reports", readonly=True)
+    amount_currency = fields.Monetary(default=0.0, help="The amount expressed in an optional other currency if it is a multi-currency entry.", readonly=True)
+    company_currency_id = fields.Many2one('res.currency', related='company_id.currency_id', string="Company Currency",
+        help='Utility field to express amount currency', readonly=True)
+    currency_id = fields.Many2one('res.currency', string='Currency', 
+        help="The optional other currency if it is a multi-currency entry.", readonly=True)
+    amount_residual = fields.Monetary(string='Residual Amount', currency_field='company_currency_id',
+        help="The residual amount on a journal item expressed in the company currency.", readonly=True)
+    amount_residual_currency = fields.Monetary(string='Residual Amount in Currency', readonly=True,
+        help="The residual amount on a journal item expressed in its currency (possibly not the company currency).")
+    tax_base_amount = fields.Monetary(string="Base Amount", currency_field='company_currency_id', readonly=True)
+    account_id = fields.Many2one('account.account', string='Account', readonly=True)
+    move_id = fields.Many2one('account.move', string='Journal Entry', help="The move of this entry line.", auto_join=True, readonly=True)
+    narration = fields.Text(related='move_id.narration', string='Narration', readonly=True)
+    ref = fields.Char(related='move_id.ref', string='Reference', readonly=True)
+    payment_id = fields.Many2one('account.payment', string="Originator Payment", help="Payment that created this entry", readonly=True)
+#     statement_line_id = fields.Many2one('account.bank.statement.line', index=True, string='Bank statement line reconciled with this entry', readonly=True)
+#     statement_id = fields.Many2one('account.bank.statement', related='statement_line_id.statement_id', string='Statement', readonly=True,
+#         help="The bank statement used for bank reconciliation", index=True)
+    reconciled = fields.Boolean(compute='_amount_residual', readonly=True)
+    full_reconcile_id = fields.Many2one('account.full.reconcile', string="Matching Number", readonly=True)
+    matched_debit_ids = fields.One2many('account.partial.reconcile', 'credit_move_id', String='Matched Debits',
+        help='Debit journal items that are matched with this journal item.', readonly=True)
+    matched_credit_ids = fields.One2many('account.partial.reconcile', 'debit_move_id', String='Matched Credits',
+        help='Credit journal items that are matched with this journal item.', readonly=True)
+    journal_id = fields.Many2one('account.journal', related='move_id.journal_id', string='Journal', index=True, readonly=True)  # related is required
+    blocked = fields.Boolean(string='No Follow-up', default=False,
+        help="You can check this box to mark this journal item as a litigation with the associated partner", readonly=True)
+    date_maturity = fields.Date(string='Due date', readonly=True,
+        help="This field is used for payable and receivable journal entries. You can put the limit date for the payment of this line.")
+    date = fields.Date(related='move_id.date', string='Date', index=True, readonly=True)  # related is required
+    analytic_line_ids = fields.One2many('account.analytic.line', 'move_id', string='Analytic lines', oldname="analytic_lines", readonly=True)
+    tax_ids = fields.Many2many('account.tax', string='Taxes', readonly=True)
+    tax_line_id = fields.Many2one('account.tax', string='Originator tax', readonly=True)
+    analytic_account_id = fields.Many2one('account.analytic.account', string='Analytic Account', index=True, readonly=True)
+    analytic_tag_ids = fields.Many2many('account.analytic.tag', string='Analytic Tags', readonly=True)
+    company_id = fields.Many2one('res.company', related='account_id.company_id', string='Company', readonly=True)
+#     counterpart = fields.Char("Counterpart", readonly=True, help="Compute the counter part accounts of this journal item for this journal entry. This can be needed in reports.")
+
+    # TODO: put the invoice link and partner_id on the account_move
+#     invoice_id = fields.Many2one('account.invoice', oldname="invoice", readonly=True)
     partner_id = fields.Many2one('res.partner', string='Partner', readonly=True)
-    commercial_partner_id = fields.Many2one('res.partner', string='Partner Company', help="Commercial Entity")
-    company_id = fields.Many2one('res.company', string='Company', readonly=True)
+    user_type_id = fields.Many2one('account.account.type', related='account_id.user_type_id', index=True, store=True, oldname="user_type", readonly=True)
+    tax_exigible = fields.Boolean(string='Taxable', readonly=True,
+        help="Technical field used to mark a tax line as exigible in the vat report or not (only exigible journal items are displayed). By default all new journal items are directly exigible, but with the feature cash_basis on taxes, some will become exigible only when the payment is recorded.")
+
     user_id = fields.Many2one('res.users', string='Salesperson', readonly=True)
-    price_total = fields.Float(string='Untaxed Total', readonly=True)
-    price_average = fields.Float(string='Average Price', readonly=True, group_operator="avg")
-#     currency_rate = fields.Float(string='Currency Rate', readonly=True, group_operator="avg", groups="base.group_multi_currency")
-    nbr = fields.Integer(string='Line Count', readonly=True)  # TDE FIXME master: rename into nbr_lines
-    invoice_id = fields.Many2one('account.invoice', readonly=True)
-    type = fields.Selection([
-        ('out_invoice', 'Customer Invoice'),
-        ('in_invoice', 'Vendor Bill'),
-        ('out_refund', 'Customer Credit Note'),
-        ('in_refund', 'Vendor Credit Note'),
-        ], readonly=True)
-    state = fields.Selection([
-        ('draft', 'Draft'),
-        ('open', 'Open'),
-        ('paid', 'Paid'),
-        ('cancel', 'Cancelled')
-        ], string='Invoice Status', readonly=True)
-    date_due = fields.Date(string='Due Date', readonly=True)
-    account_id = fields.Many2one('account.account', string='Receivable/Payable Account', readonly=True, domain=[('deprecated', '=', False)])
-    account_line_id = fields.Many2one('account.account', string='Revenue/Expense Account', readonly=True, domain=[('deprecated', '=', False)])
-    residual = fields.Float(string='Due Amount', readonly=True)
-    account_analytic_id = fields.Many2one('account.analytic.account', string='Analytic Account', groups="analytic.group_analytic_accounting")
-    credit = fields.Float(string='Credit', readonly=True)
-    debit = fields.Float(string='Debit', readonly=True)
-    margin = fields.Float(string='Gross Margin', readonly=True)
-    amount_total = fields.Float(string='Total', readonly=True)
-
-    _order = 'date desc'
-
-    _depends = {
-        'account.invoice': [
-            'account_id', 'amount_total_company_signed', 'commercial_partner_id', 'company_id',
-            'currency_id', 'date_due', 'date_invoice', 'fiscal_position_id',
-            'journal_id', 'number', 'partner_bank_id', 'partner_id', 'payment_term_id',
-            'residual', 'state', 'type', 'user_id',
-        ],
-        'account.invoice.line': [
-            'account_id', 'invoice_id', 'price_subtotal', 'product_id',
-            'quantity', 'uom_id', 'account_analytic_id',
-        ],
-        'product.product': ['product_tmpl_id'],
-        'product.template': ['categ_id'],
-        'uom.uom': ['category_id', 'factor', 'name', 'uom_type'],
-        'res.currency.rate': ['currency_id', 'name'],
-        'res.partner': ['country_id'],
-    }
+    project_manager = fields.Many2one('res.users', string='Project Manager', readonly=True)
+    categ_id = fields.Many2one('product.category', string='Product Category', readonly=True)
+    aa_group_id = fields.Many2one('account.analytic.group', string='Analytic Group', readonly=True)
 
     def _select(self):
         select_str = """
-				SELECT aml.id AS id, ai.date_invoice AS date, ai.number as number, ail.product_id, 
-                    ai.partner_id, ai.payment_term_id, ail.account_analytic_id, u2.name AS uom_name,
-                    ai.currency_id, ai.journal_id, ai.fiscal_position_id, ai.user_id, ai.company_id,
-                    1 AS nbr, ai.id AS invoice_id, ai.type, ai.state, pt.categ_id, ai.date_due, ai.account_id,
-                    aa.name as account_name, aa.user_type_id as account_type, ail.account_id AS account_line_id, 
-                    SUM(aml.debit) as debit, SUM(aml.credit) as credit,
-                    SUM ((ail.quantity) / COALESCE(u.factor,1) * COALESCE(u2.factor,1)) AS product_qty,
-                    SUM(ail.price_subtotal_signed) AS price_total,
-                    SUM(credit - debit) AS margin,
-                    SUM(ail.price_total) AS amount_total
+				SELECT DISTINCT aml.id AS id, aml.name AS name, aml.quantity as quantity, aml.product_uom_id as product_uom_id, aml.product_id AS product_id, 
+                    aml.debit AS debit, aml.credit AS credit, aml.balance AS balance, aml.amount_currency AS amount_currency,
+                    aml.debit_cash_basis AS debit_cash_basis, aml.credit_cash_basis AS credit_cash_basis, aml.balance_cash_basis AS balance_cash_basis,
+                    aml.company_currency_id AS company_currency_id, aml.currency_id AS currency_id, aml.amount_residual AS amount_residual,
+                    aml.amount_residual_currency AS amount_residual_currency, aml.tax_base_amount AS tax_base_amount, aml.account_id AS account_id,
+                    aml.move_id AS move_id, aml.ref as ref, aml.payment_id AS payment_id, aml.reconciled AS reconciled, aml.full_reconcile_id AS full_reconcile_id, 
+                    aml.journal_id AS journal_id, aml.blocked AS blocked, aml.date_maturity AS date_maturity, aml.date AS date, 
+                    aml.tax_line_id AS tax_line_id, aml.analytic_account_id AS analytic_account_id, aml.company_id AS company_id, 
+                    aml.partner_id AS partner_id, aml.user_type_id AS user_type_id, aml.tax_exigible AS tax_exigible, 
+                    pt.categ_id AS categ_id, rp.user_id AS user_id, rp.project_manager_id AS project_manager, aaa.group_id AS aa_group_id
         """
         return select_str
 
@@ -91,24 +92,16 @@ class GrossMarginReport(models.Model):
         from_str = """
                 FROM account_move_line aml
                 JOIN account_move am on aml.move_id = am.id
-                JOIN account_account aa on aml.account_id = aa.id
-                JOIN account_invoice ai ON ai.id = aml.invoice_id
-                JOIN account_invoice_line ail ON ai.id = ail.invoice_id
-                JOIN res_partner partner_ai ON ai.partner_id = partner_ai.id
-                LEFT JOIN product_product pr ON pr.id = ail.product_id
-                left JOIN product_template pt ON pt.id = pr.product_tmpl_id
-                LEFT JOIN uom_uom u ON u.id = ail.uom_id
-                LEFT JOIN uom_uom u2 ON u2.id = pt.uom_id
+                LEFT JOIN account_analytic_account aaa on aml.analytic_account_id = aaa.id
+                LEFT JOIN product_product pp on aml.product_id = pp.id
+                LEFT JOIN product_template pt on pp.product_tmpl_id = pt.id
+                LEFT JOIN res_partner rp on aml.partner_id = rp.id
         """
         return from_str
 
     def _group_by(self):
         group_by_str = """
-                GROUP BY aml.id, ail.product_id, ail.account_analytic_id, ai.date_invoice, ai.id,
-                    ai.partner_id, ai.payment_term_id, u2.name, u2.id, ai.currency_id, ai.journal_id,
-                    ai.fiscal_position_id, ai.user_id, ai.company_id, ai.id, ai.type, ai.state, pt.categ_id,
-                    ai.date_due, ai.account_id, ail.account_id, ai.residual_company_signed,
-                    ai.amount_total_company_signed, aa.name, aa.user_type_id
+                GROUP BY aml.id, aml.product_id, aml.account_analytic_id, aml.date
         """
         return group_by_str
 
@@ -117,9 +110,8 @@ class GrossMarginReport(models.Model):
         # self._table = account_invoice_report
         tools.drop_view_if_exists(self.env.cr, self._table)
         self.env.cr.execute("""CREATE or REPLACE VIEW %s as (
-            %s %s WHERE aml.account_id IS NOT NULL AND aa.user_type_id IN (14, 16) %s
-        )""" % (
-                    self._table, self._select(), self._from(), self._group_by()))
+            %s %s WHERE aml.account_id IS NOT NULL AND aml.user_type_id IN (14, 16)
+        )""" % (self._table, self._select(), self._from()))
 
 #         self.env.cr.execute("""CREATE or REPLACE VIEW %s as (
 #             WITH currency_rate AS (%s)

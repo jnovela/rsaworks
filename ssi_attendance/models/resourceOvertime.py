@@ -1,4 +1,5 @@
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 class ResourceOvertime(models.Model):
     _name = 'ssi_resource.overtime'
@@ -13,3 +14,4 @@ class ResourceCalendar(models.Model):
 
     overtime_rule = fields.Many2one('ssi_resource.overtime', string='Overtime Rules')
     overtime_eligible = fields.Boolean(string='Eligible for Double Time')
+

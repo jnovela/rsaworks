@@ -10,11 +10,10 @@
                         <group>
                             <field name="product_template_id" domain="[('categ_id.name','=','Nonstock Templates')]"/>
                             <field name="product_desc"/>
-                            <field name="categ_id" domain="[('parent_id.name','=','NS Categories')]"/>
+                            <field name="price" required="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                         </group>
                         <group>
                             <field name="partner_id" domain="[('supplier','=',True)]"/>
-                            <field name="price" required="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                             <field name="cost" required="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                         </group>
                     </group>

@@ -13,7 +13,12 @@
           <field name="arch" type="xml">
             <xpath expr="//tree[1]/field[@name='name']" position="before">
               <field name="ssi_job_id"/>
+              <field name="job_urgency"/>
+              <field name="job_deadline"/>
             </xpath>
+            <xpath expr="//field[@name='qty_production']" position="replace"/>
+            <xpath expr="//field[@name='product_uom_id']" position="replace"/>
+            <xpath expr="//field[@name='product_id']" position="replace"/>
           </field>
       </record>
 

@@ -226,7 +226,7 @@ class AttendanceReport(models.Model):
                     csv += u"\"{}\"\n".format(csv_row)
 
                 # Over Time
-                if overtime_group == 'Regular':
+                if overtime_group == 'Regular Overtime':
                     if att.over_time:
                         data = [
                             emp_id,

@@ -14,6 +14,18 @@
           </field>
       </record>
 
+        <report 
+            id="action_report_invoice_no_print"
+            string="Invoice - Show All"
+            model="account.invoice" 
+            report_type="qweb-pdf"
+            file="ssi_jobs.report_invoice_with_payments_no_print" 
+            name="ssi_jobs.report_invoice_with_payments_no_print"
+            attachment="(object.state in ('open','in_payment','paid')) and ('INV'+(object.number or '').replace('/','')+'.pdf')"
+            print_report_name="(object._get_report_base_filename())"
+            groups="account.group_account_invoice"
+        />
+
 
       <record model="ir.ui.view" id="ssi_invoice_line_form">
           <field name="name">ssi_invoice_line_form</field>

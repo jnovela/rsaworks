@@ -4,7 +4,7 @@
     <data>
 
       <record model="ir.ui.view" id="ssi_sale_order_form">
-          <field name="name">ssi_sael_order_form</field>
+          <field name="name">ssi_sale_order_form</field>
           <field name="model">sale.order</field>
           <field name="inherit_id" ref="sale.view_order_form"/>
           <field name="type">form</field>
@@ -17,6 +17,29 @@
               </xpath>
           </field>
       </record>
+	  
+      <record model="ir.ui.view" id="ssi_sale_order_tree">
+          <field name="name">ssi_sale_order_tree</field>
+          <field name="model">sale.order</field>
+          <field name="inherit_id" ref="sale.view_order_tree"/>
+          <field name="type">tree</field>
+          <field name="arch" type="xml">
+              <xpath expr="//field[@name='name']" position="before">
+                <field name="ssi_job_id"/>
+                <field name="job_stage"/>
+              </xpath>
+          </field>
+      </record>
+	  
+        <report 
+            id="action_report_saleorder_no_print"
+            string="Quotation / Order - Show All"
+            model="sale.order" 
+            report_type="qweb-pdf"
+            file="ssi_jobs.report_saleorder_no_print" 
+            name="ssi_jobs.report_saleorder_no_print"
+            print_report_name="(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)"
+        />
 
     </data>
 </odoo>

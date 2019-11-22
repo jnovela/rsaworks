@@ -8,6 +8,8 @@ class HrAttendance(models.Model):
 
     status = fields.Selection(string="Status", selection=[(
         'open', 'Open'), ('approved', 'Approved')], default='open', track_visibility='onchange')
+    department_id = fields.Many2one('hr.department', string="Department", related="employee_id.department_id",
+        readonly=True, store=True)
 #     hour_type = fields.Selection(string="Type of Hours", selection=[
 #         ('Regular', 'Regular'), 
 #         ('PTO-I', 'PTO-I'),
@@ -18,6 +20,7 @@ class HrAttendance(models.Model):
 #         ('Bereavement', 'Bereavement')], default='Regular')
     hour_type = fields.Many2one('hr.leave.type', string="Leave Type")
     attendance_lines = fields.One2many('hr.attendance.line', 'attendance_id', string='Attendance Lines', copy=True)
+    manager_id = fields.Many2one('hr.employee', related="employee_id.parent_id", string="Manager", store=True)
 
     @api.one
     def approve_attendance(self):

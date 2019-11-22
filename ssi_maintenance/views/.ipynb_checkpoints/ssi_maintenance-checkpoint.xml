@@ -30,7 +30,8 @@
                             <field name="mounting" attrs="{'required': [('category_id', '!=', 4)]}"/>
                             <field name="manufacture"/>
                             <field name="customer_stock_number"/>
-                            <field name="customer_id_number"/>
+                            <field name="customer_id_number_general"/>
+                            <field name="customer_id_number_motor_specific"/>
                             <field name="amps"/>
                             <field name="rpm_nameplate"/>
                             <field name="phase"/>
@@ -40,15 +41,13 @@
                             <field name="de_bearing"/>
                             <field name="ode_bearing"/>
 
-                            <field name="customer_id_number_general"/>
-                            <field name="customer_id_number_motor_specific"/>
                             <field name="ui_rated"/>
                             <field name="ui_rating"/>
 
                           </group>
                           <group>
                             <field name="lube_type"/>
-                            <field name="weight_in_lbs"  attrs="{'required': [('category_id', '!=', 4)]}"/>
+                            <field name="weight"  attrs="{'required': [('category_id', '!=', 4)]}"/>
                             <field name="duty"/>
                             <field name="service_factor"/>
                             <field name="ul_rating"/>
@@ -141,18 +140,17 @@
             <xpath expr="//button[@name='toggle_active']" position="after">
                 <button name="ssi_equ_qm_button" type="object" class="oe_stat_button" icon="fa-wrench" string="Sync with QM Wizard"/>
             </xpath>
-
-
-            <!-- <xpath expr="//group[1]/group[2]" position="replace">
-                <group>
-                    <field name="maintenance_team_id" attrs="{'required': [('period', '!=', 0)]}"/>
-                    <field name="technician_user_id"/>
-                    <field name="assign_date" groups="base.group_no_one"/>
-                    <field name="scrap_date" groups="base.group_no_one"/>
-                    <field name="location" invisible="1" string="Used in location"/>
-
-                </group>
-            </xpath> -->
+              <xpath expr="//field[@name='equipment_assign_to']" position="attributes">
+                <attribute name="attrs">{}</attribute>
+                <attribute name="invisible">1</attribute>
+              </xpath>
+              <xpath expr="//field[@name='employee_id']" position="attributes">
+                <attribute name="attrs">{}</attribute>
+                <attribute name="invisible">1</attribute>
+              </xpath>
+              <xpath expr="//form[1]/sheet[1]/notebook[1]/page[1]" position="attributes">
+                <attribute name="string">Note</attribute>
+              </xpath>
             </field>
         </record>
         

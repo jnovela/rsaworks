@@ -16,6 +16,20 @@
           </field>
       </record>
 
+      <record model="ir.ui.view" id="ssi_stock_picking_tree">
+          <field name="name">ssi_stock_picking_tree</field>
+          <field name="model">stock.picking</field>
+          <field name="inherit_id" ref="stock_picking_batch.vpicktree_inherit_stock_picking_batch"/>
+          <field name="type">tree</field>
+          <field name="arch" type="xml">
+              <xpath expr="//field[@name='name']" position="before">
+                <field name="so_job_id" attrs="{'invisible': [['so_job_id','=',False]]}"/>
+                <field name="po_job_id" attrs="{'invisible': [['po_job_id','=',False]]}"/>
+                <field name="job_stage"/>
+              </xpath>
+          </field>
+      </record>
+
     </data>
 </odoo>
 

@@ -16,10 +16,12 @@
     "depends":  [
         'base',
         'account',
+        'ssi_lead',
     ],
     'data': [
         # 'views/ssi_accounting.xml',
         'report/ssi_gross_margin_report.xml',
+        'report/ssi_wip_report.xml',
     ],
     'installable': True,
     'application': False,

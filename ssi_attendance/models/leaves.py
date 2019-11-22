@@ -42,3 +42,19 @@ class HrLeaves(models.Model):
 
         return super(HrLeaves, self)._validate_leave_request()
 
+    def _get_number_of_days(self, date_from, date_to, employee_id):
+        """ Returns a float equals to the timedelta between two dates given as string."""
+        if employee_id:
+            employee = self.env['hr.employee'].browse(employee_id)
+            if self.holiday_status_id.name == 'PTO Sell':
+                cal = self.env['resource.calendar'].search([('id', '=', 11)], limit=1)
+                return employee.get_work_days_data(date_from, date_to, calendar=cal)['days']
+            else:
+                return employee.get_work_days_data(date_from, date_to)['days']
+
+        today_hours = self.env.user.company_id.resource_calendar_id.get_work_hours_count(
+            datetime.combine(date_from.date(), time.min),
+            datetime.combine(date_from.date(), time.max),
+            False)
+
+        return self.env.user.company_id.resource_calendar_id.get_work_hours_count(date_from, date_to) / (today_hours or HOURS_PER_DAY)

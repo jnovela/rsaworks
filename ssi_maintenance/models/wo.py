@@ -4,7 +4,6 @@ class WO_maintenance(models.Model):
     _inherit = "mrp.production"
     
     
-    
     @api.multi
     def button_maintenance_req(self):
         self.ensure_one()
@@ -21,5 +20,9 @@ class WO_maintenance(models.Model):
             },
             'domain': [('production_id', '=', self.id)],
         }
-
     
+class MrpWorkorder(models.Model):
+    _inherit = 'mrp.workorder'
+
+    eq_rating = fields.Float(string='Rating', related='ssi_job_id.eq_rating')
+    eq_rating_unit = fields.Selection(string='Rating Unit', related='ssi_job_id.eq_rating_unit')

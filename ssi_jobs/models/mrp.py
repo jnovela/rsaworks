@@ -20,6 +20,8 @@ class WO(models.Model):
     duration_hours = fields.Float(
         'Real Hours', compute='_compute_duration_hours',
         readonly=True, store=True)
+    job_urgency = fields.Selection(related='ssi_job_id.urgency', string="Urgency", store=True, readonly=True)
+    job_deadline = fields.Datetime(related='ssi_job_id.deadline_date', string="Deadline", store=True, readonly=True)
 
 
     @api.depends('duration_expected')

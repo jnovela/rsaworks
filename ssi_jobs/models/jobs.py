@@ -24,8 +24,9 @@ class Jobs(models.Model):
                                   help="Forces all moves for this account to have this account currency.")
     stage_id = fields.Many2one('ssi_jobs_stage', group_expand='_read_group_stage_ids',
                                default=lambda self: self.env['ssi_jobs_stage'].search([('name', '=', 'New Job')]), string='Stage')
-    name = fields.Char(string="Job Name", required=True, copy=False, readonly=True,
-                       index=True, default=lambda self: _('New'))
+#     name = fields.Char(string="Job Name", required=True, copy=False, readonly=True,
+#                        index=True, default=lambda self: _('New'))
+    name = fields.Char(string="Job Name", required=True, copy=False, index=True)
     partner_id = fields.Many2one(
         'res.partner', string='Customer', ondelete='restrict', required=True,
         domain=[('parent_id', '=', False)])
@@ -34,7 +35,7 @@ class Jobs(models.Model):
     active = fields.Boolean(default=True)
     equipment_id = fields.Many2one('maintenance.equipment', string='Equipment')
 #     deadline_date = fields.Datetime(string='Customer Deadline', required=True, default=datetime.today())
-    deadline_date = fields.Datetime(string='Customer Deadline', required=True)
+    deadline_date = fields.Datetime(string='Customer Deadline')
     ready_for_pickup = fields.Datetime(string='Ready for Pickup')
     type = fields.Selection(
         [('Shop', 'Shop'), ('Field Service', 'Field Service')], string='Job Type', default='Shop')
@@ -47,7 +48,11 @@ class Jobs(models.Model):
     color = fields.Integer(string='Color')
     serial = fields.Char(String="Serial #")
     aa_id = fields.Many2one('account.analytic.account', string='Analytic Account')
-
+    warranty_claim = fields.Boolean(default=False, string="Warranty Claim")
+    warranty_status = fields.Selection(
+        [('warranty', 'Warranty'), ('concession', 'Customer Concession'), ('not warrantied', 'Not Warrantied')], 
+        string='Warranty Status', track_visibility='onchange')
+    
     _sql_constraints = [(
         'name_unique',
         'unique(name)',
@@ -55,6 +60,27 @@ class Jobs(models.Model):
     )]
 
     # ACTIONS AND METHODS
+    def _track_subtype(self, init_values):
+        # init_values contains the modified fields' values before the changes
+        #
+        # the applied values can be accessed on the record as they are already
+        # in cache
+        self.ensure_one()
+#         if 'warranty_status' in init_values and self.warranty_status == 'not warrantied':
+        if 'warranty_status' in init_values:
+            if self.warranty_status != '':
+                employees = self.env['hr.employee'].search(
+                    [('department_id', '=', 21)])
+                followers = []
+                for emp in employees:
+                    if emp.user_id:
+                        followers.append(emp.user_id.partner_id.id)
+                # Add Ann Kendrick also
+                followers.append(57)
+                self.message_subscribe(followers)
+            return 'ssi_jobs.job_warranty_change'  # Full external id
+        return super(Jobs, self)._track_subtype(init_values)
+    
     @api.model
     def create(self, vals):
         if vals.get('name', _('New')) == _('New'):
@@ -128,9 +154,13 @@ class Jobs(models.Model):
 
     @api.multi
     def action_view_po_count(self):
+        po_lines = self.env['purchase.order.line'].search([('account_analytic_id', '=', self.aa_id.id)])
+        po_ids = []
+        for line in po_lines:
+            po_ids.append(line.order_id.id)
         action = self.env.ref(
-            'ssi_jobs.sale_order_po_line_action').read()[0]
-        action['domain'] = [('ssi_job_id', '=', self.id)]
+            'ssi_jobs.purchase_order_line_action').read()[0]
+        action['domain'] = [('id', 'in', po_ids)]
         return action
 
     @api.multi
@@ -195,14 +225,13 @@ class Jobs(models.Model):
 
     @api.depends('order_total')
     def _get_po_count(self):
-        results = self.env['purchase.order'].read_group(
-            [('ssi_job_id', 'in', self.ids)], 'ssi_job_id', 'ssi_job_id')
-        dic = {}
-        for x in results:
-            dic[x['ssi_job_id'][0]] = x['ssi_job_id_count']
-        for record in self:
-            record.po_count = dic.get(
-                record.id, 0)
+        results = self.env['purchase.order.line'].read_group(
+            domain=[('account_analytic_id', '=', self.aa_id.id)],
+            fields=['account_analytic_id'], groupby=['account_analytic_id']
+        )
+        for res in results:
+            for job in self:
+                job.po_count = res['account_analytic_id_count']
 
     @api.depends('order_total')
     def _get_ai_count(self):

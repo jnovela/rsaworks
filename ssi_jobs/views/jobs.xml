@@ -29,10 +29,7 @@
                     <field name="order_total" string="Estimate" widget="statinfo"/>
                     </button>
                     <button class="oe_stat_button" icon="fa-credit-card" type="object" name="action_view_po_count">
-                    <field name="po_count" string="Purchase Orders" placeholder="Purchase Orders" widget="statinfo"/>
-                    </button>
-                    <button class="oe_stat_button" icon="fa-file-o"> <!-- type="object" name="action_view_ai_count" -->
-                    <field name="ai_count" string="Vendor Bills" widget="statinfo"/>
+                    <field name="po_count" string="PO Items" placeholder="PO Items" widget="statinfo"/>
                     </button>
 
                     <button class="oe_stat_button" icon="fa-wrench" type="object" name="action_view_prod_count">
@@ -45,19 +42,18 @@
                     <button class="oe_stat_button" icon="fa-file-o" type="object" name="action_view_wc_count">
                     <field name="wc_count" string="Timesheets" widget="statinfo"/>
                     </button>
-
+                    <button name="%(ssi_jobs.action_job_cost)d" type="action"
+                        class="oe_stat_button" icon="fa-circle-o" string="Cost Analysis">
+                    </button>
                     <button name="toggle_active" type="object"
                         class="oe_stat_button" icon="fa-archive">
                         <field name="active" widget="boolean_button"
                             options='{"terminology": "archive"}'/>
                     </button>
-                    <button name="%(ssi_jobs.action_job_cost)d" type="action"
-                        class="oe_stat_button" icon="fa-circle-o" string="Cost Analysis">
-                    </button>
                 </div>
                 <group name="main">
                     <group name="left">
-                        <field name="name" readonly="1"/>
+                        <field name="name"/>
                         <field name="partner_id" widget="res_partner_many2one" domain="[('customer','=',True)]" context="{'search_default_customer':1, 'show_address': 1}" options="{&quot;always_reload&quot;: True}"/>
                         <!-- <field name="objects"/> -->
                         <!-- <field name="size"/>
@@ -77,6 +73,8 @@
                         <field name="notes"/>
                         <field name="status"/>
                         <field name="aa_id"/>
+                        <field name="warranty_claim"/>
+                        <field name="warranty_status" attrs="{'invisible': [('warranty_claim', '!=', True)]}"/>
                     </group>
                 </group>
             <notebook>
@@ -245,6 +243,14 @@
     </field>
 </record>
 
+<!-- FOR Tracking of Warranty -->
+<record id="job_warranty_change" model="mail.message.subtype">
+    <field name="name">Warranty Changed</field>
+    <field name="res_model">ssi_jobs</field>
+    <field name="default" eval="True"/>
+    <field name="description">Warranty Status Changed!</field>
+</record>
+    
 
 <!-- FOR DASHBOARD TO WORK DONT FORGET TO INSTALL DASHBOARD MODULE -->
 <record id="jobs_action" model="ir.actions.act_window">
@@ -330,7 +336,7 @@
 </record>
 
 
-<record id="sale_order_po_line_action" model="ir.actions.act_window">
+<record id="purchase_order_line_action" model="ir.actions.act_window">
   <field name="auto_search" eval="True"/>
   <field name="binding_model_id" eval="False"/>
   <field name="binding_type">action</field>
@@ -625,7 +631,7 @@
     <field name="groups_id" eval="[(6, 0, [])]"/>
     <field name="help" eval="False"/>
     <field name="multi" eval="False"/>
-    <field name="name">Estimates</field>
+    <field name="name">Purchase Orders</field>
     <field name="res_model">purchase.order</field>
     <field name="search_view_id" eval="False"/>
     <field name="src_model" eval="False"/>

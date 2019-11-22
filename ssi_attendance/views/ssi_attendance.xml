@@ -22,5 +22,22 @@
 			</xpath>
             </field>
         </record>
+
+        <record id="ssi_attendance_search_inherit" model="ir.ui.view">
+            <field name="name">ssi.attendance_search_inherit</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.hr_attendance_view_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='myattendances']" position="after">
+                    <separator/>
+                    <filter string="My Approvals" name="ssi_approvals" domain="[['manager_id.user_id.id', '=', uid]]"/>
+                </xpath>
+              <xpath expr="//filter[@name='employee']" position="after">
+                <filter context="{'group_by': 'manager_id'}" name="group_by_manager" string="Manager"/>
+                <filter context="{'group_by': 'department_id'}" name="group_by_dept" string="Department"/>
+              </xpath>
+            </field>
+        </record>
+
     </data>
 </odoo>

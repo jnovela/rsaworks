@@ -5,3 +5,4 @@ from . import account
 from . import mrp
 from . import crm
 from . import stock
+from . import product
