@@ -8,8 +8,9 @@ import requests
 class MaintenanceEquipment(models.Model):
     _inherit = 'maintenance.equipment'
     
-    name = fields.Char('Equipment Name', required=True, translate=True, copy=False, readonly=True,
-                       index=True, default=lambda self: _('New'))
+    name = fields.Char('Equipment Name', required=True, translate=True, copy=False, index=True)
+    # name = fields.Char('Equipment Name', required=True, translate=True, copy=False, readonly=True,
+                       # index=True, default=lambda self: _('New'))
     location = fields.Char('Location', compute='_compute_current_location')
 #     equip_id = fields.Char(string='Equip_id')
     description = fields.Char(string='Description')
@@ -83,13 +84,13 @@ class MaintenanceEquipment(models.Model):
     ui_rating = fields.Char(string='UI Rating')
     project_manager = fields.Many2one('res.users', related='customer_id.project_manager_id', string='Project Manager')
 
-    @api.model
-    def create(self, vals):
-        if vals.get('name', _('New')) == _('New'):
-            vals['name'] = self.env['ir.sequence'].next_by_code(
-                'maintenance.equipment') or _('New')
-        equipment = super(MaintenanceEquipment, self).create(vals)
-        return equipment
+    # @api.model
+    # def create(self, vals):
+        # if vals.get('name', _('New')) == _('New'):
+            # vals['name'] = self.env['ir.sequence'].next_by_code(
+                # 'maintenance.equipment') or _('New')
+        # equipment = super(MaintenanceEquipment, self).create(vals)
+        # return equipment
 
     @api.depends('storage_ids.location_id')
     def _compute_current_location(self):
