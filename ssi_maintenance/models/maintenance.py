@@ -8,9 +8,8 @@ import requests
 class MaintenanceEquipment(models.Model):
     _inherit = 'maintenance.equipment'
     
-    name = fields.Char('Equipment Name', required=True, translate=True, copy=False)
-    # name = fields.Char('Equipment Name', required=True, translate=True, copy=False, readonly=True,
-                       # index=True, default=lambda self: _('New'))
+    name = fields.Char('Equipment Name', required=True, translate=True, copy=False, readonly=True,
+                       index=True, default=lambda self: _('New'))
     location = fields.Char('Location', compute='_compute_current_location')
 #     equip_id = fields.Char(string='Equip_id')
     description = fields.Char(string='Description')
