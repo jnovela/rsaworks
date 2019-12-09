@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models, tools, _
+from odoo.addons import decimal_precision as dp
 
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
