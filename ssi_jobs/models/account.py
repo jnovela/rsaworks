@@ -9,11 +9,14 @@ class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
     project_manager = fields.Many2one('res.users', string='Project Manager')
+    customer_category = fields.Selection(
+        [('Top Account', 'Top Account'), ('Key Account', 'Key Account'), ('Account', 'Account'), ('New Account', 'New Account')], string='Customer Category')
 
     @api.multi
     def create(self, vals):
-        pm_id = self.env['sale.order'].search([('name', '=', vals.get('origin'))]).project_manager.id
-        vals['project_manager'] = pm_id
+        so = self.env['sale.order'].search([('name', '=', vals.get('origin'))])
+        vals['project_manager'] = so.project_manager.id
+        vals['customer_category'] = so.customer_category
         res = super(AccountInvoice, self).create(vals)
         return res
 
@@ -134,4 +137,3 @@ class AI(models.Model):
 #             if not amount:
 #                 prod_tmpl_id = self.env['product.product'].search([('id', '=', line.product_id.id)]).product_tmpl_id.id
 #                 amount = self.env['product.pricelist.item'].search([('product_tmpl_id', '=', prod_tmpl_id), ('pricelist_id', '=', line.order_id.pricelist_id.id)], limit=1).rebate_amount
-

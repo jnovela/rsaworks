@@ -79,7 +79,8 @@
                 </form>
               </xpath>
               <xpath expr="//field[@name='user_id']" position="after">
-                  <field name="project_manager"/>
+                  <field name="project_manager" attrs="{'readonly': [('state', 'in', ['open', 'in_payment', 'paid'])]}"/>
+                  <field name="customer_category" attrs="{'readonly': [('state', 'in', ['open', 'in_payment', 'paid'])]}"/>
               </xpath>
               <xpath expr="//button[@id='account_invoice_payment_btn']" position="attributes">
                   <attribute name="groups">account.group_account_user, account.group_tracie, account.group_brittany</attribute>

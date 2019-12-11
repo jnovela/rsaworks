@@ -13,7 +13,9 @@ class SO(models.Model):
     ssi_job_id = fields.Many2one('ssi_jobs', string='Job')
     job_stage = fields.Char(compute='_get_job_stage', string='Job Stage', readonly=True)
     project_manager = fields.Many2one('res.users', string='Project Manager')
-    
+    customer_category = fields.Selection(
+        [('Top Account', 'Top Account'), ('Key Account', 'Key Account'), ('Account', 'Account'), ('New Account', 'New Account')], string='Customer Category')
+
     @api.onchange('ssi_job_id')
     def _onchange_ssi_job_id(self):
         # When updating jobs dropdown, auto set analytic account.
@@ -31,6 +33,8 @@ class SO(models.Model):
         # When updating partner, auto set project manager.
         if self.partner_id.project_manager_id:
             self.project_manager = self.partner_id.project_manager_id.id
+        if self.partner_id.customer_category:
+            self.customer_category = self.partner_id.customer_category
 
     @api.depends('state', 'order_line.invoice_status', 'order_line.invoice_lines')
     def _get_invoiced(self):
