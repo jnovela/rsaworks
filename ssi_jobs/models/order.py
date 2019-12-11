@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from odoo import api, fields, models, tools, _
 from odoo.osv import expression
 from odoo.exceptions import UserError
+from odoo.addons import decimal_precision as dp
 
 
 class SO(models.Model):
@@ -11,6 +12,7 @@ class SO(models.Model):
 
     ssi_job_id = fields.Many2one('ssi_jobs', string='Job')
     job_stage = fields.Char(compute='_get_job_stage', string='Job Stage', readonly=True)
+    project_manager = fields.Many2one('res.users', string='Project Manager')
     
     @api.onchange('ssi_job_id')
     def _onchange_ssi_job_id(self):
@@ -23,6 +25,12 @@ class SO(models.Model):
         for record in self:
             record.job_stage = record.ssi_job_id.stage_id.name
 #         record.job_stage = record.ssi_job_id.stage_id.name
+
+    @api.onchange('partner_id')
+    def _onchange_partner_pm(self):
+        # When updating partner, auto set project manager.
+        if self.partner_id.project_manager_id:
+            self.project_manager = self.partner_id.project_manager_id.id
 
     @api.depends('state', 'order_line.invoice_status', 'order_line.invoice_lines')
     def _get_invoiced(self):
@@ -93,6 +101,29 @@ class SO(models.Model):
                 'invoice_status': invoice_status
             })
 
+            
+class SO(models.Model):
+    _inherit = 'sale.order.line'
+
+    rebate_amount = fields.Float(compute='_get_rebate_amount', string='Rebate Amount', digits=dp.get_precision('Product Price'), store=True)
+
+    @api.depends('product_id', 'order_id')
+    def _get_rebate_amount(self):
+        for line in self:
+            amount = self.env['product.pricelist.item'].search([('product_id', '=', line.product_id.id), ('pricelist_id', '=', line.order_id.pricelist_id.id)], limit=1).rebate_amount
+            if not amount:
+                prod_tmpl_id = self.env['product.product'].search([('id', '=', line.product_id.id)]).product_tmpl_id.id
+                amount = self.env['product.pricelist.item'].search([('product_tmpl_id', '=', prod_tmpl_id), ('pricelist_id', '=', line.order_id.pricelist_id.id)], limit=1).rebate_amount
+            line.rebate_amount = amount
+
+    @api.depends('product_id', 'purchase_price', 'product_uom_qty', 'price_unit', 'price_subtotal', 'rebate_amount')
+    def _product_margin(self):
+        for line in self:
+            currency = line.order_id.pricelist_id.currency_id
+            price = line.purchase_price
+            line.margin = currency.round(line.price_subtotal - (price * line.product_uom_qty) + (line.rebate_amount * line.product_uom_qty))
+
+            
 class PO(models.Model):
     _inherit = 'purchase.order'
 

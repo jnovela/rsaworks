@@ -53,7 +53,7 @@
         <field name="inherit_id" ref="account.invoice_form"/>
         <field name="arch" type="xml">
             <button name="action_invoice_open" position="after">
-                <button name="%(osi_manufacture_job_costing.action_account_invoice_job_validate)d" type="action" string="Validate" class="oe_highlight" groups="account.group_account_invoice" states="draft"/>
+                <button name="%(osi_manufacture_job_costing.action_account_invoice_job_validate)d" type="action" string="Validate" class="oe_highlight" groups="account.group_account_manager,account.group_victoria" states="draft"/>
             </button>
             <button name="action_invoice_open" position="attributes">
                 <attribute name="invisible">1</attribute>

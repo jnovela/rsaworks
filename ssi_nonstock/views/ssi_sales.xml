@@ -10,7 +10,7 @@
         <field name="arch" type="xml">
             <xpath expr="//form/sheet/notebook/page/field[@name='note']" position="before">
                 <div>
-                    <button name="add_nontstock_product" string="Add Nonstock" type="object" states="draft,sent" context="{'active_id': active_id}"/>
+                    <button name="add_nontstock_product" string="Add Nonstock" type="object" context="{'active_id': active_id}"/>
                     <!-- button name="662" string="Add Nonstock" type="action" states="draft,sent"/ -->
                 </div>
             </xpath>

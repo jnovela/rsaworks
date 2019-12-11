@@ -19,4 +19,3 @@ class ProductPricelistItem(models.Model):
     _inherit = 'product.pricelist.item'
 
     rebate_amount = fields.Float('Rebate Amount', digits=dp.get_precision('Product Price'))
-
