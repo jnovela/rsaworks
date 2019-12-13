@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from datetime import date, datetime, timedelta
+
 from odoo import api, fields, models, tools, _
 from odoo.exceptions import UserError
 import requests
@@ -199,6 +201,48 @@ class MaintenanceEquipment(models.Model):
             'coupling_installed': nameplate_data[0]['Couple installed']
         })        
         
+    @api.one
+    @api.depends('effective_date', 'period', 'maintenance_ids.request_date', 'maintenance_ids.close_date')
+    def _compute_next_maintenance(self):
+        date_now = fields.Date.context_today(self)
+        for equipment in self.filtered(lambda x: x.period > 0):
+            next_maintenance_todo = self.env['maintenance.request'].search([
+                ('equipment_id', '=', equipment.id),
+                ('maintenance_type', '=', 'preventive'),
+                ('stage_id.done', '!=', True),
+                ('close_date', '=', False)], order="request_date asc", limit=1)
+            last_maintenance_done = self.env['maintenance.request'].search([
+                ('equipment_id', '=', equipment.id),
+                ('maintenance_type', '=', 'preventive'),
+                ('stage_id.done', '=', True),
+                ('close_date', '!=', False)], order="close_date desc", limit=1)
+            if next_maintenance_todo and last_maintenance_done:
+                next_date = next_maintenance_todo.request_date
+                date_gap = next_maintenance_todo.request_date - last_maintenance_done.close_date
+                # If the gap between the last_maintenance_done and the next_maintenance_todo one is bigger than 2 times the period and next request is in the future
+                # We use 2 times the period to avoid creation too closed request from a manually one created
+                if date_gap > timedelta(0) and date_gap > timedelta(days=equipment.period) * 2 and next_maintenance_todo.request_date > date_now:
+                    # If the new date still in the past, we set it for today
+                    if last_maintenance_done.close_date + timedelta(days=equipment.period) < date_now:
+                        next_date = date_now
+                    else:
+                        next_date = last_maintenance_done.close_date + timedelta(days=equipment.period)
+            elif next_maintenance_todo:
+                next_date = next_maintenance_todo.request_date
+                date_gap = next_maintenance_todo.request_date - date_now
+                # If next maintenance to do is in the future, and in more than 2 times the period, we insert an new request
+                # We use 2 times the period to avoid creation too closed request from a manually one created
+                if date_gap > timedelta(0) and date_gap > timedelta(days=equipment.period) * 2:
+                    next_date = date_now + timedelta(days=equipment.period)
+            elif last_maintenance_done:
+                next_date = last_maintenance_done.close_date + timedelta(days=equipment.period)
+                # If when we add the period to the last maintenance done and we still in past, we plan it for today
+                if next_date < date_now:
+                    next_date = date_now
+            else:
+                next_date = self.effective_date + timedelta(days=equipment.period)
+            equipment.next_action_date = next_date
+
 
 
 
