@@ -30,6 +30,7 @@ class AttendanceReport(models.Model):
     over_time = fields.Float('Over Time Pay', compute='_compute_ot', readonly=True)
     days_worked = fields.Float('Days Worked', readonly=True)
     double_time = fields.Float('Double Time Pay', compute='_compute_dt', readonly=True)
+    double_hours = fields.Char('Double Hours', readonly=True)
     pto_time = fields.Float('PTO Hours', readonly=True)
     time_type = fields.Char('Time Type', readonly=True)
     leave_type = fields.Many2one('hr.leave.type', 'PTO Type', readonly=True)
@@ -39,7 +40,7 @@ class AttendanceReport(models.Model):
         # with_ = ("WITH %s" % with_clause) if with_clause else ""
 
         select_ = """
-            SELECT
+            (SELECT
                 MIN(a.id) as id,
                 o.name as overtime_group,
                 c.overtime_eligible as overtime_eligible,
@@ -47,8 +48,8 @@ class AttendanceReport(models.Model):
                 a.employee_id as employee_id,
                 b.department_id as department,
                 c.name as shift,
-                DATE_TRUNC('week', a.check_in) as begin_date,
-                EXTRACT('week' from a.check_in) as week_no,
+                DATE_TRUNC('week', a.check_in AT TIME ZONE '-06') as begin_date,
+                EXTRACT('week' from a.check_in AT TIME ZONE '-06') as week_no,
                 MIN(o.start_hours) as start_hours,
                 SUM(ROUND(CAST(a.worked_hours + 0.00 as Decimal), 2)) as total_hours,
                 0 as straight_time,
@@ -60,6 +61,7 @@ class AttendanceReport(models.Model):
                 0 as over_time,
                 COUNT(DISTINCT(DATE_TRUNC('day', a.check_in))) as days_worked,
                 0 as double_time,
+                ARRAY_AGG(DATE_PART('dow', a.check_in) || ':' || ROUND(CAST(a.worked_hours + 0.00 as Decimal), 2)) as double_hours,
                 CASE 
                     WHEN l.time_type = 'leave' THEN 
                         SUM(ROUND(CAST(a.worked_hours + 0.00 as Decimal), 2))
@@ -77,9 +79,10 @@ class AttendanceReport(models.Model):
                 l.time_type = 'leave' or l.time_type is NULL
             GROUP BY
                 overtime_group, employee_id, employee_badge, department, shift, begin_date, week_no, start_hours, c.overtime_eligible, time_type, leave_type, overtime_eligible
+            ORDER BY employee_id, begin_date)
 
           UNION
-            SELECT
+            (SELECT
                 MIN(a.id) as id,
                 o.name as overtime_group,
                 c.overtime_eligible as overtime_eligible,
@@ -87,8 +90,8 @@ class AttendanceReport(models.Model):
                 a.employee_id as employee_id,
                 b.department_id as department,
                 c.name as shift,
-                DATE_TRUNC('week', a.check_in) as begin_date,
-                EXTRACT('week' from a.check_in) as week_no,
+                DATE_TRUNC('week', a.check_in AT TIME ZONE '-06') as begin_date,
+                EXTRACT('week' from a.check_in AT TIME ZONE '-06') as week_no,
                 MIN(o.start_hours) as start_hours,
                 0 as hours,
                 0 as total_hours,
@@ -96,6 +99,7 @@ class AttendanceReport(models.Model):
                 0 as over_time,
                 0 as days_worked,
                 0 as double_time,
+                ARRAY_AGG(DATE_PART('dow', a.check_in) || ':' || a.worked_hours) as double_hours,
                 SUM(ROUND(CAST(a.worked_hours + 0.00 as Decimal), 2)) as pto_time,
                 l.name as time_type,
                 l.id as leave_type
@@ -109,9 +113,11 @@ class AttendanceReport(models.Model):
                 l.time_type = 'other'
             GROUP BY
                 overtime_group, employee_id, employee_badge, department, shift, begin_date, week_no, start_hours, c.overtime_eligible, time_type, leave_type, overtime_eligible
+            ORDER BY employee_id, begin_date)
           ORDER BY employee_id, week_no
         """
         return select_
+#                 ARRAY_AGG(DATE_PART('dow', a.check_in) || cast(a.worked_hours as Character)) as double_hours,
 
     @api.model_cr
     def init(self):
@@ -141,6 +147,18 @@ class AttendanceReport(models.Model):
                 
     def _compute_ot(self):
         for record in self:
+            record.double_hours = record.double_hours[1:-1]
+            days = record.double_hours.split(',')
+            last_day = 0
+            if record.days_worked == 7:
+                for day in days:
+                    test = day.split(':')
+                    # find the last day
+                    if '0' in test[0]:        
+                        last_day = float(test[1].replace("'",""))
+                        break
+                    else:
+                        last_day = 0
             if record.overtime_eligible:
                 res = self.env['hr.attendance.report'].search([('employee_badge','=',record.employee_badge), ('week_no','=',record.week_no)])
                 ot = 0
@@ -150,28 +168,46 @@ class AttendanceReport(models.Model):
                     if r.leave_type.time_type == 'leave' or not r.leave_type.time_type:
                         st = st + r.total_hours
                         dw = dw + r.days_worked
+                record.over_time = 0
                 if st >= record.start_hours and dw < 7 and not record.leave_type.time_type:
-                    record.over_time = st - r.start_hours if (st - r.start_hours) > 0 else 0
-                else:
-                    record.over_time = 0
+                    record.over_time = st - r.start_hours - last_day if (st - r.start_hours - last_day) > 0 else 0
+                if st >= record.start_hours and dw == 7 and not record.leave_type.time_type:
+                    if record.employee_id.id == 570:
+                        raise UserError(_('here2'))
+                    record.over_time = st - r.start_hours - last_day if (st - r.start_hours - last_day) > 0 else 0
             else:
                 record.over_time = 0
+#             if record.employee_id.id == 570:
+#                 raise UserError(_(record.over_time))
                 
     def _compute_dt(self):
         for record in self:
-            if record.overtime_eligible:
-                res = self.env['hr.attendance.report'].search([('employee_badge','=',record.employee_badge), ('week_no','=',record.week_no)])
-                ot = 0
-                st = 0
-                dw = 0
-                for r in res:
-                    if r.leave_type.time_type == 'leave' or not r.leave_type.time_type:
-                        st = st + r.total_hours
-                        dw = dw + r.days_worked
-                if st >= record.start_hours and dw == 7 and not record.leave_type.time_type:
-                    record.double_time = st - r.start_hours
-                else:
-                    record.double_time = 0
+            record.double_hours = record.double_hours[1:-1]
+            days = record.double_hours.split(',')
+            last_day = 0
+            if record.days_worked == 7:
+                for day in days:
+                    test = day.split(':')
+                    # find the last day
+                    if '0' in test[0]:        
+                        last_day = float(test[1].replace("'",""))
+                        break
+                    else:
+                        last_day = 0
+            if record.overtime_eligible and last_day > 0:
+                record.double_time = last_day
+#                 res = self.env['hr.attendance.report'].search([('employee_badge','=',record.employee_badge), ('week_no','=',record.week_no)])
+#                 ot = 0
+#                 st = 0
+#                 dw = 0
+#                 for r in res:
+#                     if r.leave_type.time_type == 'leave' or not r.leave_type.time_type:
+#                         st = st + r.total_hours
+#                         dw = dw + r.days_worked
+#                 if st >= record.start_hours and dw == 7 and not record.leave_type.time_type:
+#                     record.double_time = st - r.start_hours
+#                 else:
+#                     record.double_time = 0
             else:
                 record.double_time = 0
                 

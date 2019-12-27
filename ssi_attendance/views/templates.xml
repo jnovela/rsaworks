@@ -11,9 +11,24 @@
                   <button  attrs="{'invisible': [('status', '!=', 'open')]}" name="approve_attendance" type="object" class="oe_stat_button" icon="fa-check" string="Approve Attendance"></button>
                   <field name="status" widget="statusbar" statusbar_visible="open,approved"/>
                </header>
-             </xpath>
+              </xpath>
               <xpath expr="//form[1]/sheet[1]/group[1]/field[@name='check_out']" position="after">
                 <field name="hour_type"/>
+                <field name="worked_hours" string="Hours"/>
+              </xpath>
+              <xpath expr="//form[1]/sheet[1]/group[1]/field[@name='check_in']" position="attributes">
+                <attribute name="attrs">{"readonly": [["line_count","&gt;=",1]]}</attribute>
+              </xpath>
+              <xpath expr="//form[1]/sheet[1]/group[1]/field[@name='check_out']" position="attributes">
+                <attribute name="attrs">{"readonly": [["line_count","&gt;=",1]]}</attribute>
+              </xpath>
+              <xpath expr="//field[@name='hour_type']" position="after">
+                <field name="line_count" attrs="{}" invisible="1"/>
+                <field name="check_in_inv" attrs="{}" invisible="1"/>
+                <field name="check_out_inv" attrs="{}" invisible="1"/>
+                <field name="worked_hours_actual" attrs="{}" invisible="1"/>
+                <field name="worked_actual_inv" attrs="{}" invisible="1"/>
+                <field name="worked_hours_inv" attrs="{}" invisible="1"/>
               </xpath>
             </field>
         </record>	

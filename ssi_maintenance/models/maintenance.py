@@ -201,6 +201,7 @@ class MaintenanceEquipment(models.Model):
             'coupling_installed': nameplate_data[0]['Couple installed']
         })        
         
+
     @api.one
     @api.depends('effective_date', 'period', 'maintenance_ids.request_date', 'maintenance_ids.close_date')
     def _compute_next_maintenance(self):
@@ -242,7 +243,6 @@ class MaintenanceEquipment(models.Model):
             else:
                 next_date = self.effective_date + timedelta(days=equipment.period)
             equipment.next_action_date = next_date
-
 
 
 

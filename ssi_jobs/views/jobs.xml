@@ -62,7 +62,6 @@
                         <field name="dimensions"/> -->
                         <field name="equipment_id" context="{'customer_id': partner_id}" domain="[('customer_id', '=', partner_id)]"/>
                         <field name="deadline_date"/>
-                        <field name="ready_for_pickup"/>
                         <field name="hide_in_kiosk" attrs="{'readonly': [('stage_id', '=', 15)]}"/>
                     </group>
                     <group name="right">
@@ -72,17 +71,16 @@
                         <field name="user_id"/>
                         <field name="project_manager"/>
                         <field name="notes"/>
-                        <field name="status"/>
-                        <field name="aa_id"/>
+                        <field name="aa_id" attrs="{'readonly': True}"/>
                         <field name="warranty_claim"/>
                         <field name="warranty_status" attrs="{'invisible': [('warranty_claim', '!=', True)]}"/>
                         <field name="completed_on" attrs="{'readonly': True}"/>
                     </group>
                 </group>
-            <notebook>
+            <!-- notebook>
                 <page name="equipment" string="Equipment"/>
                 <page name="info" string="Creation Info"/>
-            </notebook>
+            </notebook -->
           </sheet>
             <div class="oe_chatter">
                 <field name="message_follower_ids" widget="mail_followers"/>
@@ -100,9 +98,8 @@
     <field name="type">kanban</field>
     <field name="arch" type="xml">
         <kanban default_group_by="stage_id">
-            <field name="status"/>
             <field name="order_total"/>
-            <progressbar field="status" colors="{&quot;done&quot;: &quot;success&quot;, &quot;process&quot;: &quot;warning&quot;, &quot;blocked&quot;: &quot;danger&quot;}" help="This bar allows to filter the jobs based on status."/>
+            <!-- progressbar field="status" colors="{&quot;done&quot;: &quot;success&quot;, &quot;process&quot;: &quot;warning&quot;, &quot;blocked&quot;: &quot;danger&quot;}" help="This bar allows to filter the jobs based on status."/ -->
             <field name="stage_id"/>
             <field name="color"/>
             <templates>

@@ -27,6 +27,7 @@
         'views/ssi_budgets.xml',
         'views/ssi_product.xml',
         'views/ssi_jobs.xml',
+        'views/ssi_mrp.xml',
         'report/ssi_maintenance_report.xml',
         'security/ir.model.access.csv',
     ],

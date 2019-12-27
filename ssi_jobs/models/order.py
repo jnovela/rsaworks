@@ -7,7 +7,7 @@ from odoo.exceptions import UserError
 from odoo.addons import decimal_precision as dp
 
 
-class SO(models.Model):
+class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     ssi_job_id = fields.Many2one('ssi_jobs', string='Job')
@@ -15,7 +15,7 @@ class SO(models.Model):
     project_manager = fields.Many2one('res.users', string='Project Manager')
     customer_category = fields.Selection(
         [('Top Account', 'Top Account'), ('Key Account', 'Key Account'), ('Account', 'Account'), ('New Account', 'New Account')], string='Customer Category')
-
+    
     @api.onchange('ssi_job_id')
     def _onchange_ssi_job_id(self):
         # When updating jobs dropdown, auto set analytic account.
@@ -104,6 +104,13 @@ class SO(models.Model):
                 'invoice_ids': invoice_ids.ids + refund_ids.ids,
                 'invoice_status': invoice_status
             })
+
+    @api.multi
+    def action_confirm(self):
+        # When order is confirmed, update oppurtunity.
+        if self.opportunity_id:
+            self.opportunity_id.action_set_won()
+        res = super(SaleOrder, self).action_confirm()
 
             
 class SO(models.Model):

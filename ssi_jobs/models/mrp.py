@@ -4,7 +4,7 @@ from odoo import api, fields, models, tools, _
 from datetime import datetime
 
 
-class WO(models.Model):
+class Workorder(models.Model):
     _inherit = 'mrp.workorder'
 
     # SHOULD BE RELATED TO JOB IN MANUFACTURING ORDER FROM OLD STUDIo production_id.x_studio_job
@@ -22,8 +22,8 @@ class WO(models.Model):
         readonly=True, store=True)
     job_urgency = fields.Selection(related='ssi_job_id.urgency', string="Urgency", store=True, readonly=True)
     job_deadline = fields.Datetime(related='ssi_job_id.deadline_date', string="Deadline", store=True, readonly=True)
+    job_stage = fields.Many2one('ssi_jobs_stage', related='ssi_job_id.stage_id', string="Job Stage", store=True, readonly=True)
     hide_in_kiosk = fields.Boolean(related='operation_id.hide_in_kiosk', string="Hide in Kiosk", store=True, readonly=True)
-
 
     @api.depends('duration_expected')
     def _compute_expected_hours(self):
@@ -76,7 +76,7 @@ class WO(models.Model):
         })
         
     
-class WC(models.Model):
+class Workcenter(models.Model):
     _inherit = 'mrp.workcenter.productivity'
 
     ssi_job_id = fields.Many2one('ssi_jobs', related='workorder_id.ssi_job_id', string='Job', store=True)
@@ -85,13 +85,14 @@ class WC(models.Model):
     # ssi_job_id = fields.Many2one(
     #     related='workorder_id.ssi_job_id', relation="ssi_jobs.ssi_jobs", string='Job', domain=[])
     
-class Prod(models.Model):
+class Produciton(models.Model):
     _inherit = 'mrp.production'
 
-    ssi_job_id = fields.Many2one(
-        'ssi_jobs', string='Job')
+    ssi_job_id = fields.Many2one('ssi_jobs', string='Job')
+    job_stage = fields.Many2one('ssi_jobs_stage', related='ssi_job_id.stage_id', string="Job Stage", store=True, readonly=True)
+    product_category = fields.Many2one('product.category', related='product_id.categ_id', string="Product Category", store=True, readonly=True)
     
-class Prod(models.Model):
+class Routing(models.Model):
     _inherit = 'mrp.routing.workcenter'
 
     time_cycle_hours = fields.Float(

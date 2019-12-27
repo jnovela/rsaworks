@@ -16,6 +16,7 @@
     "depends":  [
         'base',
         'hr_expense',
+        'sale_expense',
     ],
     'data': [
         'views/ssi_expenses.xml',

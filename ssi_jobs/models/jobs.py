@@ -38,15 +38,15 @@ class Jobs(models.Model):
     equipment_id = fields.Many2one('maintenance.equipment', string='Equipment')
 #     deadline_date = fields.Datetime(string='Customer Deadline', required=True, default=datetime.today())
     deadline_date = fields.Datetime(string='Customer Deadline')
-    ready_for_pickup = fields.Datetime(string='Ready for Pickup')
+#     ready_for_pickup = fields.Datetime(string='Ready for Pickup')
     type = fields.Selection(
         [('Shop', 'Shop'), ('Field Service', 'Field Service')], string='Job Type', default='Shop')
     urgency = fields.Selection(
         [('straight', 'Straight time'), ('straight_quote', 'Straight time quote before repair'), ('overtime', 'Overtime'), ('overtime_quote', 'Overtime quote before repair')], string='Urgency')
     po_number = fields.Char(string='PO Number')
     notes = fields.Text(string='Notes')
-    status = fields.Selection(
-        [('ready', 'Ready'), ('process', 'In Process'), ('done', 'Complete'), ('blocked', 'Blocked')], string='Status')
+#     status = fields.Selection(
+#         [('ready', 'Ready'), ('process', 'In Process'), ('done', 'Complete'), ('blocked', 'Blocked')], string='Status')
     color = fields.Integer(string='Color')
     serial = fields.Char(String="Serial #")
     aa_id = fields.Many2one('account.analytic.account', string='Analytic Account')
@@ -240,7 +240,7 @@ class Jobs(models.Model):
 
     @api.depends('order_total')
     def _get_ai_count(self):
-        results = self.env['account.invoice.line'].read_group(
+        results = self.env['account.invoice.line'].sudo().read_group(
             [('ssi_job_id', 'in', self.ids)], 'ssi_job_id', 'ssi_job_id')
         dic = {}
         for x in results:
@@ -262,7 +262,7 @@ class Jobs(models.Model):
 
     @api.depends('order_total')
     def _get_wo_count(self):
-        results = self.env['mrp.workorder'].read_group(
+        results = self.env['mrp.workorder'].sudo().read_group(
             [('ssi_job_id', 'in', self.ids)], 'ssi_job_id', 'ssi_job_id')
         dic = {}
         for x in results:
@@ -273,7 +273,7 @@ class Jobs(models.Model):
 
     @api.depends('order_total')
     def _get_wc_count(self):
-        results = self.env['mrp.workcenter.productivity'].read_group(
+        results = self.env['mrp.workcenter.productivity'].sudo().read_group(
             [('ssi_job_id', 'in', self.ids)], 'ssi_job_id', 'ssi_job_id')
         dic = {}
         for x in results:
@@ -286,7 +286,7 @@ class Jobs(models.Model):
     def write(self, vals):
         # stage change: update date_last_stage_update
         if 'stage_id' in vals: 
-            if vals['stage_id'] >= 7:
+            if vals['stage_id'] >= 7 and not self.completed_on:
                 vals['completed_on'] = fields.Datetime.now()
             elif vals['stage_id'] < 7: 
                 vals['completed_on'] = False

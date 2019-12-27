@@ -10,6 +10,7 @@
           <field name="arch" type="xml">
             <xpath expr="//tree[1]/field[@name='name']" position="before">
               <field name="ssi_job_id"/>
+              <field name="job_stage"/>
             </xpath>
           </field>
       </record>
@@ -139,6 +140,35 @@
               </xpath>
           </field>
       </record>
+        
+        <record id="ssi_mrp_workorder_search_inherit" model="ir.ui.view">
+            <field name="name">ssi.mrp_workorder_search_inherit</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp.view_mrp_production_workorder_form_view_filter"/>
+            <field name="arch" type="xml">
+              <xpath expr="//search[1]/field[@name='name']" position="before">
+                <field name="ssi_job_id"/>
+              </xpath>
+              <xpath expr="//filter[@name='work_center']" position="before">
+                <filter context="{'group_by': 'ssi_job_id'}" name="studio_group_by_TRjUi" string="Job"/>
+                <filter context="{'group_by': 'job_stage'}" name="studio_group_by_Flg9g" string="Job Stage"/>
+              </xpath>
+              <xpath expr="//filter[@name='late']" position="after">
+                <filter domain="[['job_stage','!=','Awaiting Parts']]" name="parts_avail" string="Parts Available"/>
+              </xpath>
+            </field>
+        </record>
+
+        <record id="ssi_mrp_production_search_inherit" model="ir.ui.view">
+            <field name="name">ssi.mrp_production_search_inherit</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.view_mrp_production_filter"/>
+            <field name="arch" type="xml">
+              <xpath expr="//filter[@name='product']" position="after">
+                <filter context="{'group_by': 'product_category'}" name="group_by_product_cat" string="Product Category"/>
+              </xpath>
+            </field>
+        </record>
 
     </data>
 </odoo>
