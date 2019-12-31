@@ -530,7 +530,7 @@ class MRPProduction(models.Model):
                 'product_id': product.id,
                 'quantity': workorder.qty_produced or 1,
                 'product_uom_id': product.uom_id.id,
-                'ref': ref,
+                'ref': ref + '(Labor)',
                 'partner_id': partner_id,
                 'workcenter_id': workorder.workcenter_id.id or False,
                 'credit': 0.0,
@@ -543,7 +543,7 @@ class MRPProduction(models.Model):
                 'product_id': product.id,
                 'quantity': workorder.qty_produced or 1,
                 'product_uom_id': product.uom_id.id,
-                'ref': ref,
+                'ref': ref + '(Labor)',
                 'partner_id': partner_id,
                 'workcenter_id': workorder.workcenter_id.id or False,
                 'credit': labor_cost,
@@ -558,11 +558,11 @@ class MRPProduction(models.Model):
 
             # WIP to COGS account move lines (Overhead)
             debit_line_vals = {
-                'name': name + '(Overhead)',
+                'name': name + '(Burden)',
                 'product_id': product.id,
                 'quantity': workorder.qty_produced or 1,
                 'product_uom_id': product.uom_id.id,
-                'ref': ref,
+                'ref': ref + '(Burden)',
                 'partner_id': partner_id,
                 'workcenter_id': workorder.workcenter_id.id or False,
                 'credit': 0.0,
@@ -571,11 +571,11 @@ class MRPProduction(models.Model):
                 'analytic_account_id': analytic_account_id
             }
             credit_line_vals = {
-                'name': name + '(Overhead)',
+                'name': name + '(Burden)',
                 'product_id': product.id,
                 'quantity': workorder.qty_produced or 1,
                 'product_uom_id': product.uom_id.id,
-                'ref': ref,
+                'ref': ref + '(Burden)',
                 'partner_id': partner_id,
                 'workcenter_id': workorder.workcenter_id.id or False,
                 'credit': burden_cost,
