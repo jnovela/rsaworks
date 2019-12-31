@@ -35,10 +35,11 @@ class Lead(models.Model):
         res = super(Lead, self).create(vals)
 
 #       Add Followers
-        followers = []
-        followers.append(partner.project_manager_id.partner_id.id)
-        followers.append(partner.user_id.partner_id.id)
-        res.message_subscribe(followers)
+        if vals.get('partner_id'):
+            followers = []
+            followers.append(partner.project_manager_id.partner_id.id)
+            followers.append(partner.user_id.partner_id.id)
+            res.message_subscribe(followers)
         
         return res
 
