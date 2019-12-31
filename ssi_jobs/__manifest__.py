@@ -36,6 +36,7 @@
         'views/ssi_sale_order.xml',
         'views/ssi_purchase_order.xml',
         'views/ssi_stock.xml',
+        'views/ssi_crm.xml',
         'views/ssi_product.xml',
         'report/ssi_job_cost_report.xml',
         'report/ssi_picking.xml',
