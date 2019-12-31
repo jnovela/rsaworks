@@ -3,7 +3,7 @@
 from odoo import api, fields, models, tools, _
 
 
-class CrmLead(models.Model):
+class Lead(models.Model):
     _inherit = 'crm.lead'
 
     ssi_job_id = fields.Many2one('ssi_jobs', string='Job', compute='_compute_job_id')
