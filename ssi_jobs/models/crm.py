@@ -17,8 +17,7 @@ class CrmLead(models.Model):
         for lead in self:
             nbr = 0
             for job in lead.ssi_job_ids:
-                if job.stage_id.id < 7:
-                    nbr += 1
+                nbr += 1
             lead.job_number = nbr
 
     @api.depends('ssi_job_ids')
