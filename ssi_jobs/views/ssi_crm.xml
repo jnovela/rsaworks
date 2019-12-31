@@ -30,9 +30,6 @@
                   <field name="job_stage" attrs="{'invisible': [['ssi_job_id','=',False]]}"/>
                   <field name="job_deadline" attrs="{'invisible': [['ssi_job_id','=',False]]}"/>
               </xpath>
-              <xpath expr="//field[@name='user_id']" position="after">
-                  <field name="project_manager"/>
-              </xpath>
               <xpath expr="//button[@name='761']" position="after">
                     <button string="New Job" name="%(crm_action_job_new)d" type="action" class="oe_highlight" attrs="{'invisible': ['&amp;', ('probability', '=', 0), ('active', '=', False)]}" context="{'search_default_partner_id': partner_id, 'default_partner_id': partner_id}"/>
               </xpath>
