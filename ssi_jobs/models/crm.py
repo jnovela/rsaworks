@@ -25,19 +25,20 @@ class CrmLead(models.Model):
         for j in self:
             j.ssi_job_id = j.ssi_job_ids[:1].id
 
-#     @api.model
-#     def create(self, vals):
-#         if vals.get('partner_id'):
-#             partner = self.env['res.partner'].search([('id', '=', vals.get('partner_id'))])
-#             vals['project_manager'] = partner.project_manager.id
-#             vals['user_id'] = partner.user_id
-#         res = super(AccountInvoice, self).create(vals)
+    @api.model
+    def create(self, vals):
+        if vals.get('partner_id'):
+            partner = self.env['res.partner'].search([('id', '=', vals.get('partner_id'))])
+            vals['project_manager'] = partner.project_manager_id.id
+            vals['user_id'] = partner.user_id.id
+            vals['customer_category'] = partner.customer_category
+        res = super(Lead, self).create(vals)
 
-# #       Add Followers
-#         followers = []
-#         followers.append(partner.user_id)
-#         followers.append(partner.project_manager.id)
-#         self.message_subscribe(followers)
+#       Add Followers
+        followers = []
+        followers.append(partner.project_manager_id.partner_id.id)
+        followers.append(partner.user_id.partner_id.id)
+        res.message_subscribe(followers)
         
-#         return res
+        return res
 
