@@ -6,6 +6,10 @@ from odoo import api, fields, models, tools, _
 class Lead(models.Model):
     _inherit = 'crm.lead'
 
+    project_manager = fields.Many2one('res.users', string='Project Manager')
+    customer_category = fields.Selection(
+        [('Top Account', 'Top Account'), ('Key Account', 'Key Account'), ('Account', 'Account'), ('New Account', 'New Account'), ('House Account', 'House Account')], string='Customer Category')
+        
     # I) LEADS
     # 1 LEAD - FOCUS
     l_prospect_fits_our_ideal_customer_group = fields.Boolean(string='Prospect Fits Our Ideal Customer Group')
