@@ -11,8 +11,7 @@ class Jobs(models.Model):
     _order = "create_date,display_name desc"
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    so_ids = fields.One2many(
-        'sale.order', 'ssi_job_id', string='SO')
+    so_ids = fields.One2many('sale.order', 'ssi_job_id', string='SO')
     order_total = fields.Monetary(
         string='Order Total', track_visibility='always', related='so_ids.amount_total')
 #     po_count = fields.Integer(string='Purchase Order', compute='_get_po_count')
@@ -26,9 +25,9 @@ class Jobs(models.Model):
     stage_id = fields.Many2one('ssi_jobs_stage', group_expand='_read_group_stage_ids',
                                default=lambda self: self.env['ssi_jobs_stage'].search([('name', '=', 'New Job')]), string='Stage',
                                track_visibility='onchange')
-    name = fields.Char(string="Job Name", required=True, copy=False, readonly=True,
-                       index=True, default=lambda self: _('New'))
-    # name = fields.Char(string="Job Name", required=True, copy=False, index=True)
+#     name = fields.Char(string="Job Name", required=True, copy=False, readonly=True,
+#                        index=True, default=lambda self: _('New'))
+    name = fields.Char(string="Job Name", required=True, copy=False, index=True)
     partner_id = fields.Many2one(
         'res.partner', string='Customer', ondelete='restrict', required=True,
         domain=[('parent_id', '=', False)])
@@ -41,7 +40,10 @@ class Jobs(models.Model):
     deadline_date = fields.Datetime(string='Customer Deadline')
 #     ready_for_pickup = fields.Datetime(string='Ready for Pickup')
     type = fields.Selection(
-        [('Shop', 'Shop'), ('Field Service', 'Field Service')], string='Job Type', default='Shop')
+        [('Shop', 'Shop'), 
+         ('Field Service', 'Field Service'), 
+         ('Inspection Fee', 'Inspection Fee')], 
+        string='Job Type', default='Shop')
     urgency = fields.Selection(
         [('straight', 'Straight time'), ('straight_quote', 'Straight time quote before repair'), ('overtime', 'Overtime'), ('overtime_quote', 'Overtime quote before repair')], string='Urgency')
     po_number = fields.Char(string='PO Number')
