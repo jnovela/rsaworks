@@ -25,13 +25,13 @@ class Jobs(models.Model):
     stage_id = fields.Many2one('ssi_jobs_stage', group_expand='_read_group_stage_ids',
                                default=lambda self: self.env['ssi_jobs_stage'].search([('name', '=', 'New Job')]), string='Stage',
                                track_visibility='onchange')
-    name = fields.Char(string="Job Name", required=True, copy=False, readonly=True,
-                       index=True, default=lambda self: _('New'))
-    # name = fields.Char(string="Job Name", required=True, copy=False, index=True)
+#     name = fields.Char(string="Job Name", required=True, copy=False, readonly=True,
+#                        index=True, default=lambda self: _('New'))
+    name = fields.Char(string="Job Name", required=True, copy=False, index=True)
     partner_id = fields.Many2one(
         'res.partner', string='Customer', ondelete='restrict', required=True,
         domain=[('parent_id', '=', False)])
-    opportunity_id = fields.Many2one('crm.lead', string='Oppurtunity', domain="[('type', '=', 'opportunity')]")
+    opportunity_id = fields.Many2one('crm.lead', string='Opportunity', domain="[('type', '=', 'opportunity')]")
     user_id = fields.Many2one('res.users', related='partner_id.user_id', string='Salesperson')
     project_manager = fields.Many2one('res.users', related='partner_id.project_manager_id', string='Project Manager', store=True)
     active = fields.Boolean(default=True)
