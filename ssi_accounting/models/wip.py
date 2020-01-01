@@ -149,7 +149,7 @@ class ReportWip(models.AbstractModel):
                 sum(\"account_move_line\".debit) FILTER (WHERE ac.group_id = 7) AS mat_a_debit, 
                 sum(\"account_move_line\".credit) FILTER (WHERE ac.group_id = 7) AS mat_a_credit,
                 \"account_move_line\".analytic_account_id AS aa_id, 
-                p.customer_category, p.id as partner_id, aa.name as job_name, j.type as job_type,
+                j.id as job_id, p.id as partner_id, aa.name as job_name, j.type as job_type,
                 p.ref FROM """+tables+"""
                 LEFT JOIN res_partner p ON \"account_move_line\".partner_id = p.id
                 LEFT JOIN account_account ac on \"account_move_line\".account_id = ac.id
@@ -157,7 +157,7 @@ class ReportWip(models.AbstractModel):
                 LEFT JOIN account_analytic_account aa on \"account_move_line\".analytic_account_id = aa.id
                 LEFT JOIN ssi_jobs j on aa.ssi_job_id = j.id
                 WHERE \"account_move_line\".analytic_account_id IS NOT NULL AND ac.group_id IN (4, 5, 6, 7) """+where_clause+"""
-                GROUP BY \"account_move_line\".analytic_account_id, p.ref, p.id, p.customer_category, job_name, job_type 
+                GROUP BY \"account_move_line\".analytic_account_id, p.ref, p.id, j.id, job_name, job_type 
                 ORDER BY job_name
         """
 
@@ -215,6 +215,7 @@ class ReportWip(models.AbstractModel):
 #             if True:
                 ++count
                 order = self.env['sale.order'].search([('analytic_account_id', '=', line.get('aa_id'))], limit=1)
+                job = self.env['ssi_jobs'].search([('id', '=', line.get('job_id'))], limit=1)
                 id = line.get('aa_id')
                 if order.invoice_ids:
                     amref = order.invoice_ids[0].name
@@ -232,9 +233,9 @@ class ReportWip(models.AbstractModel):
                             'columns': [{'name': line.get('ref')}, 
                                         {'name': partner_name}, 
                                         {'name': line.get('job_type')},
-                                        {'name': order.customer_category}, 
-                                        {'name': order.project_manager.name}, 
-                                        {'name': order.user_id.name},
+                                        {'name': job.customer_category}, 
+                                        {'name': job.project_manager.name}, 
+                                        {'name': job.user_id.name},
                                         {'name': order.name},
                                         {'name': amref},
                                         {'name': self.format_value(line_l)},
@@ -428,6 +429,7 @@ class ReportWip(models.AbstractModel):
                 ++count
                 equip = self.env['maintenance.equipment'].search([('id', '=', line.get('equipment_id'))], limit=1)
                 order = self.env['sale.order'].search([('analytic_account_id', '=', line.get('aa_id'))], limit=1)
+                job = self.env['ssi_jobs'].search([('id', '=', line.get('job_id'))], limit=1)
                 # Get Delivery Date
                 delivery_date = ''
                 if order.picking_ids:
@@ -479,9 +481,9 @@ class ReportWip(models.AbstractModel):
                                         {'name': line.get('job_type')},
                                         {'name': line.get('notes')},
                                         {'name': line.get('urgency')},
-                                        {'name': order.customer_category}, 
-                                        {'name': order.project_manager.name}, 
-                                        {'name': order.user_id.name},
+                                        {'name': job.customer_category}, 
+                                        {'name': job.project_manager.name}, 
+                                        {'name': job.user_id.name},
                                         {'name': order.name},
                                         {'name': format_date(self.env, order.confirmation_date)},
                                         {'name': order.amount_total},
