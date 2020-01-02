@@ -18,5 +18,17 @@
             </field>
         </record>
 
+        <record id="ssi_account_tax_view" model="ir.ui.view">
+            <field name="name">ssi.ssi_account_tax_view</field>
+            <field name="model">account.tax</field>
+            <field name="inherit_id" ref="account.view_tax_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+              <xpath expr="//field[@name='description']" position="attributes">
+                <attribute name="attrs">{"invisible": []}</attribute>
+              </xpath>
+            </field>
+        </record>
+
     </data>
 </odoo>

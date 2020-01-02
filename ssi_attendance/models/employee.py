@@ -17,6 +17,8 @@ from odoo.exceptions import UserError
 class HrEmployeeCustom(models.Model):
     _inherit = "hr.employee"
 
+    attendance_state = fields.Selection(string="Attendance Status", compute='_compute_attendance_state', selection=[('checked_out', "Checked out"), ('checked_in', "Checked in")], store=True)
+
     @api.multi
     def attendance_manual(self, next_action, entered_pin=None, job=None, wo=None, close=None, end=None):
         self.ensure_one()

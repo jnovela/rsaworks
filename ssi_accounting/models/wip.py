@@ -42,6 +42,7 @@ class ReportWip(models.AbstractModel):
                     {'name': _('Cust #')},
                     {'name': _('Customer')},
                     {'name': _('Job Type')},
+                    {'name': _('Job Stage')},
                     {'name': _('Customer Cat')},
                     {'name': _('Project Manager')},
                     {'name': _('Account Manager')},
@@ -59,6 +60,7 @@ class ReportWip(models.AbstractModel):
                     {'name': _('Customer Name')},
                     {'name': _('Customer PO Number')},
                     {'name': _('Job Type')},
+                    {'name': _('Job Stage')},
                     {'name': _('Job Desc')},
                     {'name': _('Urgency')},
                     {'name': _('Customer Cat')},
@@ -149,8 +151,8 @@ class ReportWip(models.AbstractModel):
                 sum(\"account_move_line\".debit) FILTER (WHERE ac.group_id = 7) AS mat_a_debit, 
                 sum(\"account_move_line\".credit) FILTER (WHERE ac.group_id = 7) AS mat_a_credit,
                 \"account_move_line\".analytic_account_id AS aa_id, 
-                j.id as job_id, p.id as partner_id, aa.name as job_name, j.type as job_type,
-                p.ref FROM """+tables+"""
+                j.id as job_id, aa.name as job_name, j.type as job_type
+                FROM """+tables+"""
                 LEFT JOIN res_partner p ON \"account_move_line\".partner_id = p.id
                 LEFT JOIN account_account ac on \"account_move_line\".account_id = ac.id
                 LEFT JOIN account_move am on \"account_move_line\".move_id = am.id
@@ -218,11 +220,11 @@ class ReportWip(models.AbstractModel):
                 job = self.env['ssi_jobs'].search([('id', '=', line.get('job_id'))], limit=1)
                 id = line.get('aa_id')
                 if order.invoice_ids:
-                    amref = order.invoice_ids[0].name
+                    amref = order.invoice_ids[0].move_id.name
                 else:
                     amref = ''
-                browsed_partner = self.env['res.partner'].browse(line.get('partner_id'))
-                partner_name = browsed_partner.parent_id.name and str(browsed_partner.parent_id.name) + ', ' + browsed_partner.name or browsed_partner.name
+#                 browsed_partner = self.env['res.partner'].browse(line.get('partner_id'))
+                partner_name = job.partner_id.parent_id.name and str(job.partner_id.parent_id.name) + ', ' + job.partner_id.name or job.partner_id.name
                 if (round(line_l) + round(line_m) + round(line_l_a) + round(line_m_a)) > 0:
                     lines.append({
                             'id': id,
@@ -230,9 +232,10 @@ class ReportWip(models.AbstractModel):
                             'level': 2,
                             'unfoldable': True,
                             'unfolded': line_id == id and True or False,
-                            'columns': [{'name': line.get('ref')}, 
+                            'columns': [{'name': job.partner_id.ref}, 
                                         {'name': partner_name}, 
                                         {'name': line.get('job_type')},
+                                        {'name': job.stage_id.name}, 
                                         {'name': job.customer_category}, 
                                         {'name': job.project_manager.name}, 
                                         {'name': job.user_id.name},
@@ -362,15 +365,14 @@ class ReportWip(models.AbstractModel):
                 (SELECT coalesce(sum(duration_expected), 0) from mrp_workorder where ssi_job_id = j.id) AS exp_mins,
                 (SELECT coalesce(sum(duration), 0) from mrp_workorder where ssi_job_id = j.id) AS real_mins,
                 \"account_move_line\".analytic_account_id AS aa_id, 
-                p.customer_category, p.id as partner_id, j.name as job_name, j.type as job_type, j.notes, j.urgency, j.equipment_id,
-                j.po_number as po, j.create_date, j.deadline_date, j.completed_on, j.id as job_id, p.ref FROM """+tables+"""
-                LEFT JOIN res_partner p ON \"account_move_line\".partner_id = p.id
+                j.name as job_name, j.type as job_type, j.notes, j.urgency, j.equipment_id,
+                j.po_number as po, j.create_date, j.deadline_date, j.completed_on, j.id as job_id FROM """+tables+"""
                 LEFT JOIN account_account ac on \"account_move_line\".account_id = ac.id
                 LEFT JOIN account_move am on \"account_move_line\".move_id = am.id
                 LEFT JOIN account_analytic_account aa on \"account_move_line\".analytic_account_id = aa.id
                 LEFT JOIN ssi_jobs j on aa.ssi_job_id = j.id
                 WHERE \"account_move_line\".analytic_account_id IS NOT NULL AND ac.group_id IN (4, 5, 6, 7) """+where_clause+"""
-                GROUP BY \"account_move_line\".analytic_account_id, p.id, p.customer_category, p.ref, job_name, job_type, po, j.id, j.create_date, j.deadline_date, j.completed_on, j.notes, j.urgency, j.equipment_id
+                GROUP BY \"account_move_line\".analytic_account_id, job_name, job_type, po, j.id, j.create_date, j.deadline_date, j.completed_on, j.notes, j.urgency, j.equipment_id
                 ORDER BY job_name
         """
 
@@ -456,11 +458,11 @@ class ReportWip(models.AbstractModel):
                     rating = str(equip.rating) + ' ' + equip.rating_unit
                 id = line.get('aa_id')
                 if order.invoice_ids:
-                    amref = order.invoice_ids[0].name
+                    amref = order.invoice_ids[0].move_id.name
                 else:
                     amref = ''
-                browsed_partner = self.env['res.partner'].browse(line.get('partner_id'))
-                partner_name = browsed_partner.parent_id.name and str(browsed_partner.parent_id.name) + ', ' + browsed_partner.name or browsed_partner.name
+#                 browsed_partner = self.env['res.partner'].browse(line.get('partner_id'))
+                partner_name = job.partner_id.parent_id.name and str(job.partner_id.parent_id.name) + ', ' + job.partner_id.name or job.partner_id.name
                 if (round(line_l) + round(line_m) + round(line_l_a) + round(line_m_a)) > 0:
                     tz = self.env.user.tz
                     p_first = ''
@@ -475,10 +477,11 @@ class ReportWip(models.AbstractModel):
                             'level': 2,
                             'unfoldable': False,
                             'unfolded': line_id == id and True or False,
-                            'columns': [{'name': line.get('ref')}, 
+                            'columns': [{'name': job.partner_id.ref}, 
                                         {'name': partner_name}, 
                                         {'name': line.get('po')}, 
                                         {'name': line.get('job_type')},
+                                        {'name': job.stage_id.name}, 
                                         {'name': line.get('notes')},
                                         {'name': line.get('urgency')},
                                         {'name': job.customer_category}, 
