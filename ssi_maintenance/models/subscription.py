@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 
+from dateutil.relativedelta import relativedelta
+
 from odoo import api, fields, models, tools, _
 from odoo.exceptions import UserError
+from odoo.tools import format_date
+
 import datetime
 import requests
 
@@ -83,3 +87,55 @@ class SaleSubscription(models.Model):
                 lines.append(vals)
         self.update({"recurring_invoice_line_ids": lines})
 
+    def _prepare_invoice_data(self):
+        self.ensure_one()
+
+        if not self.partner_id:
+            raise UserError(_("You must first select a Customer for Subscription %s!") % self.name)
+
+        if 'force_company' in self.env.context:
+            company = self.env['res.company'].browse(self.env.context['force_company'])
+        else:
+            company = self.company_id
+            self = self.with_context(force_company=company.id, company_id=company.id)
+
+        fpos_id = self.env['account.fiscal.position'].get_fiscal_position(self.partner_id.id)
+        journal = self.template_id.journal_id or self.env['account.journal'].search([('type', '=', 'sale'), ('company_id', '=', company.id)], limit=1)
+        if not journal:
+            raise UserError(_('Please define a sale journal for the company "%s".') % (company.name or '', ))
+
+        next_date = fields.Date.from_string(self.recurring_next_date)
+        if not next_date:
+            raise UserError(_('Please define Date of Next Invoice of "%s".') % (self.display_name,))
+        periods = {'daily': 'days', 'weekly': 'weeks', 'monthly': 'months', 'yearly': 'years'}
+        if self.template_id.pre_paid:
+            first_date = next_date
+            last_date = next_date + relativedelta(**{periods[self.recurring_rule_type]: self.recurring_interval})
+            last_date = last_date - relativedelta(days=1)     # remove 1 day as normal people thinks in term of inclusive ranges.
+        else:
+            first_date = next_date - relativedelta(**{periods[self.recurring_rule_type]: self.recurring_interval})
+            first_date = first_date + relativedelta(days=1)     # remove 1 day as normal people thinks in term of inclusive ranges.
+            last_date = next_date
+        addr = self.partner_id.address_get(['delivery', 'invoice'])
+
+        sale_order = self.env['sale.order'].search([('order_line.subscription_id', 'in', self.ids)], order="id desc", limit=1)
+        return {
+            'account_id': self.partner_id.property_account_receivable_id.id,
+            'type': 'out_invoice',
+            'partner_id': addr['invoice'],
+            'partner_shipping_id': addr['delivery'],
+            'currency_id': self.pricelist_id.currency_id.id,
+            'journal_id': journal.id,
+            'origin': self.code,
+            'fiscal_position_id': fpos_id,
+            'payment_term_id': sale_order.payment_term_id.id if sale_order else self.partner_id.property_payment_term_id.id,
+            'company_id': company.id,
+            'comment': _("This invoice covers the following period: %s - %s") % (format_date(self.env, first_date), format_date(self.env, last_date)),
+            'user_id': self.user_id.id,
+            'name': sale_order.client_order_ref,
+        }
+
+class SaleSubscription(models.Model):
+    _inherit = 'sale.subscription.template'
+    
+    pre_paid = fields.Boolean('Pre Paid Flag', help="Check this box if the subscription is pre paid.")

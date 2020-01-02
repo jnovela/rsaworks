@@ -54,4 +54,16 @@
 		</field>
   </record>
 
+  <record id="ssi_subscription_template_form_view" model="ir.ui.view">
+      <field name="name">ssi_subscription_template_form_view</field>
+      <field name="model">sale.subscription.template</field>
+      <field name="inherit_id" ref="sale_subscription.sale_subscription_template_view_form"/>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+          <xpath expr="//field[@name='payment_mode']" position="after">
+            <field name="pre_paid"/>
+          </xpath>
+      </field>
+  </record>
+
 </odoo>

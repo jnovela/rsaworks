@@ -24,6 +24,7 @@
         'views/ssi_attendance_report.xml',
         'security/ir.model.access.csv',
         'views/templates.xml',
+        'views/ssi_employee.xml',
         'views/attendanceReport.xml'
     ],
     'qweb': [
