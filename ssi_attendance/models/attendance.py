@@ -128,6 +128,9 @@ class HrAttendanceLine(models.Model):
             return self.env['hr.employee'].search([('user_id', '=', self.env.uid)], limit=1)
 
     employee_id = fields.Many2one('hr.employee', string="Employee", default=_default_employee, required=True, ondelete='cascade', index=True)
+    department_id = fields.Many2one('hr.department', string="Department", related="employee_id.department_id",
+        readonly=True, store=True)
+    manager_id = fields.Many2one('hr.employee', related="employee_id.parent_id", string="Manager", store=True)
     attendance_id = fields.Many2one('hr.attendance', string='Attendance ID', required=True, ondelete='cascade', index=True, copy=False)
     check_in = fields.Datetime(string="Check In", default=fields.Datetime.now, required=True)
     check_out = fields.Datetime(string="Check Out")
