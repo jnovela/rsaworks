@@ -2,6 +2,7 @@
 
 from odoo import api, fields, models, tools, _
 from odoo.exceptions import UserError
+from datetime import datetime
 
 class HrAttendance(models.Model):
     _inherit = 'hr.attendance'
@@ -27,11 +28,19 @@ class HrAttendance(models.Model):
     worked_hours_inv = fields.Float(string='Worked Hours')
     line_count = fields.Integer(string='Attedance Line Count', compute='_get_line_count')
     worked_hours_actual = fields.Float(string='Worked Hours Actual', compute='_compute_actual_hours')
+    show_approve = fields.Boolean(string="Show Approval Button", compute='_check_show_approve')
 
     @api.depends('attendance_lines')
     def _get_line_count(self):
         for record in self:
             record.line_count = len(record.attendance_lines)
+
+    @api.depends('check_in')
+    def _check_show_approve(self):
+        if self.check_in.date() >= datetime.now().date():
+            self.show_approve = False
+        else:
+            self.show_approve = True
 
     @api.depends('attendance_lines')
     def _compute_actual_hours(self):

@@ -8,11 +8,13 @@
             <field name="arch" type="xml">
              <xpath expr="//sheet" position="before">
                <header>
-                  <button  attrs="{'invisible': [('status', '!=', 'open')]}" name="approve_attendance" type="object" class="oe_stat_button" icon="fa-check" string="Approve Attendance"></button>
+                   <button attrs="{'invisible': ['|', ('status', '!=', 'open'), ('show_approve','=', False)]}" name="approve_attendance" type="object" class="oe_stat_button" icon="fa-check" string="Approve Attendance"></button>
+                   <!-- button  attrs="{'invisible': [('status', '!=', 'open')]}" name="approve_attendance" type="object" class="oe_stat_button" icon="fa-check" string="Approve Attendance"></button -->
                   <field name="status" widget="statusbar" statusbar_visible="open,approved"/>
                </header>
               </xpath>
               <xpath expr="//form[1]/sheet[1]/group[1]/field[@name='check_out']" position="after">
+                <field name="show_approve" invisible="1"/>
                 <field name="hour_type"/>
                 <field name="worked_hours" string="Hours"/>
               </xpath>

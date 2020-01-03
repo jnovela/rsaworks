@@ -67,5 +67,35 @@
             </field>
         </record>
 
+        <record id="ssi_attendance_line_tree" model="ir.ui.view">
+            <field name="name">ssi.attendance_line_tree</field>
+            <field name="model">hr.attendance.line</field>
+            <field name="arch" type="xml">
+                <tree string="Attendance Lines">
+                    <field name="job_id"/>
+                    <field name="workorder_id"/>
+                    <field name="employee_id"/>
+                    <field name="check_in"/>
+                    <field name="check_out"/>
+                    <field name="worked_hours" string="Job Hours"/>
+                    <field name="status"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="ssi_hr_attendance_lines_view">
+          <field name="name">Attendance Lines</field>
+          <field name="res_model">hr.attendance.line</field>
+          <field name="view_mode">tree,form</field>
+          <!-- field name="context">{""search_default_groupby_date":1,}</field -->
+        </record>
+
+        <menuitem 
+        id="menu_ssi_hr_attendance_lines_view"
+        parent="hr_attendance.menu_hr_attendance_manage_attendances" 
+        name="Attendance Lines" 
+        sequence="12" 
+        action="ssi_hr_attendance_lines_view"/>
+
     </data>
 </odoo>
