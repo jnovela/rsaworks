@@ -17,7 +17,8 @@ from odoo.exceptions import UserError
 class HrEmployeeCustom(models.Model):
     _inherit = "hr.employee"
 
-    attendance_state = fields.Selection(string="Attendance Status", compute='_compute_attendance_state', selection=[('checked_out', "Checked out"), ('checked_in', "Checked in")], store=True)
+    last_attendance_id = fields.Many2one('hr.attendance', compute='_compute_last_attendance_id', store=True)
+    attendance_state = fields.Selection(string="Attendance Status", compute='_compute_attendance_state', selection=[('checked_out', "Checked out"), ('checked_in', "Checked in")])
 
     @api.multi
     def attendance_manual(self, next_action, entered_pin=None, job=None, wo=None, close=None, end=None):
@@ -242,3 +243,11 @@ class HrEmployeeCustom(models.Model):
 #             att = employee.last_attendance_id.sudo()
             att = self.env['hr.attendance'].search([('employee_id', '=', employee.id), ('check_out', '=', False)], limit=1)
             employee.attendance_state = att and not att.check_out and 'checked_in' or 'checked_out'
+
+    @api.depends('attendance_ids')
+    def _compute_last_attendance_id(self):
+        for employee in self:
+            employee.last_attendance_id = self.env['hr.attendance'].search([
+                ('employee_id', '=', employee.id), ('hour_type', '=', False)
+            ], limit=1)
+

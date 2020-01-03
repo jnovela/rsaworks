@@ -2,6 +2,7 @@
 
 from odoo import api, fields, models, tools, _
 from odoo.exceptions import UserError
+from datetime import datetime
 
 class HrAttendance(models.Model):
     _inherit = 'hr.attendance'
@@ -27,11 +28,19 @@ class HrAttendance(models.Model):
     worked_hours_inv = fields.Float(string='Worked Hours')
     line_count = fields.Integer(string='Attedance Line Count', compute='_get_line_count')
     worked_hours_actual = fields.Float(string='Worked Hours Actual', compute='_compute_actual_hours')
+    show_approve = fields.Boolean(string="Show Approval Button", compute='_check_show_approve')
 
     @api.depends('attendance_lines')
     def _get_line_count(self):
         for record in self:
             record.line_count = len(record.attendance_lines)
+
+    @api.depends('check_in')
+    def _check_show_approve(self):
+        if self.check_in.date() >= datetime.now().date():
+            self.show_approve = False
+        else:
+            self.show_approve = True
 
     @api.depends('attendance_lines')
     def _compute_actual_hours(self):
@@ -119,6 +128,9 @@ class HrAttendanceLine(models.Model):
             return self.env['hr.employee'].search([('user_id', '=', self.env.uid)], limit=1)
 
     employee_id = fields.Many2one('hr.employee', string="Employee", default=_default_employee, required=True, ondelete='cascade', index=True)
+    department_id = fields.Many2one('hr.department', string="Department", related="employee_id.department_id",
+        readonly=True, store=True)
+    manager_id = fields.Many2one('hr.employee', related="employee_id.parent_id", string="Manager", store=True)
     attendance_id = fields.Many2one('hr.attendance', string='Attendance ID', required=True, ondelete='cascade', index=True, copy=False)
     check_in = fields.Datetime(string="Check In", default=fields.Datetime.now, required=True)
     check_out = fields.Datetime(string="Check Out")
