@@ -241,6 +241,7 @@ class ReportGrossMargin(models.AbstractModel):
                             '', 
                             '', 
                             '', 
+                            '', 
                             self.format_value(child_line.get('credit')), 
                             self.format_value(child_line.get('debit')), 
                             self.format_value(child_line.get('balance')),
@@ -266,6 +267,7 @@ class ReportGrossMargin(models.AbstractModel):
                 'columns': [{'name': v} for v in [
                         '', 
                         '',
+                        '', 
                         '', 
                         '', 
                         '', 
