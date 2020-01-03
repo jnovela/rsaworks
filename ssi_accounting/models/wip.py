@@ -293,6 +293,7 @@ class ReportWip(models.AbstractModel):
                             '', 
                             '', 
                             '', 
+                            '', 
                             self.format_value(child_line.get('lab_debit')-child_line.get('lab_credit')), 
 #                             self.format_value(child_line.get('lab_b_debit')-child_line.get('lab_b_credit')), 
                             self.format_value(child_line.get('mat_debit')-child_line.get('mat_credit')),
@@ -319,6 +320,7 @@ class ReportWip(models.AbstractModel):
                 'columns': [{'name': v} for v in [
                         '', 
                         '',
+                        '', 
                         '', 
                         '', 
                         '', 
@@ -524,6 +526,7 @@ class ReportWip(models.AbstractModel):
                 'columns': [{'name': v} for v in [
                         '', 
                         '',
+                        '', 
                         '', 
                         '', 
                         '', 
