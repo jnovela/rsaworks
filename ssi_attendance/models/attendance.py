@@ -38,7 +38,10 @@ class HrAttendance(models.Model):
 
     @api.depends('check_in')
     def _check_show_approve(self):
-        tz = self.env.user.tz
+        if self.env.user.tz:
+            tz = self.env.user.tz
+        else:
+            tz = 'US/Central'
         if self.check_in.astimezone(timezone(tz)).date() >= datetime.now().date():
             self.show_approve = False
         else:
