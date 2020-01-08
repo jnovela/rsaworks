@@ -3,6 +3,7 @@
 from odoo import api, fields, models, tools, _
 from odoo.exceptions import UserError
 from datetime import datetime
+from pytz import timezone, UTC
 
 class HrAttendance(models.Model):
     _inherit = 'hr.attendance'
@@ -37,7 +38,8 @@ class HrAttendance(models.Model):
 
     @api.depends('check_in')
     def _check_show_approve(self):
-        if self.check_in.date() >= datetime.now().date():
+        tz = self.env.user.tz
+        if self.check_in.astimezone(timezone(tz)).date() >= datetime.now().date():
             self.show_approve = False
         else:
             self.show_approve = True

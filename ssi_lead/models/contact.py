@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, tools, _
+from odoo.exceptions import UserError
 
-class Contact(models.Model):
+class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     customer = fields.Boolean(string='Is a Customer', default=False,
@@ -70,3 +71,10 @@ class Contact(models.Model):
         [('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'), ('6', '6'), ('7', '7'), ('8', '8'), ('9', '9'), ('10', '10')], 
         help="On a scale of one to ten, ten being the highest, how likely is it that you would recommend us to your friends or colleagues?",
         string='Net Promoter Score')
+
+
+    @api.model
+    def _commercial_fields(self):
+        res = super(ResPartner, self)._commercial_fields()
+        res.remove('property_account_position_id')
+        return res

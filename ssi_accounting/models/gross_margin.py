@@ -190,13 +190,14 @@ class ReportGrossMargin(models.AbstractModel):
                 margin = 0
                 if line_r != 0:
                     margin = (line_b/line_r) * 100
-                invoice = self.env['account.invoice.line'].search([('account_analytic_id', '=', line.get('aa_id'))], limit=1).invoice_id
                 if line.get('job_name'):
+                    invoice = self.env['account.invoice.line'].search([('account_analytic_id', '=', line.get('aa_id'))], limit=1).invoice_id
                     id = line.get('aa_id')
                     amref = invoice.move_id.name
                 else:
                     id = line.get('am_ref')
                     amref = line.get('am_ref')
+                    invoice = self.env['account.invoice'].search([('reference', '=', amref)], limit=1)
                 browsed_partner = self.env['res.partner'].browse(line.get('partner_id'))
                 partner_name = browsed_partner.parent_id.name and str(browsed_partner.parent_id.name) + ', ' + browsed_partner.name or browsed_partner.name
                 lines.append({
