@@ -10,7 +10,7 @@ class AccountInvoice(models.Model):
 
     project_manager = fields.Many2one('res.users', string='Project Manager')
     customer_category = fields.Selection(
-        [('Top Account', 'Top Account'), ('Key Account', 'Key Account'), ('Account', 'Account'), ('New Account', 'New Account')], string='Customer Category')
+        [('Top Account', 'Top Account'), ('Key Account', 'Key Account'), ('Account', 'Account'), ('House Account', 'House Account'), ('New Account', 'New Account')], string='Customer Category')
 
     @api.model
     def create(self, vals):
