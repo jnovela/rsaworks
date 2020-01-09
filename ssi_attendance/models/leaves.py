@@ -28,9 +28,16 @@ class HrLeaves(models.Model):
 #             raise UserError(_(work_hours_data))
             for index, (day_date, work_hours_count) in enumerate(work_hours_data):
                 
-                check_in = datetime(day_date.year, day_date.month, day_date.day, 8, 0, 0)
-                check_out_time = 8 + int(work_hours_count)
-                check_out = datetime(day_date.year, day_date.month, day_date.day, check_out_time, 0, 0)
+                if holiday.request_unit_hours:
+                    hour_from = float_to_time(abs(holiday.request_hour_from) - 0.5 if holiday.request_hour_from < 0 else holiday.request_hour_from)
+                    hour_to = float_to_time(abs(holiday.request_hour_to) - 0.5 if holiday.request_hour_to < 0 else holiday.request_hour_to)
+                    tz = self.env.user.tz if self.env.user.tz and not holiday.request_unit_custom else 'US/Central'  # custom -> already in UTC
+                    check_in = timezone(tz).localize(datetime.combine(holiday.request_date_from, hour_from)).astimezone(UTC).replace(tzinfo=None)
+                    check_out = timezone(tz).localize(datetime.combine(holiday.request_date_to, hour_to)).astimezone(UTC).replace(tzinfo=None)
+                else:
+                    check_in = datetime(day_date.year, day_date.month, day_date.day, 8, 0, 0)
+                    check_out_time = 8 + int(work_hours_count)
+                    check_out = datetime(day_date.year, day_date.month, day_date.day, check_out_time, 0, 0)
 #                 raise UserError(check_out)
                 
                 self.env['hr.attendance'].create({
