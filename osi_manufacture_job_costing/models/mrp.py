@@ -204,7 +204,7 @@ class MRPWorkorder(models.Model):
             
             # labor account move
             if move_lines and cost[0] != 0:
-                new_move = move_obj.create(
+                new_move = move_obj.sudo().create(
                     {'journal_id': journal_id,
                      'line_ids': move_lines,
                      'date': fields.Date.context_today(self),
@@ -243,7 +243,7 @@ class MRPWorkorder(models.Model):
 
             # burden account move
             if move_lines and cost[1] != 0:
-                new_move = move_obj.create(
+                new_move = move_obj.sudo().create(
                     {'journal_id': journal_id,
                      'line_ids': move_lines,
                      'date': fields.Date.context_today(self),
