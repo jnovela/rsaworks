@@ -19,7 +19,7 @@
         <form string="Jobs">
             <header>
                 <button name="ssi_jobs_new_mrp_prod_button" type="object" class="oe_stat_button" icon="fa-wrench" string="Start Job"/>
-                <button name="ssi_jobs_new_so_button" type="object" class="oe_stat_button" icon="fa-dollar" string="Create Estimate" context="{'default_partner_id': partner_id, 'default_ssi_job_id': active_id,'default_analytic_account_id': aa_id}"/>
+                <button name="ssi_jobs_new_so_button" type="object" class="oe_stat_button" icon="fa-dollar" string="Create Estimate" context="{'default_partner_id': partner_id, 'default_ssi_job_id': active_id,'default_analytic_account_id': aa_id}" groups="account.group_account_user"/>
                 <button name="ssi_jobs_new_po_button" type="object" class="oe_stat_button" icon="fa-credit-card" string="Order Parts" context="{'default_ssi_jobs': active_id}"/>
                 <field name="stage_id" options="{'clickable': '1'}" widget="statusbar"/>
             </header>
@@ -219,10 +219,8 @@
         <tree string="Jobs">
             <field name="name"/>
             <field name="partner_id"/>
-            <!-- <field name="objects"/> -->
-            <!-- <field name="size"/>
-            <field name="sizeUM"/> -->
             <field name="stage_id"/>
+            <field name="urgency"/>
         </tree>
     </field>
 </record>
