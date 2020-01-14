@@ -219,10 +219,8 @@
         <tree string="Jobs">
             <field name="name"/>
             <field name="partner_id"/>
-            <!-- <field name="objects"/> -->
-            <!-- <field name="size"/>
-            <field name="sizeUM"/> -->
             <field name="stage_id"/>
+            <field name="urgency"/>
         </tree>
     </field>
 </record>
