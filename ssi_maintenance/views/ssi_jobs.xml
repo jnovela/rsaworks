@@ -28,6 +28,9 @@
             <field name="eq_rating"/>
             <field name="eq_rating_unit"/>
           </xpath>
+          <xpath expr="//field[@name='stage_id']" position="after">
+            <field name="urgency"/>
+          </xpath>
       </field>
   </record>
 
