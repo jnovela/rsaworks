@@ -48,7 +48,10 @@
             </td>
         </t>
       </xpath>
-	  <xpath expr="/t[1]/t[1]/t[1]/div[1]/table[2]/thead[1]/tr[1]/th[2]" position="attributes">
+      <xpath expr="/t[1]/t[1]/t[1]/div[1]/table[2]" position="attributes">
+        <attribute name="t-if">o.state != "done" and docs.so_job_id.name is False</attribute>
+      </xpath>
+      <xpath expr="/t[1]/t[1]/t[1]/div[1]/table[2]/thead[1]/tr[1]/th[2]" position="attributes">
         <attribute name="t-if">docs.po_job_id.id is False and docs.so_job_id.id is False</attribute>
       </xpath>
       <xpath expr="/t[1]/t[1]/t[1]/div[1]/table[2]/tbody[1]/tr[1]/td[2]" position="attributes">
@@ -57,17 +60,45 @@
       <xpath expr="/t/t/t/div/table[3]/tbody/tr/td" position="attributes">
         <attribute name="t-if">move_line.product_id.product_tmpl_id.hide_on_print is False</attribute>
       </xpath>
-      <xpath expr="/t/t/t/div/table[1]/tbody/tr" position="after">
-        <tr t-if="o.so_job_id.equipment_id.customer_stock_number or o.so_job_id.equipment_id.customer_id_number_general or o.so_job_id.equipment_id.customer_id_number_motor_specific">
-            <th><span>Customer Stock #</span></th>
-            <th><span>Customer ID# General</span></th>
-            <th><span>Customer ID# Motor Sepcific</span></th>
-        </tr>
-        <tr t-if="o.so_job_id.equipment_id.customer_stock_number or o.so_job_id.equipment_id.customer_id_number_general or o.so_job_id.equipment_id.customer_id_number_motor_specific">
-            <td><span t-field="o.so_job_id.equipment_id.customer_stock_number"/></td>
-            <td><span t-field="o.so_job_id.equipment_id.customer_id_number_general"/></td>
-            <td><span t-field="o.so_job_id.equipment_id.customer_id_number_motor_specific"/></td>
-        </tr>
+      <xpath expr="/t[1]/t[1]/t[1]/div[1]/table[2]" position="after">
+        <table class="table table-sm mt48" t-if="o.state!='done'">
+            <tr t-if="o.so_job_id.equipment_id.customer_stock_number">
+                <th><span>Customer Stock #</span></th>
+                <td><span t-field="o.so_job_id.equipment_id.customer_stock_number"/></td>
+            </tr>
+            <tr t-if="o.so_job_id.equipment_id.customer_id_number_general">
+                <th><span>Customer ID# General</span></th>
+                <td><span t-field="o.so_job_id.equipment_id.customer_id_number_general"/></td>
+            </tr>
+            <tr t-if="o.so_job_id.equipment_id.customer_id_number_motor_specific">
+                <th><span>Customer ID# Motor Sepcific</span></th>
+                <td><span t-field="o.so_job_id.equipment_id.customer_id_number_motor_specific"/></td>
+            </tr>
+            <tr t-if="o.so_job_id.equipment_id.manufacture">
+                <th><span>Manufacturer</span></th>
+                <td><span t-field="o.so_job_id.equipment_id.manufacture"/></td>
+            </tr>
+            <tr t-if="o.so_job_id.equipment_id.rating">
+                <th><span>Rating</span></th>
+                <td><span t-field="o.so_job_id.equipment_id.rating"/> <span t-field="o.so_job_id.equipment_id.rating_unit"/></td>
+            </tr>
+            <tr t-if="o.so_job_id.equipment_id.voltage">
+                <th><span>Voltage</span></th>
+                <td><span t-field="o.so_job_id.equipment_id.voltage"/></td>
+            </tr>
+            <tr t-if="o.so_job_id.equipment_id.frame">
+                <th><span>Frame</span></th>
+                <td><span t-field="o.so_job_id.equipment_id.frame"/></td>
+            </tr>
+            <tr t-if="o.so_job_id.equipment_id.rpm_nameplate">
+                <th><span>RPM</span></th>
+                <td><span t-field="o.so_job_id.equipment_id.rpm_nameplate"/></td>
+            </tr>
+            <tr t-if="o.so_job_id.equipment_id.serial_no">
+                <th><span>Serial number</span></th>
+                <td><span t-field="o.so_job_id.equipment_id.serial_no"/></td>
+            </tr>
+          </table>
       </xpath>
     </template>
 </odoo>
