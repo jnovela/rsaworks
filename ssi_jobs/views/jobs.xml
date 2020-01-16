@@ -220,7 +220,6 @@
             <field name="name"/>
             <field name="partner_id"/>
             <field name="stage_id"/>
-            <field name="urgency"/>
         </tree>
     </field>
 </record>

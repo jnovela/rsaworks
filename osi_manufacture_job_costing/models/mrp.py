@@ -101,7 +101,7 @@ class MRPWorkorder(models.Model):
                 labor_total += labor
                 burden_total += burden
                 
-                date = time_rec.date_end.date()
+                date = time_rec.date_start.date()
                 value = cost_dict.get(date, False)
                 value_labor = value and value[0]
                 value_burden = value and value[1]
@@ -207,7 +207,7 @@ class MRPWorkorder(models.Model):
                 new_move = move_obj.sudo().create(
                     {'journal_id': journal_id,
                      'line_ids': move_lines,
-                     'date': fields.Date.context_today(self),
+                     'date': date,
                      'ref': name or ''})
                 new_move.post()
                 
@@ -246,7 +246,7 @@ class MRPWorkorder(models.Model):
                 new_move = move_obj.sudo().create(
                     {'journal_id': journal_id,
                      'line_ids': move_lines,
-                     'date': fields.Date.context_today(self),
+                     'date': date,
                      'ref': name or ''})
                 new_move.post()
                 
