@@ -99,6 +99,21 @@
                 <td><span t-field="o.so_job_id.equipment_id.serial_no"/></td>
             </tr>
           </table>
+          <table class="table table-borderless mt48" t-if="o.state!='done'">
+              <tr>
+                  <td style="border-bottom: 1px solid" colspan="2"><span>X</span></td>
+                  <td><span></span></td>
+                  <td style="border-bottom: 1px solid"></td>
+                  <td><span></span></td>
+              </tr>
+              <tr>
+                  <td><span>Sign</span></td>
+                  <td><span></span></td>
+                  <td><span></span></td>
+                  <td>Date</td>
+                  <td><span></span></td>
+              </tr>
+          </table>
       </xpath>
     </template>
 </odoo>
