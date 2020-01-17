@@ -363,6 +363,16 @@
                     <li t-if="company.website" class="list-inline-item">Web: <span t-field="company.website"/></li>
                 </ul>
     </xpath>
+    <xpath expr="//div[3]/div/div[2]" position="replace">
+                <div t-if="report_type == 'pdf'" class="text-muted">
+                    <span class="float-left">
+                       <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%m/%d/%Y %H:%M')"/>
+                    </span>
+                    <span class="float-right">
+                        Page: <span class="page"/> / <span class="topage"/>
+                    </span>
+                </div>
+    </xpath>
 </template>
     
 </odoo>
