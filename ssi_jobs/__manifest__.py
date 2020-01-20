@@ -38,6 +38,7 @@
         'views/ssi_stock.xml',
         'views/ssi_crm.xml',
         'views/ssi_product.xml',
+        'views/ssi_job_board.xml',
         'report/ssi_job_cost_report.xml',
         'report/ssi_picking.xml',
         'report/ssi_report_templates.xml',
