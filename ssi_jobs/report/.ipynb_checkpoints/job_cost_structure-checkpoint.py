@@ -31,7 +31,6 @@ class JobCostStructure(models.AbstractModel):
                                     FROM stock_move AS sm
                                     LEFT JOIN mrp_bom AS mb on sm.product_id = mb.product_id
                                     LEFT JOIN product_product AS pp on sm.product_id = pp.id
-                                    LEFT JOIN product_template AS pt on sm.product_id = pp.id
                                     WHERE sale_line_id = %s AND state != 'cancel' AND mb.product_id IS NULL
                                      AND pp.product_type != 'consum'
                                     GROUP BY sm.product_id"""
