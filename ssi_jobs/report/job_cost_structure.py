@@ -30,7 +30,10 @@ class JobCostStructure(models.AbstractModel):
                     query_str = """SELECT sm.product_id, SUM(sm.product_qty), SUM(sm.price_unit)
                                     FROM stock_move AS sm
                                     LEFT JOIN mrp_bom AS mb on sm.product_id = mb.product_id
+                                    LEFT JOIN product_product AS pp on sm.product_id = pp.id
+                                    LEFT JOIN product_template AS pt on pp.product_tmpl_id = pt.id
                                     WHERE sale_line_id = %s AND state != 'cancel' AND mb.product_id IS NULL
+                                     AND pt.type != 'consu'
                                     GROUP BY sm.product_id"""
                     self.env.cr.execute(query_str, (line.id, ))
                     for product_id, qty, pur_price in self.env.cr.fetchall():

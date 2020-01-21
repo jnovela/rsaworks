@@ -234,21 +234,21 @@
                     <div class="row">
                         <div class="col-6 offset-6">
                             <table class="table table-sm">
-                                <tr t-if="line['mo_qty'] &gt; 1">
+                                <!-- tr t-if="line['mo_qty'] &gt; 1">
                                     <td class="text-right">
                                         <strong>Cost for <t t-esc="line['mo_qty']"/> <t t-esc="line['mo_uom'].name"/></strong>
                                     </td>
                                     <td class="text-right">
                                         <strong t-esc="line['total_cost'] + opcost" t-options='{"widget": "monetary", "display_currency": currency}'/>
                                     </td>
-                                </tr>
+                                </tr -->
                                 <tr>
                                     <td class="text-right">
-                                        <strong>Unit Cost</strong>
+                                        <strong>Total MO Cost</strong>
                                     </td>
                                     <th class="text-right">
-                                        <t t-set="unit_cost" t-value="(line['total_cost'] + opcost) / line['mo_qty']"/>
-                                        <strong t-esc="(line['total_cost'] + opcost) / line['mo_qty']" t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                        <t t-set="unit_cost" t-value="(line['total_cost'] + opcost)"/>
+                                        <strong t-esc="(line['total_cost'] + opcost)" t-options='{"widget": "monetary", "display_currency": currency}'/>
                                     </th>
                                 </tr>
                             </table>
