@@ -33,6 +33,7 @@
           </xpath>
           <xpath expr="//field[@name='date_start']" position="after">	
             <field name="last_invoice_date"/>	
+            <field name="ext_invoice_date"/>	
           </xpath>	
           <xpath expr="//field[@name='user_id']" position="after">	
             <field name="project_manager"/>	

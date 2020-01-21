@@ -17,6 +17,7 @@ class SaleSubscription(models.Model):
     storage_id = fields.One2many('storage', 'subscription_id', string='Storage')
     square_foot_total = fields.Float(string='Square Foot Total', compute='_get_sqf_total')
     last_invoice_date = fields.Date(string='Last Invoiced Date', compute='_get_last_invoice')
+    ext_invoice_date = fields.Date(string='External Invoice Date')
     project_manager = fields.Many2one('res.users', string='Project Manager')
 #     project_manager = fields.Many2one('res.users', related='partner_id.project_manager_id', string='Project Manager', store=True)
     customer_category = fields.Selection(
@@ -55,6 +56,8 @@ class SaleSubscription(models.Model):
             current_invoice = Invoice.search([('invoice_line_ids.subscription_id', '=', subscription.id)],order="id desc",limit=1)
             if current_invoice:
                 subscription.last_invoice_date = current_invoice.date_invoice
+            elif subscription.ext_invoice_date:
+                subscription.last_invoice_date = subscription.ext_invoice_date
             else:
                 subscription.last_invoice_date = 0
 

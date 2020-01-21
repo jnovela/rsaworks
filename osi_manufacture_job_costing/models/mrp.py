@@ -414,8 +414,9 @@ class MRPProduction(models.Model):
             production.update({
                 'labor_cost': labor_cost,
                 'burden_cost': burden_cost,
-                'material_cost': material_cost * production.product_qty,
+                'material_cost': material_cost,
             })
+#                 'material_cost': material_cost * production.product_qty,
 
     labor_cost = fields.Float(
         string='Labor Cost',
