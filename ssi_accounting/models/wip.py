@@ -216,7 +216,7 @@ class ReportWip(models.AbstractModel):
             if line.get('job_name') != next_job or not line.get('job_name'):
 #             if True:
                 ++count
-                order = self.env['sale.order'].search([('analytic_account_id', '=', line.get('aa_id'))], limit=1)
+                order = self.env['sale.order'].search([('analytic_account_id', '=', line.get('aa_id')), ('state', '!=', 'cancel')], limit=1)
                 job = self.env['ssi_jobs'].search([('id', '=', line.get('job_id'))], limit=1)
                 id = line.get('aa_id')
                 if order.invoice_ids:
@@ -433,7 +433,7 @@ class ReportWip(models.AbstractModel):
             if True:
                 ++count
                 equip = self.env['maintenance.equipment'].search([('id', '=', line.get('equipment_id'))], limit=1)
-                order = self.env['sale.order'].search([('analytic_account_id', '=', line.get('aa_id'))], limit=1)
+                order = self.env['sale.order'].search([('analytic_account_id', '=', line.get('aa_id')), ('state', '!=', 'cancel')], limit=1)
                 job = self.env['ssi_jobs'].search([('id', '=', line.get('job_id'))], limit=1)
                 # Get Delivery Date
                 delivery_date = ''
