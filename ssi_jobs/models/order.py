@@ -85,10 +85,10 @@ class SaleOrder(models.Model):
             if order.ssi_job_id:
                 if order.state not in ('sale', 'done'):
                     invoice_status = 'no'
-                elif all(invoice_status in ['to invoice', 'invoiced'] for invoice_status in line_invoice_status):
-                    invoice_status = 'to invoice'
                 elif all(invoice_status == 'invoiced' for invoice_status in line_invoice_status):
                     invoice_status = 'invoiced'
+                elif all(invoice_status in ['to invoice', 'invoiced'] for invoice_status in line_invoice_status):
+                    invoice_status = 'to invoice'
                 elif all(invoice_status in ['invoiced', 'upselling'] for invoice_status in line_invoice_status):
                     invoice_status = 'upselling'
                 else:
