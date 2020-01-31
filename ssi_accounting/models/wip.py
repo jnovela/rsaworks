@@ -466,7 +466,7 @@ class ReportWip(models.AbstractModel):
                     amref = ''
 #                 browsed_partner = self.env['res.partner'].browse(line.get('partner_id'))
                 partner_name = job.partner_id.parent_id.name and str(job.partner_id.parent_id.name) + ', ' + job.partner_id.name or job.partner_id.name
-                if (round(line_l) + round(line_m) + round(line_l_a) + round(line_m_a)) > 0:
+                if (line_l + line_m + line_l_a + line_m_a) != 0:
                     tz = self.env.user.tz
                     p_first = ''
                     p_last = ''
