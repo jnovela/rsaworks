@@ -47,6 +47,7 @@ class Jobs(models.Model):
     type = fields.Selection(
         [('Shop', 'Shop'), 
          ('Field Service', 'Field Service'), 
+         ('Modification', 'Modification'), 
          ('Inspection Fee', 'Inspection Fee')], 
         string='Job Type', default='Shop')
     urgency = fields.Selection(
@@ -65,6 +66,8 @@ class Jobs(models.Model):
     hide_in_kiosk = fields.Boolean(default=False, string="Hide in Kiosk")
     completed_on = fields.Datetime(string='Completed On')
     line_ids = fields.One2many('ssi_jobs.line', 'ssi_jobs_id', 'Jobs Lines', copy=True)
+    job_account_position_id = fields.Many2one('account.fiscal.position', company_dependent=True,
+        string="Fiscal Position", help="The fiscal position will override the customers when used.")
     
     _sql_constraints = [(
         'name_unique',
@@ -166,6 +169,18 @@ class Jobs(models.Model):
                 self.project_manager = self.opportunity_id.project_manager.id
             if self.opportunity_id.customer_category:
                 self.customer_category = self.opportunity_id.customer_category
+                
+    @api.onchange('type', 'partner_id')
+    def _onchange_type(self):
+        # When updating job type, check fiscal postion.
+        if self.partner_id:
+            if self.type == 'Field&nbsp;Service' and self.partner_id.job_fs_account_position_id.id:
+                self.job_account_position_id = self.partner_id.job_fs_account_position_id.id
+            if self.type == 'Modification' and self.partner_id.job_mod_account_position_id.id:
+                self.job_account_position_id = self.partner_id.job_mod_account_position_id.id
+            else:
+                self.job_account_position_id = self.partner_id.property_account_position_id.id
+                
     @api.model
     def _read_group_stage_ids(self, stages, domain, order):
         stage_ids = self.env['ssi_jobs_stage'].search([])

@@ -11,9 +11,9 @@ class AccountMove(models.Model):
     @api.multi
     def write(self, vals):
         if 'ref' in vals:
-            raise UserError(_(vals))
-            if vals['ref'].endswith('(Burden)'):
-                vals['ref'] = vals['ref'][:-8]
+            if vals['ref']:
+                if vals['ref'].endswith('(Burden)'):
+                    vals['ref'] = vals['ref'][:-8]
         res = super(AccountMove, self.with_context(check_move_validity=False)).write(vals)
         return res
 

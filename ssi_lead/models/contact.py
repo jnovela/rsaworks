@@ -71,6 +71,10 @@ class ResPartner(models.Model):
         [('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'), ('6', '6'), ('7', '7'), ('8', '8'), ('9', '9'), ('10', '10')], 
         help="On a scale of one to ten, ten being the highest, how likely is it that you would recommend us to your friends or colleagues?",
         string='Net Promoter Score')
+    job_mod_account_position_id = fields.Many2one('account.fiscal.position', company_dependent=True,
+        string="Modification Fiscal Position", help="The fiscal position will override the customer's base when used.")
+    job_fs_account_position_id = fields.Many2one('account.fiscal.position', company_dependent=True,
+        string="Field Service Fiscal Position", help="The fiscal position will override the customer's base when used.")
 
 
     @api.model

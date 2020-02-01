@@ -72,6 +72,7 @@
                     <group name="right">
                         <field name="urgency"/>
                         <field name="type"/>
+                        <field name="job_account_position_id" attrs="{'readonly': True}" force_save="1"/>
                         <field name="po_number"/>
                         <field name="user_id"/>
                         <field name="project_manager"/>
