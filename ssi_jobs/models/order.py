@@ -16,11 +16,47 @@ class SaleOrder(models.Model):
     customer_category = fields.Selection(
         [('Top Account', 'Top Account'), ('Key Account', 'Key Account'), ('Account', 'Account'), ('House Account', 'House Account'), ('New Account', 'New Account')], string='Customer Category')
     
+
     @api.onchange('ssi_job_id')
     def _onchange_ssi_job_id(self):
         # When updating jobs dropdown, auto set analytic account.
         if self.ssi_job_id.aa_id:
             self.analytic_account_id = self.ssi_job_id.aa_id
+        job = self.ssi_job_id
+        order_lines = [(5, 0, 0)]
+        for line in job.line_ids:
+            data = {}
+#             data = self._compute_line_data_for_template_change(line)
+            if line.product_id:
+                discount = 0
+                if self.pricelist_id:
+#                     price = self.pricelist_id.get_product_price(line.product_id, 1, False)
+                    price = self.pricelist_id.with_context(uom=line.product_uom_id.id).get_product_price(line.product_id, 1, False)
+#                     if self.pricelist_id.discount_policy == 'without_discount' and line.price_unit:
+# #                         discount = (line.price_unit - price) / line.price_unit * 100
+#                         # negative discounts (= surcharge) are included in the display price
+#                         if discount < 0:
+#                             discount = 0
+#                         else:
+#                             price = line.price_unit
+                else:
+                    price = line.product_id.list_price
+
+                data.update({
+                    'price_unit': price,
+                    'discount': 0,
+                    'product_uom_qty': line.product_uom_qty,
+                    'product_id': line.product_id.id,
+                    'name': line.product_id.display_name,
+                    'product_uom': line.product_id.uom_id.id,
+                })
+                if self.pricelist_id:
+                    data.update(self.env['sale.order.line']._get_purchase_price(self.pricelist_id, line.product_id, line.product_uom_id, fields.Date.context_today(self)))
+            order_lines.append((0, 0, data))
+
+        self.order_line = order_lines
+        self.order_line._compute_tax_id()
+
 
     @api.depends('ssi_job_id')
     def _get_job_stage(self):
@@ -96,10 +132,10 @@ class SaleOrder(models.Model):
             else:
                 if order.state not in ('sale', 'done'):
                     invoice_status = 'no'
-                elif any(invoice_status == 'to invoice' for invoice_status in line_invoice_status):
-                    invoice_status = 'to invoice'
                 elif all(invoice_status == 'invoiced' for invoice_status in line_invoice_status):
                     invoice_status = 'invoiced'
+                elif any(invoice_status == 'to invoice' for invoice_status in line_invoice_status):
+                    invoice_status = 'to invoice'
                 elif all(invoice_status in ['invoiced', 'upselling'] for invoice_status in line_invoice_status):
                     invoice_status = 'upselling'
                 else:

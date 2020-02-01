@@ -2,6 +2,7 @@
 from odoo import api, fields, models, _
 from datetime import datetime, timedelta
 from odoo.exceptions import UserError
+from odoo.addons import decimal_precision as dp
 import requests
 
 
@@ -20,6 +21,7 @@ class Jobs(models.Model):
     prod_count = fields.Integer(string='Operations', compute='_get_prod_count')
     wo_count = fields.Integer(string='Work Orders', compute='_get_wo_count')
     wc_count = fields.Integer(string='Job Count', compute='_get_wc_count')
+    sm_count = fields.Integer(string='Delivery', compute='_get_sm_count')
     currency_id = fields.Many2one('res.currency', string='Account Currency',
                                   help="Forces all moves for this account to have this account currency.")
     stage_id = fields.Many2one('ssi_jobs_stage', group_expand='_read_group_stage_ids',
@@ -45,10 +47,11 @@ class Jobs(models.Model):
     type = fields.Selection(
         [('Shop', 'Shop'), 
          ('Field Service', 'Field Service'), 
+         ('Modification', 'Modification'), 
          ('Inspection Fee', 'Inspection Fee')], 
         string='Job Type', default='Shop')
     urgency = fields.Selection(
-        [('straight', 'Straight time'), ('straight_quote', 'Straight time quote before repair'), ('overtime', 'Overtime'), ('overtime_quote', 'Overtime quote before repair')], string='Urgency')
+        [('straight_quote', 'Straight time quote before repair'), ('straight', 'Straight time'), ('overtime_quote', 'Overtime quote before repair'), ('overtime', 'Overtime')], string='Urgency')
     po_number = fields.Char(string='PO Number')
     notes = fields.Text(string='Notes')
 #     status = fields.Selection(
@@ -62,6 +65,9 @@ class Jobs(models.Model):
         string='Warranty Status', track_visibility='onchange')
     hide_in_kiosk = fields.Boolean(default=False, string="Hide in Kiosk")
     completed_on = fields.Datetime(string='Completed On')
+    line_ids = fields.One2many('ssi_jobs.line', 'ssi_jobs_id', 'Jobs Lines', copy=True)
+    # job_account_position_id = fields.Many2one('account.fiscal.position', company_dependent=True,
+        # string="Fiscal Position", help="The fiscal position will override the customers when used.")
     
     _sql_constraints = [(
         'name_unique',
@@ -163,6 +169,18 @@ class Jobs(models.Model):
                 self.project_manager = self.opportunity_id.project_manager.id
             if self.opportunity_id.customer_category:
                 self.customer_category = self.opportunity_id.customer_category
+                
+    # @api.onchange('type', 'partner_id')
+    # def _onchange_type(self):
+        # When updating job type, check fiscal postion.
+        # if self.partner_id:
+            # if self.type == 'Field&nbsp;Service' and self.partner_id.job_fs_account_position_id.id:
+                # self.job_account_position_id = self.partner_id.job_fs_account_position_id.id
+            # if self.type == 'Modification' and self.partner_id.job_mod_account_position_id.id:
+                # self.job_account_position_id = self.partner_id.job_mod_account_position_id.id
+            # else:
+                # self.job_account_position_id = self.partner_id.property_account_position_id.id
+                
     @api.model
     def _read_group_stage_ids(self, stages, domain, order):
         stage_ids = self.env['ssi_jobs_stage'].search([])
@@ -215,6 +233,13 @@ class Jobs(models.Model):
         action['domain'] = [('ssi_job_id', '=', self.id)]
         return action
 
+    @api.multi
+    def action_view_sm_count(self):
+        action = self.env.ref(
+            'ssi_jobs.sale_order_sm_line_action').read()[0]
+        action['domain'] = ['|',('so_job_id', '=', self.id),('po_job_id', '=', self.id)]
+        return action
+
 #     @api.multi
 #     def action_view_aa_count(self):
 #         action = self.env.ref(
@@ -227,17 +252,31 @@ class Jobs(models.Model):
         action = self.env.ref(
             'ssi_jobs.ssi_jobs_new_so_action').read()[0]
         action['domain'] = [('ssi_job_id', '=', self.id)]
-#         action['domain'] = [('ssi_job_id', '=', self.id),
-#                             ('analytic_account_id', '=', self.aa_id)]
-        # action['context'] = [('ssi_job_id', '=', self.id), ('aa_id', '=', self.aa_id)]
+#         ord_lines = []
+#         ord_line_vals = (
+#             'product_id': self.jobs_line_ids[0].product_id.id,
+#             'product_uom_qty': self.jobs_line_ids[0].product_qty or 1,
+#         )
+
+#         if self.jobs_line_ids[0].product_id:
+#             ord_lines = (0, 0, ord_line_vals)
+# #             ord_lines.append((0, 0, ord_line_vals))
+#         action['context'] = {
+#             'default_order_line': ord_lines,
+#         }
         return action
 
     @api.multi
     def ssi_jobs_new_mrp_prod_button(self):
-        # raise UserError(_('TEST 1 '))
+        if not self.line_ids:
+            raise UserError(_('You must have a product defined before starting a job.'))
         action = self.env.ref(
             'ssi_jobs.ssi_jobs_new_prod_action').read()[0]
         action['domain'] = [('ssi_job_id', '=', self.id)]
+        action['context'] = {
+            'default_product_id': self.line_ids[0].product_id.id,
+            'default_origin': self.name,
+        }
         return action
 
     @api.multi
@@ -301,6 +340,13 @@ class Jobs(models.Model):
         for record in self:
             record.wc_count = dic.get(
                 record.id, 0)
+
+    @api.depends('order_total')
+    def _get_sm_count(self):
+        for record in self:
+            so_count = self.env['stock.picking'].sudo().search_count([('so_job_id', '=', record.id)])
+            po_count = self.env['stock.picking'].sudo().search_count([('po_job_id', '=', record.id)])
+            record.sm_count = so_count + po_count
 
     @api.multi
     def write(self, vals):
@@ -376,3 +422,50 @@ class Jobs(models.Model):
             res.append((partner.id, name))
         return res
 
+
+class JobsLine(models.Model):
+    _name = 'ssi_jobs.line'
+    _order = "sequence, id"
+    _rec_name = "product_id"
+    _description = 'SSI Jobs Product Lines'
+
+    ssi_jobs_id = fields.Many2one('ssi_jobs', 'Jobs ID', index=True, required=True)
+    product_id = fields.Many2one('product.product', 'Product', required=True)
+    product_uom_qty = fields.Float('Quantity', default=1.0, digits=dp.get_precision('Product Unit of Measure'), required=True)
+    product_uom_id = fields.Many2one('uom.uom', 'Unit of Measure')
+    sequence = fields.Integer('Sequence', default=1, help="Gives the sequence order when displaying.")
+    mo_exists = fields.Boolean('MO Exists', help="A Manufacture Order already exists for this product.", compute='_get_mo_exists')
+
+    @api.onchange('product_id')
+    def _onchange_product_id(self):
+        self.ensure_one()
+        if self.product_id:
+#             name = self.product_id.name_get()[0][1]
+#             if self.product_id.description_sale:
+#                 name += '\n' + self.product_id.description_sale
+#             self.name = name
+#             self.price_unit = self.product_id.lst_price
+            self.product_uom_id = self.product_id.uom_id.id
+            domain = {'product_uom_id': [('category_id', '=', self.product_id.uom_id.category_id.id)]}
+            return {'domain': domain}
+
+    @api.multi
+    def ssi_jobs_new_mrp_prod_button(self):
+        action = self.env.ref(
+            'ssi_jobs.ssi_jobs_new_prod_action').read()[0]
+        action['domain'] = [('ssi_job_id', '=', self.ssi_jobs_id.id)]
+        action['context'] = {
+            'default_product_id': self.product_id.id,
+            'default_origin': self.ssi_jobs_id.name,
+            'default_ssi_job_id' : self.ssi_jobs_id.id,
+        }
+        return action
+
+    @api.multi
+    def _get_mo_exists(self):
+        for record in self:
+            mo_count = self.env['mrp.production'].search_count([('ssi_job_id', '=', record.ssi_jobs_id.id), ('product_id', '=', record.product_id.id)])
+            if mo_count > 0:
+                record.mo_exists = True
+            else:
+                record.mo_exists = False

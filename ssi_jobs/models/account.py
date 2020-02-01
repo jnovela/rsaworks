@@ -5,6 +5,18 @@ from odoo.exceptions import UserError
 from odoo.addons import decimal_precision as dp
 
 
+class AccountMove(models.Model):
+    _inherit = 'account.move'
+
+    @api.multi
+    def write(self, vals):
+        if 'ref' in vals:
+            if vals['ref']:
+                if vals['ref'].endswith('(Burden)'):
+                    vals['ref'] = vals['ref'][:-8]
+        res = super(AccountMove, self.with_context(check_move_validity=False)).write(vals)
+        return res
+
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
