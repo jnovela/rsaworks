@@ -1,0 +1,51 @@
+<section>
+    <section class="oe_container">
+         <div class="oe_row oe_centered">
+            <div class="oe_centered">
+                <h4 class="oe_slogan">
+                    <b class="oe_slogan"><span class="fa fa-star fa-spin"/>Next Operation Customization</b>
+                </h4>
+            </div>
+            <p align="left">Next Operation Customization - module will prevent the work order of being procced if the setting for that is true and preceding work orders are not finished.</p>
+            <div class="oe_centered">
+                <p>In below image you can find routing and operations related to that routing.
+                </p>
+            </div>
+            <div class="oe_row oe_centered">
+                <div class="oe_span12">
+                    <img src="image/1_routing_screen.png" style="width: 100%;"/>
+                </div>
+            </div>
+            <div class="oe_centered">
+                <p>We have to enable a boolean "Is All Preceding WO Complete" as "True" in the operation for which you want all preceding operations to get complete before processing current operation.
+                <br/><br/>
+                For e.g right now we have set the boolean true for the "Long time assembly", so this operation's work order will get processed only when all the preceding operation's work orders will finished. 
+                </p>
+            </div>
+            <div class="oe_row oe_centered">
+                <div class="oe_span12">
+                    <img src="image/2_set_boolean.png" style="width: 100%;"/>
+                </div>
+            </div>
+            <div class="oe_centered">
+                <p>In below image you can see the created work orders for one manufacturing orders.
+                </p>
+            </div>
+            <div class="oe_row oe_centered">
+                <div class="oe_span12">
+                    <img src="image/3_work_orders.png" style="width: 100%;"/>
+                </div>
+            </div>
+            <div class="oe_centered">
+                <p>If we will try to process work order for "Long time assembly",and if the preceding work orders are not finished,then it will raise this warning.
+                </p>
+            </div>
+            <div class="oe_row oe_centered">
+                <div class="oe_span12">
+                    <img src="image/4_warning_to_complete_receding_wo.png" style="width: 100%;"/>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</section>

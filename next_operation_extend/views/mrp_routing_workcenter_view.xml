@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Inherited a view for "mrp.routing.workcenter" and added a boolean field to that. -->
+    <record id="mrp_routing_workcenter_view_form_inherit_workorder_inherited" model="ir.ui.view">
+        <field name="name">mrp.routing.workcenter.view.form.inherit.workorder.form</field>
+        <field name="model">mrp.routing.workcenter</field>
+        <field name="inherit_id" ref="mrp.mrp_routing_workcenter_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='batch']" position="after">
+                <field name="is_all_precending_wo_complete"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
