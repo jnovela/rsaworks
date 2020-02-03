@@ -455,7 +455,7 @@ class BatchControl(Ach):
             self.serv_cls_code +\
             self.entadd_count +\
             self.entry_hash +\
-            self.debit_amount +\
+            self.credit_amount +\
             self.credit_amount +\
             self.company_id +\
             self.mesg_auth_code +\
