@@ -111,48 +111,49 @@ class Jobs(models.Model):
             {'name': name, 'ssi_job_id': res.id, 'group_id': group, 'partner_id': partner})
         res.write({'aa_id': aa.id})
         
-        login_response = requests.post(
-            'http://api.springpt.com:38136/api/v1/login',
-            headers={'Content-Type': 'application/json'},
-            json={"user_name": "RS_API_USER", "password": "b+PHhK2M", "company_id": "RedStick"},
-        )
-        json_login_response = login_response.json()
-        token = json_login_response['data']['token']
+        #QM Wizard dead as of 2.5.2020
+        # login_response = requests.post(
+            # 'http://api.springpt.com:38136/api/v1/login',
+            # headers={'Content-Type': 'application/json'},
+            # json={"user_name": "RS_API_USER", "password": "b+PHhK2M", "company_id": "RedStick"},
+        # )
+        # json_login_response = login_response.json()
+        # token = json_login_response['data']['token']
 
-        create_qm_job = requests.post(
-            'http://api.springpt.com:38136/api/v1/RSImportJob',
-            headers={'Content-Type': 'application/json', 'x-access-token': token},
-            json= [{
-                "JobID" : res.name,
-                "CustomerID" : res.partner_id.id,
-                "CustomerName" : res.partner_id.name,
-                "Notes" : "",
-                "Make" : "",
-                "Model" : "",
-                "SerialNumber" : "",
-                "RatingUnit" : res.equipment_id.rating_unit,
-                "Poles" : "",
-                "RPM" : "",
-                "Frame" : "",
-                "Enclosure" : "",
-                "Voltage" : "",
-                "Amps" : "",
-                "ODEBearing" : "",
-                "DEBearing" : "",
-                "CustomerStock" : "",
-                "CustomerIDMotor" : "",
-                "Phase" : "",
-                "Mounting" : "",
-                "Duty" : "",
-                "NEMADesign" : "",
-                "ServiceFactor" : "",
-                "Weight" : "",
-                "BearingType" : "",
-                "StatorWindingType" : "",
-                "LubeType": ""
-            }]
-        )      
-        return res
+        # create_qm_job = requests.post(
+            # 'http://api.springpt.com:38136/api/v1/RSImportJob',
+            # headers={'Content-Type': 'application/json', 'x-access-token': token},
+            # json= [{
+                # "JobID" : res.name,
+                # "CustomerID" : res.partner_id.id,
+                # "CustomerName" : res.partner_id.name,
+                # "Notes" : "",
+                # "Make" : "",
+                # "Model" : "",
+                # "SerialNumber" : "",
+                # "RatingUnit" : res.equipment_id.rating_unit,
+                # "Poles" : "",
+                # "RPM" : "",
+                # "Frame" : "",
+                # "Enclosure" : "",
+                # "Voltage" : "",
+                # "Amps" : "",
+                # "ODEBearing" : "",
+                # "DEBearing" : "",
+                # "CustomerStock" : "",
+                # "CustomerIDMotor" : "",
+                # "Phase" : "",
+                # "Mounting" : "",
+                # "Duty" : "",
+                # "NEMADesign" : "",
+                # "ServiceFactor" : "",
+                # "Weight" : "",
+                # "BearingType" : "",
+                # "StatorWindingType" : "",
+                # "LubeType": ""
+            # }]
+        # )      
+        # return res
         # raise UserError(_(res.id))
 
 
