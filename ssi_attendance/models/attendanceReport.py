@@ -155,10 +155,10 @@ class AttendanceReport(models.Model):
                     test = day.split(':')
                     # find the last day
                     if '0' in test[0]:        
-                        last_day = float(test[1].replace("'",""))
-                        break
-                    else:
-                        last_day = 0
+                        last_day = last_day + float(test[1].replace("'",""))
+                        # break
+                    # else:
+                        # last_day = 0
             if record.overtime_eligible:
                 res = self.env['hr.attendance.report'].search([('employee_badge','=',record.employee_badge), ('week_no','=',record.week_no)])
                 ot = 0
@@ -190,10 +190,10 @@ class AttendanceReport(models.Model):
                     test = day.split(':')
                     # find the last day
                     if '0' in test[0]:        
-                        last_day = float(test[1].replace("'",""))
-                        break
-                    else:
-                        last_day = 0
+                        last_day = last_day + float(test[1].replace("'",""))
+                        # break
+                    # else:
+                        # last_day = 0
             if record.overtime_eligible and last_day > 0:
                 record.double_time = last_day
 #                 res = self.env['hr.attendance.report'].search([('employee_badge','=',record.employee_badge), ('week_no','=',record.week_no)])

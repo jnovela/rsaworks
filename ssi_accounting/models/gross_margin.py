@@ -260,6 +260,10 @@ class ReportGrossMargin(models.AbstractModel):
 
         # Don't display level 0 total line in case we are unfolding
         if total and not line_id:
+            if total_r == 0:
+                total_rev = 0
+            else:
+                total_rev = total/total_r * 100
             lines.append({
                 'id': 'total',
                 'name': _('Total'),
@@ -276,7 +280,7 @@ class ReportGrossMargin(models.AbstractModel):
                         self.format_value(total_r), 
                         self.format_value(total_c), 
                         self.format_value(total),
-                        '{0:.2f}'.format(total/total_r * 100),
+                        '{0:.2f}'.format(total_rev),
                     ]],
                 })
 #             raise UserError(_(lines))
@@ -518,6 +522,10 @@ class ReportGrossMargin(models.AbstractModel):
                 line_b = 0
         # Don't display level 0 total line in case we are unfolding
         if total and not line_id:
+            if total_r == 0:
+                total_rev = 0
+            else:
+                total_rev = total/total_r * 100
             lines.append({
                 'id': 'total',
                 'name': _('Total'),
@@ -568,7 +576,7 @@ class ReportGrossMargin(models.AbstractModel):
                         self.format_value(total_r), 
                         self.format_value(total_c), 
                         self.format_value(total),
-                        '{0:.2f}'.format(total/total_r * 100),
+                        '{0:.2f}'.format(total_rev),
                     ]],
                 })
 #             raise UserError(_(lines))
