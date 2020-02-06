@@ -153,7 +153,7 @@ class Jobs(models.Model):
                 # "LubeType": ""
             # }]
         # )      
-        # return res
+        return res
         # raise UserError(_(res.id))
 
 
