@@ -25,6 +25,7 @@
         'views/ssi_storage.xml',
         'views/ssi_subscription.xml',
         'views/ssi_budgets.xml',
+        'views/ssi_analytic.xml',
         'views/ssi_product.xml',
         'views/ssi_jobs.xml',
         'views/ssi_mrp.xml',
