@@ -260,6 +260,14 @@ class MRPWorkorder(models.Model):
         if self.qty_producing <= 0:
             raise UserError(_('Please set the quantity you are currently producing. It should be different from zero.'))
 
+        #Check for preceeding work order open logic.
+        self.production_id.routing_id.calculate_custom_sequence()
+        if self.operation_id.is_all_precending_wo_complete == True and self.operation_id.custom_sequence > 1:
+            workorders = self.find_preceding_workorders(self.production_id)
+            if workorders:
+                if any(workorder.state != 'done' for workorder in workorders):
+                    raise UserError(_('You can not process this work order, please finish preceding work order first!'))
+                    
         if (self.production_id.product_id.tracking != 'none') and not self.final_lot_id and self.move_raw_ids:
             raise UserError(_('You should provide a lot/serial number for the final product'))
         # Update quantities done on each raw material line
