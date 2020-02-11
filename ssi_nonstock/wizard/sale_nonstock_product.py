@@ -63,6 +63,7 @@ class SaleNonstockProduct(models.TransientModel):
             'product_min_qty':0,
             'product_max_qty':0,
             'qty_multiple':1,
+            'lead_days':0,
         },
         order_point.sudo().create(p_vals)
 
