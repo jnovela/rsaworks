@@ -59,9 +59,9 @@ class AttendanceReport(models.Model):
                     ELSE 0
                 END as hours,
                 0 as over_time,
-                COUNT(DISTINCT(DATE_TRUNC('day', a.check_in))) as days_worked,
+                COUNT(DISTINCT(DATE_TRUNC('day', a.check_in AT TIME ZONE '-06'))) as days_worked,
                 0 as double_time,
-                ARRAY_AGG(DATE_PART('dow', a.check_in) || ':' || ROUND(CAST(a.worked_hours + 0.00 as Decimal), 2)) as double_hours,
+                ARRAY_AGG(DATE_PART('dow', a.check_in AT TIME ZONE '-06') || ':' || ROUND(CAST(a.worked_hours + 0.00 as Decimal), 2)) as double_hours,
                 CASE 
                     WHEN l.time_type = 'leave' THEN 
                         SUM(ROUND(CAST(a.worked_hours + 0.00 as Decimal), 2))
@@ -99,7 +99,7 @@ class AttendanceReport(models.Model):
                 0 as over_time,
                 0 as days_worked,
                 0 as double_time,
-                ARRAY_AGG(DATE_PART('dow', a.check_in) || ':' || a.worked_hours) as double_hours,
+                ARRAY_AGG(DATE_PART('dow', a.check_in AT TIME ZONE '-06') || ':' || a.worked_hours) as double_hours,
                 SUM(ROUND(CAST(a.worked_hours + 0.00 as Decimal), 2)) as pto_time,
                 l.name as time_type,
                 l.id as leave_type

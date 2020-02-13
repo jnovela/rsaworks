@@ -59,25 +59,6 @@
           <field name="type">form</field>
           <field name="arch" type="xml">
               <xpath expr="//field[@name='operation_ids']" position="inside">
-                <tree string="Routing Work Centers">
-                  <field name="sequence" widget="handle"/>
-                  <field name="name"/>
-                  <field name="workcenter_id"/>
-                  <field name="time_cycle_hours" widget="float_time"/>
-                  <field name="time_cycle" widget="float_time"/>
-                  <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
-                </tree>
-              </xpath>
-          </field>
-      </record>
-
-      <record model="ir.ui.view" id="ssi_mrp_routing_form">
-          <field name="name">ssi_mrp_routing_form</field>
-          <field name="model">mrp.routing</field>
-          <field name="inherit_id" ref="mrp.mrp_routing_form_view"/>
-          <field name="type">form</field>
-          <field name="arch" type="xml">
-              <xpath expr="//field[@name='operation_ids']" position="inside">
                 <form string="Routing Work Centers">
                         <sheet>
                             <group>
@@ -107,6 +88,7 @@
                                 <group>
                                     <field name="batch"/>
                                     <field name="batch_size" attrs="{'invisible': [('batch', '=', 'no')]}"/>
+                                    <field name="is_all_precending_wo_complete"/>
                                 </group>
 
                             </group>
@@ -124,6 +106,7 @@
                   <field name="sequence" widget="handle"/>
                   <field name="name"/>
                   <field name="workcenter_id"/>
+                  <field name="hide_in_kiosk"/>
                   <field name="time_cycle_hours" widget="float_time"/>
                   <field name="time_cycle" widget="float_time"/>
                   <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
@@ -184,6 +167,17 @@
               </xpath>
             </field>
         </record>
+    <!-- Inherited a view for "mrp.routing.workcenter" and added a boolean field to that. -->
+    <record id="mrp_routing_workcenter_view_form_inherit_workorder_inherited" model="ir.ui.view">
+        <field name="name">mrp.routing.workcenter.view.form.inherit.workorder.form</field>
+        <field name="model">mrp.routing.workcenter</field>
+        <field name="inherit_id" ref="mrp.mrp_routing_workcenter_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='batch']" position="after">
+                <field name="is_all_precending_wo_complete"/>
+            </xpath>
+        </field>
+    </record>
 
     </data>
 </odoo>
