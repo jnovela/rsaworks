@@ -2,6 +2,8 @@
 
 from odoo import api, fields, models, tools, _
 from datetime import datetime
+from odoo.tools import float_compare, float_round
+from odoo.exceptions import Warning
 
 
 class Workorder(models.Model):
@@ -24,6 +26,16 @@ class Workorder(models.Model):
     job_deadline = fields.Datetime(related='ssi_job_id.deadline_date', string="Deadline", store=True, readonly=True)
     job_stage = fields.Many2one('ssi_jobs_stage', related='ssi_job_id.stage_id', string="Job Stage", store=True, readonly=True)
     hide_in_kiosk = fields.Boolean(related='operation_id.hide_in_kiosk', string="Hide in Kiosk", store=True, readonly=True)
+    # Work Order Readiness
+    custom_sequence = fields.Integer(string="Custom Sequence")
+
+    @api.model
+    def create(self,vals):
+        #This method will update the custom sequence to the workorder's sequence.
+        res = super(MrpWorkorder, self).create(vals)
+        res.production_id.routing_id.calculate_custom_sequence()
+        res.update({'custom_sequence': res.operation_id.custom_sequence})
+        return res
 
     @api.depends('duration_expected')
     def _compute_expected_hours(self):
@@ -71,10 +83,44 @@ class Workorder(models.Model):
 #                 'date_start': datetime.now(),
 #                 'user_id': self.env.user.id
 #             })
-        return self.write({'state': 'progress',
+        test = self.write({'state': 'progress',
                     'date_start': datetime.now(),
         })
-        
+        return super(Workorder,self).button_start()
+
+    @api.multi
+    def _start_nextworkorder_ssi(self):
+        rounding = self.product_id.uom_id.rounding
+        next_work_order = self.search([
+            ('production_id','=',self.production_id.id),
+            ('state','not in',('done','cancel')),
+            ('id','!=',self.id)
+        ],order='custom_sequence', limit=1)
+        if next_work_order.state == 'pending' and (
+                (self.operation_id.batch == 'no' and
+                 float_compare(self.qty_production, self.qty_produced, precision_rounding=rounding) <= 0) or
+                (self.operation_id.batch == 'yes' and
+                 float_compare(self.operation_id.batch_size, self.qty_produced, precision_rounding=rounding) <= 0)):
+            if next_work_order.operation_id.is_all_precending_wo_complete == True and next_work_order.operation_id.custom_sequence > 1:
+                workorders = self.find_next_preceding_workorders(next_work_order)
+                if workorders:
+                    if all(workorder.state == 'done' for workorder in workorders):
+                        next_work_order.state = 'ready'
+            else:
+                next_work_order.state = 'ready'
+
+    @api.multi
+    def find_next_preceding_workorders(self,next_wo):
+        #Method will find work orders and returns them
+        workorders = self.search([
+            ('production_id','=',next_wo.production_id.id),
+            ('custom_sequence','<',next_wo.operation_id.custom_sequence),
+            ('id','!=',self.id)
+        ])
+        if workorders:
+            return workorders
+        else:
+            return False
     
 class Workcenter(models.Model):
     _inherit = 'mrp.workcenter.productivity'
@@ -92,7 +138,21 @@ class Produciton(models.Model):
     job_stage = fields.Many2one('ssi_jobs_stage', related='ssi_job_id.stage_id', string="Job Stage", store=True, readonly=True)
     product_category = fields.Many2one('product.category', related='product_id.categ_id', string="Product Category", store=True, readonly=True)
     
-class Routing(models.Model):
+class MrpRouting(models.Model):
+
+    _inherit = 'mrp.routing'
+
+    # Custom for Workorder Readiness
+    @api.multi
+    def calculate_custom_sequence(self):
+        #Calculates custom sequence
+        sequence = 0
+        if self.operation_ids:
+            for operation in self.operation_ids:
+                operation.write({'custom_sequence': sequence + 1})
+                sequence += 1
+
+class RoutingWorkcenter(models.Model):
     _inherit = 'mrp.routing.workcenter'
 
     time_cycle_hours = fields.Float(
@@ -102,7 +162,10 @@ class Routing(models.Model):
         'Manual Hour Duration', compute='_compute_cycle_manual_hours',
         help="Time in hours.")
     hide_in_kiosk = fields.Boolean(default=False, string="Hide in Kiosk")
-
+    # Work Order Readiness
+    is_all_precending_wo_complete = fields.Boolean('Is All Preceding WO Complete',default=False,copy=False)
+    custom_sequence = fields.Integer('Custom Sequence',copy=False)
+    
     @api.depends('time_cycle')
     def _compute_cycle_hours(self):
         for record in self:

@@ -368,7 +368,7 @@ class MRPWorkorder(models.Model):
             self.final_lot_id = False
 
         # One a piece is produced, you can launch the next work order
-        self._start_nextworkorder()
+        self._start_nextworkorder_ssi()
 
         # Set a qty producing
         rounding = self.production_id.product_uom_id.rounding
