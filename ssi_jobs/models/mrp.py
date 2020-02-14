@@ -150,7 +150,7 @@ class MrpRouting(models.Model):
         sequence = 0
         if self.operation_ids:
             for operation in self.operation_ids:
-                operation.write({'custom_sequence': sequence + 1})
+                operation.sudo().write({'custom_sequence': sequence + 1})
                 sequence += 1
 
 class RoutingWorkcenter(models.Model):
