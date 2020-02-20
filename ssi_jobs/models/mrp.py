@@ -55,39 +55,30 @@ class Workorder(models.Model):
     @api.multi
     def button_start(self):
         self.ensure_one()
+        
+        #WO Readiness - Method will inherit and change the logic for that.
+        self.production_id.routing_id.calculate_custom_sequence()
+        if self.operation_id.is_all_precending_wo_complete == True and self.operation_id.custom_sequence > 1:
+            workorders = self.find_preceding_workorders(self.production_id)
+            if workorders:
+                if any(workorder.state != 'done' for workorder in workorders):
+                    raise Warning(_('You can not process this work order, please finish preceding work order first!'))
+
         # As button_start is automatically called in the new view
         if self.state in ('done', 'cancel'):
             return True
 
-        # Need a loss in case of the real time exceeding the expected
-#         timeline = self.env['mrp.workcenter.productivity']
-#         if self.duration < self.duration_expected:
-#             loss_id = self.env['mrp.workcenter.productivity.loss'].search([('loss_type','=','productive')], limit=1)
-#             if not len(loss_id):
-#                 raise UserError(_("You need to define at least one productivity loss in the category 'Productivity'. Create one from the Manufacturing app, menu: Configuration / Productivity Losses."))
-#         else:
-#             loss_id = self.env['mrp.workcenter.productivity.loss'].search([('loss_type','=','performance')], limit=1)
-#             if not len(loss_id):
-#                 raise UserError(_("You need to define at least one productivity loss in the category 'Performance'. Create one from the Manufacturing app, menu: Configuration / Productivity Losses."))
         for workorder in self:
             if workorder.production_id.state != 'progress':
                 workorder.production_id.write({
                     'state': 'progress',
                     'date_start': datetime.now(),
                 })
-#             timeline.create({
-#                 'workorder_id': workorder.id,
-#                 'workcenter_id': workorder.workcenter_id.id,
-#                 'description': _('Time Tracking: ')+self.env.user.name,
-#                 'loss_id': loss_id[0].id,
-#                 'date_start': datetime.now(),
-#                 'user_id': self.env.user.id
-#             })
         test = self.write({'state': 'progress',
                     'date_start': datetime.now(),
         })
         return super(Workorder,self).button_start()
-
+    
     @api.multi
     def _start_nextworkorder_ssi(self):
         rounding = self.product_id.uom_id.rounding
@@ -108,6 +99,15 @@ class Workorder(models.Model):
                         next_work_order.state = 'ready'
             else:
                 next_work_order.state = 'ready'
+
+    @api.multi
+    def find_preceding_workorders(self,production_id):
+        #Method will find work orders and returns them
+        workorders = self.search([('production_id','=',production_id.id),('custom_sequence','<',self.custom_sequence)])
+        if workorders:
+            return workorders
+        else:
+            return False
 
     @api.multi
     def find_next_preceding_workorders(self,next_wo):

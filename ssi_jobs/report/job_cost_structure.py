@@ -94,7 +94,7 @@ class JobCostStructure(models.AbstractModel):
             operations = []
             Workorders = self.env['mrp.workorder'].search([('production_id', 'in', mos.ids)])
             if Workorders:
-                query_str = """SELECT w.operation_id, op.name, partner.name, sum(t.duration), wc.costs_hour, 
+                query_str = """SELECT w.operation_id, op.name, sum(t.duration), wc.costs_hour, 
                                 w.labor_cost, w.burden_cost, w.total_cost, w.duration_expected
                                 FROM mrp_workcenter_productivity t
                                 LEFT JOIN mrp_workorder w ON (w.id = t.workorder_id)
@@ -103,12 +103,13 @@ class JobCostStructure(models.AbstractModel):
                                 LEFT JOIN res_partner partner ON (u.partner_id = partner.id)
                                 LEFT JOIN mrp_routing_workcenter op ON (w.operation_id = op.id)
                                 WHERE t.workorder_id IS NOT NULL AND t.workorder_id IN %s
-                                GROUP BY w.operation_id, op.name, partner.name, t.user_id, wc.costs_hour,
+                                GROUP BY w.operation_id, op.name, wc.costs_hour,
                                 w.labor_cost, w.burden_cost, w.total_cost, w.duration_expected
-                                ORDER BY op.name, partner.name
+                                ORDER BY op.name
                             """
                 self.env.cr.execute(query_str, (tuple(Workorders.ids), ))
-                for op_id, op_name, user, duration, cost_hour, labor, burden, total_cst, expected in self.env.cr.fetchall():
+                user =''
+                for op_id, op_name, duration, cost_hour, labor, burden, total_cst, expected in self.env.cr.fetchall():
                     operations.append([user, op_id, op_name, duration / 60.0, cost_hour, labor, burden, total_cst, expected / 60.0])
 
             #get the cost of raw material effectively used
